@@ -19,7 +19,6 @@
             android:id="@+id/hand_mode"
             android:layout_width="0dp"
             android:layout_height="60dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:background="@drawable/button_background">
 
@@ -35,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="16dp"
                 android:text="@string/hand"
                 android:textSize="24sp" />
 
@@ -60,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="16dp"
                 android:text="@string/type"
                 android:textSize="24sp" />
 
@@ -84,8 +81,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:padding="16dp"
+            android:layout_gravity="center"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:text="@string/tersive_basics"
             android:textSize="24sp" />
 
@@ -107,8 +105,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:padding="16dp"
+            android:layout_gravity="center_vertical|start"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:text="@string/word_cards"
             android:textSize="24sp" />
 
@@ -131,7 +130,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
-            android:padding="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:text="@string/phrase_cards"
             android:textSize="24sp" />
 
@@ -154,7 +154,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|end"
-            android:padding="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:text="@string/practice_reading"
             android:textSize="24sp" />
 
@@ -176,8 +177,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:padding="16dp"
+            android:layout_gravity="center_vertical|end"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
             android:text="@string/practice_writing"
             android:textSize="24sp" />
 

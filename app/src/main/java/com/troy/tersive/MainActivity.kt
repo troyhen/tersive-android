@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,6 +35,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        hand_mode.isSelected = true
+        setupListeners()
     }
 
     override fun onBackPressed() {
@@ -85,5 +88,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun setupListeners() {
+        hand_mode.setOnClickListener {
+            hand_mode.isSelected = true
+            type_mode.isSelected = false
+        }
+        type_mode.setOnClickListener {
+            hand_mode.isSelected = false
+            type_mode.isSelected = true
+        }
     }
 }
