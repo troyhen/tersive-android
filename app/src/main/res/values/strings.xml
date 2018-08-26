@@ -6,4 +6,11 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="tersive_basics">Tersive Basics</string>
+    <string name="word_cards">Word Flashcards</string>
+    <string name="phrase_cards">Phrase Flashcards</string>
+    <string name="practice_writing">Practice Writing</string>
+    <string name="practice_reading">Practice Reading</string>
+    <string name="hand">Hand</string>
+    <string name="type">Type</string>
 </resources>
