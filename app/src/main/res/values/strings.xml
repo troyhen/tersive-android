@@ -13,4 +13,8 @@
     <string name="practice_reading">Practice Reading</string>
     <string name="hand">Hand</string>
     <string name="type">Type</string>
+    <string name="easy">Easy</string>
+    <string name="good">Good</string>
+    <string name="hard">Hard</string>
+    <string name="again">Again</string>
 </resources>

@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.ben-manes.versions' // ./gradlew dependencyUpdates -Drevision=release
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+ext {
+    archRoomVersion = '2.0.0-alpha1'
+    daggerVersion = '2.16'
+    devToolsVersion = '2.4.0'
+    dbtoolsRoomVersion = '2.5.0'
+}
 
 android {
     compileSdkVersion 28
@@ -9,8 +18,15 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // used by Room, to test migrations
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schema".toString()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -18,20 +34,63 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.4"
+
+    // Android
     implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
     implementation 'androidx.cardview:cardview:1.0.0-rc02'
     implementation 'androidx.constraintlayout:constraintlayout-solver:1.1.3'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.drawerlayout:drawerlayout:1.0.0-rc02'
-    implementation 'com.google.android.material:material:1.0.0-rc01'
-//    implementation 'com.android.support:design:28.0.0rc02'
 
+    // Google
+    implementation 'com.google.android.material:material:1.0.0-rc02'
+
+    // LDS
+    implementation 'org.lds.mobile:ldsmobile-commons:19.3.0'
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    // Change `kapt` on the line below to `annotationProcessor` when you get the NonExistentClass compile error.
+    // This will allow the build to show you the real cause of the build failure. See https://stackoverflow.com/a/45330452
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // Database
+    implementation 'org.sqlite.sqliteX:sqlite-android:3.15.2'
+    implementation "androidx.room:room-runtime:$archRoomVersion"
+    kapt "android.arch.persistence.room:compiler:$archRoomVersion"
+    implementation "org.dbtools:dbtools-room:$dbtoolsRoomVersion"
+    implementation "org.dbtools:dbtools-room-sqliteorg:$dbtoolsRoomVersion"
+
+    // Other
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+
+    // Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    testImplementation 'org.threeten:threetenbp:1.3.7'
+
+    // Debugging
+    debugImplementation "org.lds.mobile:ldsmobile-devtools:$devToolsVersion"
+//    alphaImplementation "org.lds.mobile:ldsmobile-devtools-no-op:$devToolsVersion"
+//    betaImplementation "org.lds.mobile:ldsmobile-devtools-no-op:$devToolsVersion"
+    releaseImplementation "org.lds.mobile:ldsmobile-devtools-no-op:$devToolsVersion"
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    debugImplementation 'com.idescout.sql:sqlscout-server:4.1'
+//    alphaImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
+//    betaImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
+    releaseImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
 }

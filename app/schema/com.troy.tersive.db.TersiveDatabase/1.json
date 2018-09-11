@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "ba3661eea69ad92160fcb2715cc7e087",
+    "entities": [
+      {
+        "tableName": "Tersive",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `phrase` TEXT NOT NULL, `lvl1` TEXT NOT NULL, `lvl2` TEXT NOT NULL, `lvl3` TEXT NOT NULL, `lvl4` TEXT NOT NULL, `kbd` TEXT NOT NULL, `words` INTEGER NOT NULL, `frequency` INTEGER NOT NULL, `sort` INTEGER NOT NULL, `type` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phrase",
+            "columnName": "phrase",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lvl1",
+            "columnName": "lvl1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lvl2",
+            "columnName": "lvl2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lvl3",
+            "columnName": "lvl3",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lvl4",
+            "columnName": "lvl4",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "kbd",
+            "columnName": "kbd",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "words",
+            "columnName": "words",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "frequency",
+            "columnName": "frequency",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sort",
+            "columnName": "sort",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ba3661eea69ad92160fcb2715cc7e087\")"
+    ]
+  }
+}

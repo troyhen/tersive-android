@@ -1,4 +1,4 @@
-package com.troy.tersive
+package com.troy.tersive.ui
 
 import androidx.appcompat.app.AppCompatActivity
 

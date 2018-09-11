@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen>
+
+    <!--<PreferenceCategory-->
+    <!--android:key="pref_lds_account"-->
+    <!--android:title="@string/lds_account">-->
+
+    <!--<org.lds.gliv.ux.settings.UsernamePreference-->
+    <!--android:key="pref_sign_in"-->
+    <!--android:layout="@layout/preference_username" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_create_account"-->
+    <!--android:layout="@layout/preference_create_account">-->
+
+    <!--<intent-->
+    <!--android:action="android.intent.action.VIEW"-->
+    <!--android:data="https://ldsaccount.lds.org/register" />-->
+
+    <!--</Preference>-->
+
+    <!--<Preference-->
+    <!--android:key="pref_create_account"-->
+    <!--android:title="@string/create_lds_account">-->
+
+    <!--<intent-->
+    <!--android:action="android.intent.action.VIEW"-->
+    <!--android:data="https://ldsaccount.lds.org/register" />-->
+
+    <!--</Preference>-->
+
+    <!--</PreferenceCategory>-->
+
+    <!--<PreferenceCategory-->
+    <!--android:key="pref_content"-->
+    <!--android:title="@string/content">-->
+
+    <!--<Preference-->
+    <!--android:key="pref_downloaded_media"-->
+    <!--android:summary="@string/none"-->
+    <!--android:title="@string/downloaded_media" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_limit_network"-->
+    <!--android:summary="@string/download_wifi"-->
+    <!--android:title="@string/limit_network_use" />-->
+
+    <!--</PreferenceCategory>-->
+
+    <!--<PreferenceCategory-->
+    <!--android:key="pref_display"-->
+    <!--android:title="@string/display">-->
+
+    <!--<Preference-->
+    <!--android:key="pref_language"-->
+    <!--android:summary="@string/english"-->
+    <!--android:title="@string/language" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_theme"-->
+    <!--android:summary="@string/default_"-->
+    <!--android:title="@string/theme" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_text_size"-->
+    <!--android:title="@string/text_size" />-->
+
+    <!--</PreferenceCategory>-->
+
+    <!--<PreferenceCategory-->
+    <!--android:key="pref_additional_settings"-->
+    <!--android:title="@string/additional_settings">-->
+
+    <!--<Preference-->
+    <!--android:key="pref_feed"-->
+    <!--android:title="@string/feed_preferences" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_featured_apps"-->
+    <!--android:title="@string/featured_apps" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_feedback"-->
+    <!--android:title="@string/send_feedback" />-->
+
+    <!--<Preference-->
+    <!--android:key="pref_about"-->
+    <!--android:title="@string/about" />-->
+
+    <!--</PreferenceCategory>-->
+
+</PreferenceScreen>
