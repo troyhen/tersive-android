@@ -1,5 +1,6 @@
 package com.troy.tersive.app
 
+import com.troy.tersive.db.migrate.PopulateTersive
 import dagger.Component
 import javax.inject.Singleton
 
@@ -8,6 +9,8 @@ import javax.inject.Singleton
 interface AppComponent {
     //: ActivityComponent, FragmentComponent {
     fun inject(it: App)
+
+    fun inject(it: PopulateTersive)
 //    fun inject(it: AsyncRunner)
 //    fun inject(it: AudioItem)
 //    fun inject(it: DefaultAnalytics)

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "df12502ad0bae68843a62bd41240c885",
+    "identityHash": "598adf95765fa3da8b5250f739daec39",
     "entities": [
       {
         "tableName": "User",
@@ -50,12 +50,12 @@
       },
       {
         "tableName": "Learn",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `userIndex` INTEGER NOT NULL, `type` TEXT NOT NULL, `lvl` TEXT NOT NULL, `kbd` TEXT NOT NULL, `priority1` INTEGER NOT NULL, `priority2` INTEGER NOT NULL, `tries1` INTEGER NOT NULL, `tries2` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userIndex` INTEGER NOT NULL, `type` INTEGER NOT NULL, `lvl` TEXT NOT NULL, `kbd` TEXT NOT NULL, `sort1` INTEGER NOT NULL, `sort2` INTEGER NOT NULL, `time1` INTEGER NOT NULL, `time2` INTEGER NOT NULL, `tries1` INTEGER NOT NULL, `tries2` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -67,7 +67,7 @@
           {
             "fieldPath": "type",
             "columnName": "type",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -83,14 +83,26 @@
             "notNull": true
           },
           {
-            "fieldPath": "priority1",
-            "columnName": "priority1",
+            "fieldPath": "sort1",
+            "columnName": "sort1",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "priority2",
-            "columnName": "priority2",
+            "fieldPath": "sort2",
+            "columnName": "sort2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time1",
+            "columnName": "time1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time2",
+            "columnName": "time2",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -111,7 +123,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -119,7 +131,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"df12502ad0bae68843a62bd41240c885\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"598adf95765fa3da8b5250f739daec39\")"
     ]
   }
 }
