@@ -1,16 +1,16 @@
-package com.troy.tersive.db
+package com.troy.tersive.model.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.troy.tersive.db.convert.ConvertUUID
-import com.troy.tersive.db.dao.LearnDao
-import com.troy.tersive.db.dao.UserDao
-import com.troy.tersive.db.entity.Learn
-import com.troy.tersive.db.entity.User
-import com.troy.tersive.db.migrate.AddInitial
+import com.troy.tersive.model.db.convert.ConvertUUID
+import com.troy.tersive.model.db.dao.LearnDao
+import com.troy.tersive.model.db.dao.UserDao
+import com.troy.tersive.model.db.entity.Learn
+import com.troy.tersive.model.db.entity.User
+import com.troy.tersive.model.db.migrate.AddInitial
 
 @Database(
     version = 1, entities = [

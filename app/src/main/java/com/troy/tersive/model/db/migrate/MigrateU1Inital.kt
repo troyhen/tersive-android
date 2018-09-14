@@ -1,4 +1,4 @@
-package com.troy.tersive.db.migrate
+package com.troy.tersive.model.db.migrate
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

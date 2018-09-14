@@ -1,4 +1,4 @@
-package com.troy.tersive.db.dao
+package com.troy.tersive.model.db.dao
 
 import androidx.room.Delete
 import androidx.room.Insert

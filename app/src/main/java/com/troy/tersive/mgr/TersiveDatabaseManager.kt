@@ -2,7 +2,7 @@ package com.troy.tersive.mgr
 
 import android.app.Application
 import androidx.room.Room
-import com.troy.tersive.db.TersiveDatabase
+import com.troy.tersive.model.db.TersiveDatabase
 import org.dbtools.android.room.CloseableDatabaseWrapper
 import org.dbtools.android.room.sqliteorg.SqliteOrgSQLiteOpenHelperFactory
 
@@ -19,6 +19,7 @@ class TersiveDatabaseManager(application: Application) :
         )
             .openHelperFactory(SqliteOrgSQLiteOpenHelperFactory())
             .addMigrations(*TersiveDatabase.migrations)
+            .addCallback(TersiveDatabase.Callback)
             .build()
     }
 

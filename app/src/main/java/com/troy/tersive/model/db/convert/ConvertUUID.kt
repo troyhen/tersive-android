@@ -1,4 +1,4 @@
-package com.troy.tersive.db.convert
+package com.troy.tersive.model.db.convert
 
 import androidx.room.TypeConverter
 import java.util.UUID
