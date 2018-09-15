@@ -7,7 +7,9 @@ import com.troy.tersive.model.data.Card
 import org.threeten.bp.Clock
 import java.util.Random
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 @WorkerThread
 class FlashCardRepo @Inject constructor(
     private val clock: Clock,

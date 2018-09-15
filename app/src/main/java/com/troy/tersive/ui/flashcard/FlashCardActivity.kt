@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.troy.tersive.app.Injector
+import org.lds.mobile.livedata.observeNotNull
+import timber.log.Timber
 import javax.inject.Inject
 
 class FlashCardActivity : AppCompatActivity() {
@@ -24,6 +26,14 @@ class FlashCardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.initObservers()
+        viewModel.nextCard()
+    }
+
+    private fun FlashCardViewModel.initObservers() {
+        cardLiveData.observeNotNull(this@FlashCardActivity) {
+            Timber.d(it.toString())
+        }
     }
 
     companion object {

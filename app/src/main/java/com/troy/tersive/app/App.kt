@@ -3,6 +3,7 @@ package com.troy.tersive.app
 import android.app.Application
 import android.preference.PreferenceManager
 import com.idescout.sql.SqlScoutServer
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.troy.tersive.BuildConfig
 import com.troy.tersive.R
 import org.lds.mobile.devtools.initStetho
@@ -32,9 +33,8 @@ class App : Application() {
         }
         installLeakCanary()
 
-//        // Needs to be done prior to injection
-//        AndroidThreeTen.init(this)
-//        val jobManager = JobManager.create(this)
+        // Needs to be done prior to injection
+        AndroidThreeTen.init(this)
 
         Injector.get().inject(this)
 
@@ -45,8 +45,6 @@ class App : Application() {
 
 //        registerLifecycleCallbacks()
 //        registerExceptionLogging()
-
-//        jobManager.addJobCreator(jobCreator)
 
 //        NotifyChannel.registerAllChannels(this)
 

@@ -97,3 +97,9 @@ dependencies {
 //    betaImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
     releaseImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
 }
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

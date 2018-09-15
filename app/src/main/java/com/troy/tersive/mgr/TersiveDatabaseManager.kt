@@ -5,18 +5,17 @@ import androidx.room.Room
 import com.troy.tersive.model.db.TersiveDatabase
 import org.dbtools.android.room.CloseableDatabaseWrapper
 import org.dbtools.android.room.sqliteorg.SqliteOrgSQLiteOpenHelperFactory
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TersiveDatabaseManager(application: Application) :
+@Singleton
+class TersiveDatabaseManager @Inject constructor(application: Application) :
     CloseableDatabaseWrapper<TersiveDatabase>(application) {
 
     val tersiveDb: TersiveDatabase get() = getDatabase()
 
     override fun createDatabase(): TersiveDatabase {
-        return Room.databaseBuilder(
-            application,
-            TersiveDatabase::class.java,
-            TersiveDatabaseManager.DATABASE_NAME
-        )
+        return Room.databaseBuilder(application, TersiveDatabase::class.java, DATABASE_NAME)
             .openHelperFactory(SqliteOrgSQLiteOpenHelperFactory())
             .addMigrations(*TersiveDatabase.migrations)
             .addCallback(TersiveDatabase.Callback)

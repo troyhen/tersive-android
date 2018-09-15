@@ -5,8 +5,11 @@ import androidx.room.Room
 import com.troy.tersive.model.db.UserDatabase
 import org.dbtools.android.room.CloseableDatabaseWrapper
 import org.dbtools.android.room.sqliteorg.SqliteOrgSQLiteOpenHelperFactory
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserDatabaseManager(application: Application) :
+@Singleton
+class UserDatabaseManager @Inject constructor(application: Application) :
     CloseableDatabaseWrapper<UserDatabase>(application) {
 
     val userDb: UserDatabase get() = getDatabase()

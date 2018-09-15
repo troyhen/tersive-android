@@ -105,5 +105,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         wordFlashCardButton.setOnClickListener {
             FlashCardActivity.start(this)
         }
+        phraseFlashCardButton.setOnClickListener {
+            FlashCardActivity.start(this)
+        }
     }
 }
