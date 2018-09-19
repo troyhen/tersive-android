@@ -1,4 +1,4 @@
-package com.troy.tersive.model.db.entity
+package com.troy.tersive.model.db.user.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,6 +10,5 @@ data class User(
     val id: UUID,
     val index: Int,
     val email: String,
-    val salt: Long,
-    val passHash: Long
+    val passHash: String
 )

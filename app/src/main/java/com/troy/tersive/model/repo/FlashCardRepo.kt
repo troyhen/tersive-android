@@ -20,7 +20,7 @@ class FlashCardRepo @Inject constructor(
     private val rnd = Random()
 
     fun nextCard(type: Type, side: Side): Card {
-        val user = userRepo.userIndex
+        val user = userRepo.user!!.index
         val index = rnd.nextInt(SESSION_COUNT)
         val time = clock.millis()
         val front = when (side) {
@@ -38,7 +38,7 @@ class FlashCardRepo @Inject constructor(
     }
 
     fun shiftCard(card: Card, result: Result) {
-        val user = userRepo.userIndex
+        val user = userRepo.user!!.index
         val newIndex = card.index + result.sortAdd
         val newTime = clock.millis() + result.timeAdd
         if (card.front) {

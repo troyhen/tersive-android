@@ -1,4 +1,4 @@
-package com.troy.tersive.model.db.entity
+package com.troy.tersive.model.db.tersive
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,8 +1,9 @@
-package com.troy.tersive.model.db.dao
+package com.troy.tersive.model.db.user.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.troy.tersive.model.db.entity.Learn
+import com.troy.tersive.model.db.BaseDao
+import com.troy.tersive.model.db.user.entity.Learn
 
 @Dao
 interface LearnDao : BaseDao<Learn> {

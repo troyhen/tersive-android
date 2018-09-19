@@ -2,7 +2,7 @@ package com.troy.tersive.mgr
 
 import android.app.Application
 import androidx.room.Room
-import com.troy.tersive.model.db.UserDatabase
+import com.troy.tersive.model.db.user.UserDatabase
 import org.dbtools.android.room.CloseableDatabaseWrapper
 import org.dbtools.android.room.sqliteorg.SqliteOrgSQLiteOpenHelperFactory
 import javax.inject.Inject

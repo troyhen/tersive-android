@@ -1,4 +1,4 @@
-package com.troy.tersive.model.db.dao
+package com.troy.tersive.model.db
 
 import androidx.room.Delete
 import androidx.room.Insert
@@ -64,7 +64,10 @@ interface BaseDao<in T> {
     fun delete(obj: T)
 
     companion object {
-        fun isTableEmpty(db: SupportSQLiteDatabase, table: String) = countRecords(db, table) == 0L
+        fun isTableEmpty(db: SupportSQLiteDatabase, table: String) = countRecords(
+            db,
+            table
+        ) == 0L
 
         fun countRecords(db: SupportSQLiteDatabase, table: String): Long {
             return db.query("select count(*) from `$table`").use { cursor ->

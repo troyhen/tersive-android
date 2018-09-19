@@ -1,4 +1,4 @@
-package com.troy.tersive.model.db
+package com.troy.tersive.model.db.user
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -6,11 +6,11 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.troy.tersive.model.db.convert.ConvertUUID
-import com.troy.tersive.model.db.dao.LearnDao
-import com.troy.tersive.model.db.dao.UserDao
-import com.troy.tersive.model.db.entity.Learn
-import com.troy.tersive.model.db.entity.User
-import com.troy.tersive.model.db.migrate.AddInitial
+import com.troy.tersive.model.db.user.dao.LearnDao
+import com.troy.tersive.model.db.user.dao.UserDao
+import com.troy.tersive.model.db.user.entity.Learn
+import com.troy.tersive.model.db.user.entity.User
+import com.troy.tersive.model.db.user.migrate.AddInitial
 
 @Database(
     version = 1, entities = [

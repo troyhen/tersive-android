@@ -1,12 +1,9 @@
-package com.troy.tersive.model.db
+package com.troy.tersive.model.db.tersive
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.troy.tersive.model.db.dao.TersiveDao
-import com.troy.tersive.model.db.entity.Tersive
-import com.troy.tersive.model.db.migrate.AddTersive
 
 @Database(
     version = 1, entities = [

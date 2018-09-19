@@ -1,10 +1,9 @@
-package com.troy.tersive.model.db.dao
+package com.troy.tersive.model.db.tersive
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.troy.tersive.model.db.entity.Tersive
-import com.troy.tersive.model.db.migrate.PopulateTersive
+import com.troy.tersive.model.db.BaseDao
 
 @Dao
 interface TersiveDao : BaseDao<Tersive> {
