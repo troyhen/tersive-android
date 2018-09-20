@@ -1,8 +1,10 @@
 package com.troy.tersive.model.repo
 
 import androidx.annotation.WorkerThread
+import com.troy.tersive.mgr.TersiveDatabaseManager
 import com.troy.tersive.mgr.UserDatabaseManager
 import com.troy.tersive.model.data.HashUtil
+import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.db.user.entity.User
 import java.util.UUID
 import javax.inject.Inject
@@ -12,6 +14,7 @@ import javax.inject.Singleton
 @WorkerThread
 class UserRepo @Inject constructor(
     private val hashUtil: HashUtil,
+    private val tersiveDatabaseManager: TersiveDatabaseManager,
     private val userDatabaseManager: UserDatabaseManager
 ) {
 
@@ -55,6 +58,16 @@ class UserRepo @Inject constructor(
             val newUser = User(UUID.randomUUID(), lastIndex + 1, email, passHash)
             userDb.userDao.save(newUser)
             user = newUser
+            tersiveDatabaseManager.tersiveDb.tersiveDao.findUserList().forEachIndexed { index, tl ->
+                val learn = Learn(
+                    userIndex = newUser.index,
+                    type = tl.type,
+                    lvl4 = tl.lvl4,
+                    kbd = tl.kbd,
+                    sort1 = index + 1
+                )
+                userDb.learnDao.save(learn)
+            }
             userDb.setTransactionSuccessful()
         } finally {
             userDb.endTransaction()
