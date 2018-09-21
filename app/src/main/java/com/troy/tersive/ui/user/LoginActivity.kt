@@ -40,7 +40,10 @@ class LoginActivity : AppCompatActivity() {
                 password.text.toString()
             )
         }
-        registerButton.setOnClickListener { RegisterActivity.start(this) }
+        registerButton.setOnClickListener {
+            RegisterActivity.start(this)
+            finish()
+        }
     }
 
     private fun LoginViewModel.initObservers() {

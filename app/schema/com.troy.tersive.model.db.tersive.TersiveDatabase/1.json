@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e41c419c9eba35cfc330093638e43758",
+    "identityHash": "64ccb42a55c736edcb29c3d2f908f4a9",
     "entities": [
       {
         "tableName": "Tersive",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `phrase` TEXT NOT NULL, `lvl1` TEXT NOT NULL, `lvl2` TEXT, `lvl3` TEXT NOT NULL, `lvl4` TEXT NOT NULL, `kbd` TEXT NOT NULL, `words` INTEGER NOT NULL, `frequency` INTEGER NOT NULL, `sort` INTEGER, `type` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `phrase` TEXT NOT NULL, `lvl1` TEXT, `lvl2` TEXT, `lvl3` TEXT, `lvl4` TEXT, `kbd` TEXT, `words` INTEGER NOT NULL, `frequency` INTEGER NOT NULL, `sort` INTEGER, `type` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -24,7 +24,7 @@
             "fieldPath": "lvl1",
             "columnName": "lvl1",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "lvl2",
@@ -36,19 +36,19 @@
             "fieldPath": "lvl3",
             "columnName": "lvl3",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "lvl4",
             "columnName": "lvl4",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "kbd",
             "columnName": "kbd",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "words",
@@ -87,7 +87,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e41c419c9eba35cfc330093638e43758\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"64ccb42a55c736edcb29c3d2f908f4a9\")"
     ]
   }
 }
