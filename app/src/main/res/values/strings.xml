@@ -17,4 +17,14 @@
     <string name="good">Good</string>
     <string name="hard">Hard</string>
     <string name="again">Again</string>
+    <string name="login_success">Successful login</string>
+    <string name="login_failure">Invalid login</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="registration_taken">That registration is alreay used</string>
+    <string name="password_mismatch">Passwords do not match</string>
+    <string name="missing_field">Missing one or more fields</string>
 </resources>

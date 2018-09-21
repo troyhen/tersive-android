@@ -1,4 +1,4 @@
-package com.troy.tersive.ui
+package com.troy.tersive.ui.base
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.CoroutineScope

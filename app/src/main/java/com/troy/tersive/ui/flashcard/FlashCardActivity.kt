@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.troy.tersive.app.Injector
+import com.troy.tersive.ui.user.LoginActivity
 import org.lds.mobile.livedata.observeNotNull
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,7 +28,15 @@ class FlashCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.initObservers()
-        viewModel.nextCard()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.needLogin) {
+            LoginActivity.start(this)
+        } else {
+            viewModel.nextCard()
+        }
     }
 
     private fun FlashCardViewModel.initObservers() {

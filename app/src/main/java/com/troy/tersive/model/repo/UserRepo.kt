@@ -10,14 +10,15 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 @WorkerThread
+@Singleton
 class UserRepo @Inject constructor(
     private val hashUtil: HashUtil,
     private val tersiveDatabaseManager: TersiveDatabaseManager,
     private val userDatabaseManager: UserDatabaseManager
 ) {
 
+    val isLoggedIn get() = user != null
     var user: User? = null
         private set
 
