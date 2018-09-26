@@ -2,6 +2,7 @@ package com.troy.tersive.model.repo
 
 import androidx.annotation.WorkerThread
 import com.troy.tersive.mgr.Prefs
+import com.troy.tersive.mgr.Prefs.Companion.NO_USER
 import com.troy.tersive.mgr.TersiveDatabaseManager
 import com.troy.tersive.mgr.UserDatabaseManager
 import com.troy.tersive.model.data.HashUtil
@@ -32,7 +33,8 @@ class UserRepo @Inject constructor(
     }
 
     private fun autoLogin() {
-        prefs.username?.let { username ->
+        val username = prefs.username
+        if (username != NO_USER) {
             launch(cc.default) {
                 user = dbManager.userDb.userDao.findUser(username)
             }
@@ -95,6 +97,6 @@ class UserRepo @Inject constructor(
 
     private fun rememberUser(foundUser: User?) {
         user = foundUser
-        prefs.username = foundUser?.email
+        prefs.username = foundUser?.email ?: NO_USER
     }
 }

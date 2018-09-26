@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.troy.tersive.R
+import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.ui.flashcard.FlashCardActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -98,10 +99,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             type_mode.isSelected = true
         }
         wordFlashCardButton.setOnClickListener {
-            FlashCardActivity.start(this)
+            FlashCardActivity.start(this, FlashCardRepo.Type.WORD_ONLY)
         }
         phraseFlashCardButton.setOnClickListener {
-            FlashCardActivity.start(this)
+            FlashCardActivity.start(this, FlashCardRepo.Type.PHRASE_ONLY)
         }
 
         fab.setOnClickListener { view ->
