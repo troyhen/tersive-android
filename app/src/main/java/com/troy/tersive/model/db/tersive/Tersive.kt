@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Tersive(
+data class Tersive(
     @PrimaryKey
     val id: Long,
     val phrase: String,

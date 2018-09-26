@@ -5,18 +5,19 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 ext {
-    archRoomVersion = '2.0.0-alpha1'
-    daggerVersion = '2.16'
+    archRoomVersion = '2.0.0-rc01'
+    daggerVersion = '2.17'
     devToolsVersion = '2.4.0'
-    dbtoolsRoomVersion = '2.5.0'
+    dbtoolsRoomVersion = '2.5.2'
+    sdkVersion = 28
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion sdkVersion
     defaultConfig {
         applicationId "com.troy.tersive"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion sdkVersion
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -45,23 +46,23 @@ dependencies {
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:0.26.1"
 
     // Android
-    implementation 'androidx.appcompat:appcompat:1.0.0-rc02'
-    implementation 'androidx.cardview:cardview:1.0.0-rc02'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout-solver:1.1.3'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.drawerlayout:drawerlayout:1.0.0-rc02'
-    implementation 'androidx.lifecycle:lifecycle-common:2.0.0-rc01'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0-rc01'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-common:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
 
     // Google
-    implementation 'com.google.android.material:material:1.0.0-rc02'
+    implementation 'com.google.android.material:material:1.0.0'
 
     // LDS
-    implementation 'org.lds.mobile:ldsmobile-commons:19.3.0'
+    implementation 'org.lds.mobile:ldsmobile-commons:20.0.0'
 
     // Dagger 2
     implementation "com.google.dagger:dagger:$daggerVersion"

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.ui.user.LoginActivity
 import org.lds.mobile.livedata.observeNotNull
@@ -27,6 +28,7 @@ class FlashCardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_flash_card)
         viewModel.initObservers()
     }
 

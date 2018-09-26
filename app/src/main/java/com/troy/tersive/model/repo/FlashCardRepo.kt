@@ -33,8 +33,8 @@ class FlashCardRepo @Inject constructor(
         } else {
             udm.userDb.learnDao.findNext2(user, index, time)
         }
-        val tersive = tdm.tersiveDb.tersiveDao.find(learn.lvl4, learn.kbd)
-        return Card(front, index, learn, tersive)
+        val tersiveList = tdm.tersiveDb.tersiveDao.findMatches(learn.lvl4, learn.kbd)
+        return Card(front, index, learn, tersiveList)
     }
 
     fun shiftCard(card: Card, result: Result) {
