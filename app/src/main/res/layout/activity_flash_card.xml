@@ -17,11 +17,23 @@
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:background="@color/cardBackground"
-        android:elevation="6dp">
+        android:elevation="6dp"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/doneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/end_session"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/typeText"
@@ -51,12 +63,35 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Quiz" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@android:color/white"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/quizText"
+                app:layout_constraintStart_toStartOf="@id/quizText"
+                app:layout_constraintTop_toBottomOf="@id/quizText"
+                app:layout_constraintTop_toTopOf="@id/quizText" />
+
+            <Button
+                android:id="@+id/showButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/show_answer"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -71,7 +106,8 @@
         android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:background="@color/cardBackground"
-        android:elevation="6dp">
+        android:elevation="6dp"
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -85,6 +121,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
                 android:textSize="30sp"
                 app:layout_constraintBottom_toTopOf="@+id/easyButton"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,33 +139,33 @@
                 android:text="@string/easy"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintEnd_toStartOf="@+id/goodButton"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/goodButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/good"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button3"
+                app:layout_constraintEnd_toStartOf="@+id/hardButton"
                 app:layout_constraintStart_toEndOf="@+id/easyButton" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/hardButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/hard"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button4"
-                app:layout_constraintStart_toEndOf="@+id/button2" />
+                app:layout_constraintEnd_toStartOf="@+id/againButton"
+                app:layout_constraintStart_toEndOf="@+id/goodButton" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/againButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -136,7 +174,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button3" />
+                app:layout_constraintStart_toEndOf="@+id/hardButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

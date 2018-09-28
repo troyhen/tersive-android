@@ -19,6 +19,21 @@ class FlashCardRepo @Inject constructor(
 ) {
     private val rnd = Random()
 
+    fun moveCard(card: Card, delta: Int, tries: Int) {
+        val user = userRepo.user ?: return
+        if (card.front) {
+            val oldSort = card.learn.sort1
+            val newSort = oldSort + delta
+            udm.userDb.learnDao.shiftSort1(user.index, oldSort + 1, newSort)
+            udm.userDb.learnDao.save(card.learn.copy(sort1 = newSort, tries1 = tries))
+        } else {
+            val oldSort = card.learn.sort2
+            val newSort = oldSort + delta
+            udm.userDb.learnDao.shiftSort2(user.index, oldSort + 1, newSort)
+            udm.userDb.learnDao.save(card.learn.copy(sort2 = newSort, tries2 = tries))
+        }
+    }
+
     fun nextCard(type: Type, side: Side): Card {
         val user = userRepo.user!!.index
         val index = rnd.nextInt(SESSION_COUNT)
@@ -29,9 +44,29 @@ class FlashCardRepo @Inject constructor(
             Side.BACK_ONLY -> true
         }
         val learn = if (front) {
-            udm.userDb.learnDao.findNext1(user, index, time)
+            when (type) {
+                Type.ANY -> udm.userDb.learnDao.findNext1(user, index, time)
+                Type.WORD_ONLY -> udm.userDb.learnDao.findNextTyped1(user, WORD_TYPE, index, time)
+                Type.PHRASE_ONLY -> udm.userDb.learnDao.findNextTyped1(
+                    user,
+                    PHRASE_TYPE,
+                    index,
+                    time
+                )
+                Type.RELIGIOUS_ONLY -> udm.userDb.learnDao.findNextReligious1(user, index, time)
+            }
         } else {
-            udm.userDb.learnDao.findNext2(user, index, time)
+            when (type) {
+                Type.ANY -> udm.userDb.learnDao.findNext2(user, index, time)
+                Type.WORD_ONLY -> udm.userDb.learnDao.findNextTyped2(user, WORD_TYPE, index, time)
+                Type.PHRASE_ONLY -> udm.userDb.learnDao.findNextTyped2(
+                    user,
+                    PHRASE_TYPE,
+                    index,
+                    time
+                )
+                Type.RELIGIOUS_ONLY -> udm.userDb.learnDao.findNextReligious2(user, index, time)
+            }
         }
         val tersiveList = tdm.tersiveDb.tersiveDao.findMatches(learn.lvl4, learn.kbd)
         return Card(front, index, learn, tersiveList)
@@ -55,6 +90,10 @@ class FlashCardRepo @Inject constructor(
         const val MINUTES = 60 * 1000
         const val HOURS = 60 * MINUTES
         const val DAYS = 24 * HOURS
+        const val WORD_TYPE = 0
+        const val PHRASE_TYPE = 1
+        const val RELIGIOUS_WORD_TYPE = 2
+        const val RELIGIOUS_PHRASE_TYPE = 3
     }
 
     enum class Side {

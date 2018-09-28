@@ -6,17 +6,31 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.troy.tersive.R
+import com.troy.tersive.app.Injector
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.ui.flashcard.FlashCardActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+    }
+
+    init {
+        Injector.get().inject(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +48,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val nav: NavigationView = findViewById(R.id.nav_view)
         nav.setNavigationItemSelectedListener(this)
-        hand_mode.isSelected = true
+        val typeMode = viewModel.typeMode
+        hand_mode.isSelected = !typeMode
+        type_mode.isSelected = typeMode
         setupListeners()
     }
 
@@ -93,10 +109,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         hand_mode.setOnClickListener {
             hand_mode.isSelected = true
             type_mode.isSelected = false
+            viewModel.typeMode = false
         }
         type_mode.setOnClickListener {
             hand_mode.isSelected = false
             type_mode.isSelected = true
+            viewModel.typeMode = true
         }
         wordFlashCardButton.setOnClickListener {
             FlashCardActivity.start(this, FlashCardRepo.Type.WORD_ONLY)

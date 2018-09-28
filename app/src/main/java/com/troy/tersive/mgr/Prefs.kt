@@ -9,7 +9,7 @@ import javax.inject.Singleton
 class Prefs @Inject constructor() : PrefsContainer(PrefsManager.PROTECTED_NAMESPACE) {
 
     var username by SharedPref(NO_USER)
-    var keyMode by SharedPref(DEFAULT_MODE)
+    var typeMode by SharedPref(DEFAULT_MODE)
 
     companion object {
         const val NO_USER = ""

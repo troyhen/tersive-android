@@ -3,6 +3,7 @@ package com.troy.tersive.ui.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.troy.tersive.ui.flashcard.FlashCardViewModel
+import com.troy.tersive.ui.main.MainViewModel
 import com.troy.tersive.ui.user.LoginViewModel
 import com.troy.tersive.ui.user.RegisterViewModel
 import dagger.Binds
@@ -27,6 +28,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoginViewModel::class)
     internal abstract fun bindLoginViewModel(viewModel: LoginViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    internal abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 
     @Binds
     @IntoMap

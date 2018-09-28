@@ -8,6 +8,7 @@ import com.troy.tersive.mgr.UserDatabaseManager
 import com.troy.tersive.model.data.HashUtil
 import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.db.user.entity.User
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
 import java.util.UUID
@@ -28,14 +29,11 @@ class UserRepo @Inject constructor(
     var user: User? = null
         private set
 
-    init {
-        autoLogin()
-    }
-
-    private fun autoLogin() {
+    fun autoLogin() {
+        if (isLoggedIn) return
         val username = prefs.username
         if (username != NO_USER) {
-            launch(cc.default) {
+            GlobalScope.launch(cc.default) {
                 user = dbManager.userDb.userDao.findUser(username)
             }
         }

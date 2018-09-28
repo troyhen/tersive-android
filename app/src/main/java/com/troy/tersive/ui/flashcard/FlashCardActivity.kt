@@ -1,5 +1,6 @@
 package com.troy.tersive.ui.flashcard
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -11,6 +12,10 @@ import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.repo.FlashCardRepo
+import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.AGAIN
+import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.EASY
+import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.GOOD
+import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.HARD
 import com.troy.tersive.ui.user.LoginActivity
 import kotlinx.android.synthetic.main.activity_flash_card.*
 import org.lds.mobile.livedata.observeNotNull
@@ -43,11 +48,7 @@ class FlashCardActivity : AppCompatActivity() {
         }
         learnTypeFace = Typeface.DEFAULT
         tersiveTypeFace = Typeface.createFromAsset(assets, "Tersive_Script.otf")
-        quizCard.setOnClickListener {
-            if (answerCard.isInvisible) {
-                answerCard.isInvisible = false
-            }
-        }
+        initListeners()
         viewModel.initObservers()
     }
 
@@ -56,34 +57,55 @@ class FlashCardActivity : AppCompatActivity() {
         reset()
     }
 
+    private fun initListeners() {
+        quizCard.setOnClickListener { showAnswer() }
+        showButton.setOnClickListener { showAnswer() }
+        doneButton.setOnClickListener { finishAfterTransition() }
+        easyButton.setOnClickListener { viewModel.updateCard(EASY) }
+        goodButton.setOnClickListener { viewModel.updateCard(GOOD) }
+        hardButton.setOnClickListener { viewModel.updateCard(HARD) }
+        againButton.setOnClickListener { viewModel.updateCard(AGAIN) }
+    }
+
+    private fun showAnswer() {
+        if (answerCard.isInvisible) {
+            answerCard.isInvisible = false
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun FlashCardViewModel.initObservers() {
-        val keyMode = prefs.keyMode
         cardLiveData.observeNotNull(this@FlashCardActivity) { card ->
-            val tersive = if (keyMode) card.learn.kbd else card.learn.lvl4
+            answerCard.isInvisible = true
+            val tersive = if (typeMode) card.learn.kbd else card.learn.lvl4
             val phrases = card.tersiveList.asSequence()
                 .mapNotNull { it.phrase }
                 .joinToString(", ") { it }
             if (card.front) {
                 quizText.run {
-                    text = tersive
+                    text = " $tersive "
                     textSize = TERSIVE_SIZE
                     typeface = tersiveTypeFace
+//                    paintFlags = paintFlags or STRIKE_THRU_TEXT_FLAG
                 }
                 answerText.run {
                     text = phrases
                     textSize = LEARN_SIZE
                     typeface = learnTypeFace
+//                    paintFlags = paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
                 }
             } else {
                 quizText.run {
                     text = phrases
                     textSize = LEARN_SIZE
                     typeface = learnTypeFace
+//                    paintFlags = paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
                 }
                 answerText.run {
-                    text = tersive
+                    text = " $tersive "
                     textSize = TERSIVE_SIZE
                     typeface = tersiveTypeFace
+//                    paintFlags = paintFlags or STRIKE_THRU_TEXT_FLAG
                 }
             }
         }
