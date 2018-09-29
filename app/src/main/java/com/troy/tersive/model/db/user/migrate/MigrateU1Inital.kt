@@ -19,12 +19,14 @@ object AddInitial : Migration(0, 1) {
             |`id` INTEGER NOT NULL PRIMARY KEY,
             |`userIndex` INTEGER NOT NULL,
             |`type` TEXT NOT NULL,
-            |`lvl1` TEXT NOT NULL,
+            |`lvl4` TEXT NOT NULL,
             |`kbd` TEXT NOT NULL,
             |`sort1` INTEGER NOT NULL,
             |`sort2` INTEGER NOT NULL,
             |`time1` INTEGER NOT NULL,
             |`time2` INTEGER NOT NULL,
+            |`easy1` INTEGER NOT NULL,
+            |`easy2` INTEGER NOT NULL,
             |`tries1` INTEGER NOT NULL,
             |`tries2` INTEGER NOT NULL
             |)""".trimMargin()

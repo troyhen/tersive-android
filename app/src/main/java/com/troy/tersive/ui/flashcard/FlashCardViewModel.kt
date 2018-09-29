@@ -13,6 +13,7 @@ import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.HARD
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
+import org.threeten.bp.Duration
 import javax.inject.Inject
 
 class FlashCardViewModel @Inject constructor(
@@ -35,18 +36,25 @@ class FlashCardViewModel @Inject constructor(
     fun updateCard(result: QuizResult) = launch {
         val card = cardLiveData.value ?: return@launch
         val step = FlashCardRepo.SESSION_COUNT
-        val tries = when {
+        val easy = when {
             result != EASY -> 0
-            card.front -> card.learn.tries1 + 1
-            else -> card.learn.tries2 + 1
+            card.front -> card.learn.easy1 + 1
+            else -> card.learn.easy2 + 1
         }
         val delta = when (result) {
-            EASY -> step * 4 * tries
+            EASY -> step * 4 * easy
             GOOD -> step * 3
             HARD -> step * 2
             AGAIN -> step * 1
         }
-        flashCardRepo.moveCard(card, delta, tries)
+        val delay = when (result) {
+            EASY -> Duration.ofDays(4)
+            GOOD -> Duration.ofDays(1)
+            HARD -> Duration.ofHours(2)
+            AGAIN -> Duration.ofHours(1)
+        }
+        val tries = 1 + if (card.front) card.learn.tries1 else card.learn.tries2
+        flashCardRepo.moveCard(card, delta, delay.toMillis(), easy, tries)
         nextCard()
     }
 

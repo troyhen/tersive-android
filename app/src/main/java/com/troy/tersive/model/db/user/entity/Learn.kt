@@ -15,6 +15,8 @@ data class Learn(
     val sort2: Int = sort1,
     val time1: Long = 0L,
     val time2: Long = 0L,
+    val easy1: Int = 0,
+    val easy2: Int = 0,
     val tries1: Int = 0,
     val tries2: Int = 0
 )

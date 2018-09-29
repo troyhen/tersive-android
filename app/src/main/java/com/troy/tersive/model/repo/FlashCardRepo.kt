@@ -19,18 +19,33 @@ class FlashCardRepo @Inject constructor(
 ) {
     private val rnd = Random()
 
-    fun moveCard(card: Card, delta: Int, tries: Int) {
+    fun moveCard(card: Card, delta: Int, delay: Long, easy: Int, tries: Int) {
         val user = userRepo.user ?: return
+        val time = clock.millis() + delay
         if (card.front) {
             val oldSort = card.learn.sort1
             val newSort = oldSort + delta
             udm.userDb.learnDao.shiftSort1(user.index, oldSort + 1, newSort)
-            udm.userDb.learnDao.save(card.learn.copy(sort1 = newSort, tries1 = tries))
+            udm.userDb.learnDao.save(
+                card.learn.copy(
+                    sort1 = newSort,
+                    time1 = time,
+                    easy1 = easy,
+                    tries1 = tries
+                )
+            )
         } else {
             val oldSort = card.learn.sort2
             val newSort = oldSort + delta
             udm.userDb.learnDao.shiftSort2(user.index, oldSort + 1, newSort)
-            udm.userDb.learnDao.save(card.learn.copy(sort2 = newSort, tries2 = tries))
+            udm.userDb.learnDao.save(
+                card.learn.copy(
+                    sort2 = newSort,
+                    time2 = time,
+                    easy2 = easy,
+                    tries2 = tries
+                )
+            )
         }
     }
 

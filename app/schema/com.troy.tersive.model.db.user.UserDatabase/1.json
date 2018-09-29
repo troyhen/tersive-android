@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "084d37873a97b262694330d7f5ce855f",
+    "identityHash": "183915723e01fac869ae51b5f8c03ba0",
     "entities": [
       {
         "tableName": "User",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "Learn",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userIndex` INTEGER NOT NULL, `type` INTEGER NOT NULL, `lvl4` TEXT NOT NULL, `kbd` TEXT NOT NULL, `sort1` INTEGER NOT NULL, `sort2` INTEGER NOT NULL, `time1` INTEGER NOT NULL, `time2` INTEGER NOT NULL, `tries1` INTEGER NOT NULL, `tries2` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userIndex` INTEGER NOT NULL, `type` INTEGER NOT NULL, `lvl4` TEXT NOT NULL, `kbd` TEXT NOT NULL, `sort1` INTEGER NOT NULL, `sort2` INTEGER NOT NULL, `time1` INTEGER NOT NULL, `time2` INTEGER NOT NULL, `easy1` INTEGER NOT NULL, `easy2` INTEGER NOT NULL, `tries1` INTEGER NOT NULL, `tries2` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -101,6 +101,18 @@
             "notNull": true
           },
           {
+            "fieldPath": "easy1",
+            "columnName": "easy1",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "easy2",
+            "columnName": "easy2",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "tries1",
             "columnName": "tries1",
             "affinity": "INTEGER",
@@ -125,7 +137,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"084d37873a97b262694330d7f5ce855f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"183915723e01fac869ae51b5f8c03ba0\")"
     ]
   }
 }
