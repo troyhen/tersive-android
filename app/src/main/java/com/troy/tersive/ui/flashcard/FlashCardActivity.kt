@@ -43,8 +43,8 @@ class FlashCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flash_card)
-        intent.extras?.getInt(EXTRA_PHRASE_MODE)?.let {
-            viewModel.phraseMode = FlashCardRepo.Type.values()[it]
+        intent.extras?.getInt(EXTRA_PHRASE_TYPE)?.let {
+            viewModel.phraseType = FlashCardRepo.Type.values()[it]
         }
         learnTypeFace = Typeface.DEFAULT
         tersiveTypeFace = Typeface.createFromAsset(assets, "Tersive_Script.otf")
@@ -122,14 +122,13 @@ class FlashCardActivity : AppCompatActivity() {
     }
 
     companion object {
-
-        const val EXTRA_PHRASE_MODE = "phraseMode"
+        const val EXTRA_PHRASE_TYPE = "phraseType"
         const val LEARN_SIZE = 32f
         const val TERSIVE_SIZE = 100f
 
-        fun start(context: Context, phraseMode: FlashCardRepo.Type) {
+        fun start(context: Context, phraseType: FlashCardRepo.Type) {
             val intent = Intent(context, FlashCardActivity::class.java).apply {
-                extras?.putInt(EXTRA_PHRASE_MODE, phraseMode.ordinal)
+                extras?.putInt(EXTRA_PHRASE_TYPE, phraseType.ordinal)
             }
             context.startActivity(intent)
         }

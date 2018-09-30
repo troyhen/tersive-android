@@ -86,7 +86,7 @@ class FlashCardRepo @Inject constructor(
                 Type.RELIGIOUS_ONLY -> udm.userDb.learnDao.findNextReligious2(user, index, time)
             }
         }
-        val tersiveList = tdm.tersiveDb.tersiveDao.findMatches(learn.lvl4, learn.kbd)
+        val tersiveList = tdm.tersiveDb.tersiveDao.findMatches(learn.lvl4, learn.kbd, learn.type)
         return Card(front, index, learn, tersiveList)
     }
 

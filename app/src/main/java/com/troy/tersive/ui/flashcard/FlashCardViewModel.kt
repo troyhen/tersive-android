@@ -24,11 +24,11 @@ class FlashCardViewModel @Inject constructor(
 
     val cardLiveData = MutableLiveData<Card>()
     val needLogin get() = !userRepo.isLoggedIn
-    var phraseMode = FlashCardRepo.Type.ANY
+    var phraseType = FlashCardRepo.Type.ANY
     val typeMode get() = prefs.typeMode
 
     fun nextCard() = launch {
-        val card = flashCardRepo.nextCard(phraseMode, FlashCardRepo.Side.ANY)
+        val card = flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY)
         cardLiveData.postValue(card)
     }
 
