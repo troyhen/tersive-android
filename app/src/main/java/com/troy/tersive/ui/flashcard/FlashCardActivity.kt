@@ -12,10 +12,10 @@ import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.repo.FlashCardRepo
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.AGAIN
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.EASY
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.GOOD
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.HARD
+import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
+import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
+import com.troy.tersive.model.repo.FlashCardRepo.Result.GOOD
+import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
 import com.troy.tersive.ui.user.LoginActivity
 import kotlinx.android.synthetic.main.activity_flash_card.*
 import org.lds.mobile.livedata.observeNotNull

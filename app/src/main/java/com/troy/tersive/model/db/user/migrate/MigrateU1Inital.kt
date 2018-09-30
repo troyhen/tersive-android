@@ -11,7 +11,8 @@ object AddInitial : Migration(0, 1) {
             |`index` INTEGER NOT NULL,
             |`email` TEXT NOT NULL,
             |`salt` INTEGER NOT NULL,
-            |`passHash` INTEGER NOT NULL
+            |`passHash` INTEGER NOT NULL,
+            |`lastLogin` TEXT,
             |)""".trimMargin()
         )
         db.execSQL(
@@ -23,8 +24,8 @@ object AddInitial : Migration(0, 1) {
             |`kbd` TEXT NOT NULL,
             |`sort1` INTEGER NOT NULL,
             |`sort2` INTEGER NOT NULL,
-            |`time1` INTEGER NOT NULL,
-            |`time2` INTEGER NOT NULL,
+            |`time1` TEXT,
+            |`time2` TEXT,
             |`easy1` INTEGER NOT NULL,
             |`easy2` INTEGER NOT NULL,
             |`tries1` INTEGER NOT NULL,

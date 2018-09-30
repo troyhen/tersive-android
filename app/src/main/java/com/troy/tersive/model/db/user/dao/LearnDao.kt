@@ -8,22 +8,22 @@ import com.troy.tersive.model.db.user.entity.Learn
 @Dao
 interface LearnDao : BaseDao<Learn> {
 
-    @Query("select * from Learn where userIndex = :userIndex and (time1 = 0 or time1 >= :time) order by sort1 limit 1 offset :index ")
+    @Query("select * from Learn where userIndex = :userIndex and (time1 is null or time1 >= :time) order by sort1 limit 1 offset :index ")
     fun findNext1(userIndex: Int, index: Int, time: Long): Learn
 
-    @Query("select * from Learn where userIndex = :userIndex and type in (2, 3) and (time1 = 0 or time1 >= :time) order by sort1 limit 1 offset :index ")
+    @Query("select * from Learn where userIndex = :userIndex and type in (2, 3) and (time1 is null or time1 >= :time) order by sort1 limit 1 offset :index ")
     fun findNextReligious1(userIndex: Int, index: Int, time: Long): Learn
 
-    @Query("select * from Learn where userIndex = :userIndex and type = :type and (time1 = 0 or time1 >= :time) order by sort1 limit 1 offset :index ")
+    @Query("select * from Learn where userIndex = :userIndex and type = :type and (time1 is null or time1 >= :time) order by sort1 limit 1 offset :index ")
     fun findNextTyped1(userIndex: Int, type: Int, index: Int, time: Long): Learn
 
-    @Query("select * from Learn where userIndex = :userIndex and (time2 = 0 or time2 >= :time) order by sort2 limit 1 offset :index ")
+    @Query("select * from Learn where userIndex = :userIndex and (time2 is null or time2 >= :time) order by sort2 limit 1 offset :index ")
     fun findNext2(userIndex: Int, index: Int, time: Long): Learn
 
-    @Query("select * from Learn where userIndex = :userIndex and type in (2, 3) and (time2 = 0 or time2 >= :time) order by sort2 limit 1 offset :index ")
+    @Query("select * from Learn where userIndex = :userIndex and type in (2, 3) and (time2 is null or time2 >= :time) order by sort2 limit 1 offset :index ")
     fun findNextReligious2(userIndex: Int, index: Int, time: Long): Learn
 
-    @Query("select * from Learn where userIndex = :userIndex and type = :type and (time2 = 0 or time2 >= :time) order by sort2 limit 1 offset :index ")
+    @Query("select * from Learn where userIndex = :userIndex and type = :type and (time2 is null or time2 >= :time) order by sort2 limit 1 offset :index ")
     fun findNextTyped2(userIndex: Int, type: Int, index: Int, time: Long): Learn
 
     @Query("update Learn set sort1 = sort1 - 1 where userIndex = :userIndex and sort1 between :from and :to")

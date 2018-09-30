@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.troy.tersive.model.db.convert.ConvertDateTime
 import com.troy.tersive.model.db.convert.ConvertUUID
 import com.troy.tersive.model.db.user.dao.LearnDao
 import com.troy.tersive.model.db.user.dao.UserDao
@@ -17,7 +18,7 @@ import com.troy.tersive.model.db.user.migrate.AddInitial
         /*  1 */ User::class, Learn::class
     ]
 )
-@TypeConverters(ConvertUUID::class)
+@TypeConverters(ConvertDateTime::class, ConvertUUID::class)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract val learnDao: LearnDao

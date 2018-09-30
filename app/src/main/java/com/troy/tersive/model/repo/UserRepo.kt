@@ -11,6 +11,8 @@ import com.troy.tersive.model.db.user.entity.User
 import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
+import org.threeten.bp.Clock
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class UserRepo @Inject constructor(
     private val cc: CoroutineContextProvider,
+    private val clock: Clock,
     private val dbManager: UserDatabaseManager,
     private val hashUtil: HashUtil,
     private val prefs: Prefs,
@@ -34,7 +37,7 @@ class UserRepo @Inject constructor(
         val username = prefs.username
         if (username != NO_USER) {
             GlobalScope.launch(cc.default) {
-                user = dbManager.userDb.userDao.findUser(username)
+                onLogin(dbManager.userDb.userDao.findUser(username))
             }
         }
     }
@@ -56,13 +59,20 @@ class UserRepo @Inject constructor(
         val foundUser = userDb.userDao.findUser(email) ?: return false
         val passHash = hashUtil.hash(password)
         return if (passHash == foundUser.passHash) {
-            rememberUser(foundUser)
+            onLogin(foundUser)
             true
         } else false
     }
 
     fun logout() {
-        rememberUser(null)
+        onLogin(null)
+    }
+
+    private fun onLogin(foundUser: User?) {
+        val now = LocalDateTime.now(clock)
+        user = foundUser?.copy(lastLogin = now)
+        prefs.username = foundUser?.email ?: NO_USER
+        if (user != null) userDatabaseManager.userDb.userDao.save(user!!)
     }
 
     fun register(email: String, password: String): Boolean {
@@ -75,7 +85,7 @@ class UserRepo @Inject constructor(
             val passHash = hashUtil.hash(password)
             val newUser = User(UUID.randomUUID(), lastIndex + 1, email, passHash)
             userDb.userDao.save(newUser)
-            rememberUser(newUser)
+            onLogin(newUser)
             tersiveDatabaseManager.tersiveDb.tersiveDao.findUserList().forEachIndexed { index, tl ->
                 val learn = Learn(
                     userIndex = newUser.index,
@@ -91,10 +101,5 @@ class UserRepo @Inject constructor(
             userDb.endTransaction()
         }
         return true
-    }
-
-    private fun rememberUser(foundUser: User?) {
-        user = foundUser
-        prefs.username = foundUser?.email ?: NO_USER
     }
 }

@@ -4,16 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
 import com.troy.tersive.model.repo.FlashCardRepo
+import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
+import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
+import com.troy.tersive.model.repo.FlashCardRepo.Result.GOOD
+import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
 import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.BaseViewModel
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.AGAIN
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.EASY
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.GOOD
-import com.troy.tersive.ui.flashcard.FlashCardViewModel.QuizResult.HARD
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
-import org.threeten.bp.Duration
 import javax.inject.Inject
 
 class FlashCardViewModel @Inject constructor(
@@ -33,7 +32,7 @@ class FlashCardViewModel @Inject constructor(
         cardLiveData.postValue(card)
     }
 
-    fun updateCard(result: QuizResult) = launch {
+    fun updateCard(result: FlashCardRepo.Result) = launch {
         val card = cardLiveData.value ?: return@launch
         val step = FlashCardRepo.SESSION_COUNT
         val easy = when {
@@ -47,18 +46,8 @@ class FlashCardViewModel @Inject constructor(
             HARD -> step * 2
             AGAIN -> step * 1
         }
-        val delay = when (result) {
-            EASY -> Duration.ofDays(4)
-            GOOD -> Duration.ofDays(1)
-            HARD -> Duration.ofHours(2)
-            AGAIN -> Duration.ofHours(1)
-        }
         val tries = 1 + if (card.front) card.learn.tries1 else card.learn.tries2
-        flashCardRepo.moveCard(card, delta, delay.toMillis(), easy, tries)
+        flashCardRepo.moveCard(card, delta, result.timeAdd, easy, tries)
         nextCard()
-    }
-
-    enum class QuizResult {
-        EASY, GOOD, HARD, AGAIN
     }
 }
