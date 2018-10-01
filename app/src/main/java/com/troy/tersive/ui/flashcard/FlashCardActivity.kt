@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.mgr.Prefs
+import com.troy.tersive.model.data.TersiveUtil
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
 import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
@@ -26,6 +27,8 @@ class FlashCardActivity : AppCompatActivity() {
 
     @Inject
     lateinit var prefs: Prefs
+    @Inject
+    lateinit var tersiveUtil: TersiveUtil
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -77,13 +80,14 @@ class FlashCardActivity : AppCompatActivity() {
     private fun FlashCardViewModel.initObservers() {
         cardLiveData.observeNotNull(this@FlashCardActivity) { card ->
             answerCard.isInvisible = true
-            val tersive = if (typeMode) card.learn.kbd else card.learn.lvl4
+            val tersive =
+                if (typeMode) card.learn.kbd else tersiveUtil.optimizeHand(card.learn.lvl4)
             val phrases = card.tersiveList.asSequence()
                 .mapNotNull { it.phrase }
                 .joinToString(", ") { it }
             if (card.front) {
                 quizText.run {
-                    text = " $tersive "
+                    text = tersive
                     textSize = TERSIVE_SIZE
                     typeface = tersiveTypeFace
 //                    paintFlags = paintFlags or STRIKE_THRU_TEXT_FLAG
@@ -102,7 +106,7 @@ class FlashCardActivity : AppCompatActivity() {
 //                    paintFlags = paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
                 }
                 answerText.run {
-                    text = " $tersive "
+                    text = tersive
                     textSize = TERSIVE_SIZE
                     typeface = tersiveTypeFace
 //                    paintFlags = paintFlags or STRIKE_THRU_TEXT_FLAG
