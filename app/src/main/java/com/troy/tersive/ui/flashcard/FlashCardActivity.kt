@@ -24,6 +24,7 @@ import me.eugeniomarletti.extras.intent.base.Int
 import org.lds.mobile.extras.SelfActivityCompanion
 import org.lds.mobile.livedata.observeNotNull
 import org.lds.mobile.ui.ext.isInvisible
+import org.lds.mobile.ui.ext.isVisible
 import javax.inject.Inject
 
 class FlashCardActivity : AppCompatActivity() {
@@ -93,27 +94,27 @@ class FlashCardActivity : AppCompatActivity() {
                     text = tersive
                     textSize = TERSIVE_SIZE
                     typeface = tersiveTypeFace
-//                    paintFlags = paintFlags or STRIKE_THRU_TEXT_FLAG
                 }
+                quizPencilLine.isVisible = true
                 answerText.run {
                     text = phrases
                     textSize = LEARN_SIZE
                     typeface = learnTypeFace
-//                    paintFlags = paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
                 }
+                answerPencilLine.isVisible = false
             } else {
                 quizText.run {
                     text = phrases
                     textSize = LEARN_SIZE
                     typeface = learnTypeFace
-//                    paintFlags = paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
                 }
+                quizPencilLine.isVisible = false
                 answerText.run {
                     text = tersive
                     textSize = TERSIVE_SIZE
                     typeface = tersiveTypeFace
-//                    paintFlags = paintFlags or STRIKE_THRU_TEXT_FLAG
                 }
+                answerPencilLine.isVisible = true
             }
         }
     }

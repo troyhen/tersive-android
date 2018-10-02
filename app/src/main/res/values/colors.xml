@@ -6,6 +6,6 @@
     <color name="textColorPrimary">#000000</color>
     <color name="errorColor">#802010</color>
     <color name="selectedColor">@color/colorPrimary</color>
-    <color name="appBackground">#a0a0a0</color>
+    <color name="appBackground">#b0d0c0</color>
     <color name="cardBackground">#ffffff</color>
 </resources>
