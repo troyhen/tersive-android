@@ -80,6 +80,7 @@ dependencies {
 
     // Other
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+    implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
 
     // Test
     testImplementation 'junit:junit:4.12'

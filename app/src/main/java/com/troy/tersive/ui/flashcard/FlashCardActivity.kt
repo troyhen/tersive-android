@@ -19,6 +19,9 @@ import com.troy.tersive.model.repo.FlashCardRepo.Result.GOOD
 import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
 import com.troy.tersive.ui.user.LoginActivity
 import kotlinx.android.synthetic.main.activity_flash_card.*
+import me.eugeniomarletti.extras.intent.IntentExtra
+import me.eugeniomarletti.extras.intent.base.Int
+import org.lds.mobile.extras.SelfActivityCompanion
 import org.lds.mobile.livedata.observeNotNull
 import org.lds.mobile.ui.ext.isInvisible
 import javax.inject.Inject
@@ -46,7 +49,7 @@ class FlashCardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flash_card)
-        intent.extras?.getInt(EXTRA_PHRASE_TYPE)?.let {
+        intent.phraseTypeExtra?.let {
             viewModel.phraseType = FlashCardRepo.Type.values()[it]
         }
         learnTypeFace = Typeface.DEFAULT
@@ -125,16 +128,17 @@ class FlashCardActivity : AppCompatActivity() {
 
     }
 
-    companion object {
-        const val EXTRA_PHRASE_TYPE = "phraseType"
+    companion object : SelfActivityCompanion<Companion>(FlashCardActivity::class) {
+
         const val LEARN_SIZE = 32f
         const val TERSIVE_SIZE = 100f
 
+        var Intent.phraseTypeExtra by IntentExtra.Int()
+
         fun start(context: Context, phraseType: FlashCardRepo.Type) {
-            val intent = Intent(context, FlashCardActivity::class.java).apply {
-                extras?.putInt(EXTRA_PHRASE_TYPE, phraseType.ordinal)
+            FlashCardActivity.start(context) { intent ->
+                intent.phraseTypeExtra = phraseType.ordinal
             }
-            context.startActivity(intent)
         }
     }
 }
