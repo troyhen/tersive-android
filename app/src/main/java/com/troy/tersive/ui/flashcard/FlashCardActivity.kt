@@ -44,6 +44,7 @@ class FlashCardActivity : AppCompatActivity() {
         Injector.get().inject(this)
     }
 
+    private var keyTypeFace: Typeface? = null
     private var learnTypeFace: Typeface? = null
     private var tersiveTypeFace: Typeface? = null
 
@@ -54,6 +55,7 @@ class FlashCardActivity : AppCompatActivity() {
             viewModel.phraseType = FlashCardRepo.Type.values()[it]
         }
         learnTypeFace = Typeface.DEFAULT
+        keyTypeFace = Typeface.MONOSPACE
         tersiveTypeFace = Typeface.createFromAsset(assets, "Tersive_Script.otf")
         initListeners()
         viewModel.initObservers()
@@ -91,11 +93,18 @@ class FlashCardActivity : AppCompatActivity() {
                 .joinToString(", ") { it }
             if (card.front) {
                 quizText.run {
-                    text = tersive
-                    textSize = TERSIVE_SIZE
-                    typeface = tersiveTypeFace
+                    if (typeMode) {
+                        text = tersive
+                        textSize = KEY_SIZE
+                        typeface = keyTypeFace
+                        quizPencilLine.isVisible = false
+                    } else {
+                        text = tersive
+                        textSize = TERSIVE_SIZE
+                        typeface = tersiveTypeFace
+                        quizPencilLine.isVisible = true
+                    }
                 }
-                quizPencilLine.isVisible = true
                 answerText.run {
                     text = phrases
                     textSize = LEARN_SIZE
@@ -110,11 +119,18 @@ class FlashCardActivity : AppCompatActivity() {
                 }
                 quizPencilLine.isVisible = false
                 answerText.run {
-                    text = tersive
-                    textSize = TERSIVE_SIZE
-                    typeface = tersiveTypeFace
+                    if (typeMode) {
+                        text = tersive
+                        textSize = KEY_SIZE
+                        typeface = keyTypeFace
+                        answerPencilLine.isVisible = false
+                    } else {
+                        text = tersive
+                        textSize = TERSIVE_SIZE
+                        typeface = tersiveTypeFace
+                        answerPencilLine.isVisible = true
+                    }
                 }
-                answerPencilLine.isVisible = true
             }
         }
     }
@@ -131,6 +147,7 @@ class FlashCardActivity : AppCompatActivity() {
 
     companion object : SelfActivityCompanion<Companion>(FlashCardActivity::class) {
 
+        const val KEY_SIZE = 32f
         const val LEARN_SIZE = 32f
         const val TERSIVE_SIZE = 100f
 
