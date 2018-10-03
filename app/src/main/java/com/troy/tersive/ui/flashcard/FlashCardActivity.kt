@@ -12,6 +12,7 @@ import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.TersiveUtil
+import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
 import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
@@ -59,10 +60,6 @@ class FlashCardActivity : AppCompatActivity() {
         tersiveTypeFace = Typeface.createFromAsset(assets, "Tersive_Script.otf")
         initListeners()
         viewModel.initObservers()
-    }
-
-    override fun onStart() {
-        super.onStart()
         reset()
     }
 
@@ -86,6 +83,21 @@ class FlashCardActivity : AppCompatActivity() {
     private fun FlashCardViewModel.initObservers() {
         cardLiveData.observeNotNull(this@FlashCardActivity) { card ->
             answerCard.isInvisible = true
+            val wordPhraseId = when {
+                card.learn.flags and Learn.WORD == 0 -> R.string.word
+                else -> R.string.phrase
+            }
+            wordPhraseText.setText(wordPhraseId)
+            val frontBackId = when {
+                card.front -> R.string.front
+                else -> R.string.back
+            }
+            frontBackText.setText(frontBackId)
+            val scriptKeyId = when {
+                card.learn.flags and Learn.KEY == 0 -> R.string.tersive_script
+                else -> R.string.tersive_key
+            }
+            scriptKeyText.setText(scriptKeyId)
             val tersive =
                 if (typeMode) card.learn.tersive else tersiveUtil.optimizeHand(card.learn.tersive)
             val phrases = card.tersiveList.asSequence()
@@ -142,7 +154,6 @@ class FlashCardActivity : AppCompatActivity() {
             answerCard.isInvisible = true
             viewModel.nextCard()
         }
-
     }
 
     companion object : SelfActivityCompanion<Companion>(FlashCardActivity::class) {
