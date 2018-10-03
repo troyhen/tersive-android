@@ -3,7 +3,7 @@ package com.troy.tersive.model.db.user.migrate
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-object AddInitial : Migration(0, 1) {
+object AddInitial : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL(
             """CREATE TABLE IF NOT EXISTS `User` (
@@ -12,24 +12,31 @@ object AddInitial : Migration(0, 1) {
             |`email` TEXT NOT NULL,
             |`salt` INTEGER NOT NULL,
             |`passHash` INTEGER NOT NULL,
-            |`lastLogin` TEXT,
+            |`lastLogin` TEXT
             |)""".trimMargin()
         )
         db.execSQL(
             """CREATE TABLE IF NOT EXISTS `Learn` (
             |`id` INTEGER NOT NULL PRIMARY KEY,
             |`userIndex` INTEGER NOT NULL,
-            |`type` TEXT NOT NULL,
-            |`lvl4` TEXT NOT NULL,
-            |`kbd` TEXT NOT NULL,
-            |`sort1` INTEGER NOT NULL,
-            |`sort2` INTEGER NOT NULL,
-            |`time1` TEXT,
-            |`time2` TEXT,
-            |`easy1` INTEGER NOT NULL,
-            |`easy2` INTEGER NOT NULL,
-            |`tries1` INTEGER NOT NULL,
-            |`tries2` INTEGER NOT NULL
+            |`flags` INTEGER NOT NULL,
+            |`tersive` TEXT NOT NULL,
+            |`sort` INTEGER NOT NULL,
+            |`time` TEXT,
+            |`easy` INTEGER NOT NULL,
+            |`tries` INTEGER NOT NULL
+            |)""".trimMargin()
+        )
+        db.execSQL(
+            """CREATE UNIQUE INDEX IF NOT EXISTS `LearnIndex1`
+            | ON `Learn` (
+            |`userIndex`, `flags`, `tersive`
+            |)""".trimMargin()
+        )
+        db.execSQL(
+            """CREATE INDEX IF NOT EXISTS `LearnIndex2`
+            | ON `Learn` (
+            |`sort`, `time`
             |)""".trimMargin()
         )
     }

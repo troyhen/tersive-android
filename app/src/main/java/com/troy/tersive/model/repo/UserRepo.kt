@@ -87,14 +87,31 @@ class UserRepo @Inject constructor(
             userDb.userDao.save(newUser)
             onLogin(newUser)
             tersiveDatabaseManager.tersiveDb.tersiveDao.findUserList().forEachIndexed { index, tl ->
-                val learn = Learn(
+                val tersiveType = tl.type
+                Learn(
                     userIndex = newUser.index,
-                    type = tl.type,
-                    lvl4 = tl.lvl4,
-                    kbd = tl.kbd,
-                    sort1 = index + 1
-                )
-                userDb.learnDao.save(learn)
+                    flags = tersiveType or Learn.FRONT or Learn.SCRIPT,
+                    tersive = tl.lvl4,
+                    sort = index + 1
+                ).also { userDb.learnDao.save(it) }
+                Learn(
+                    userIndex = newUser.index,
+                    flags = tersiveType or Learn.BACK or Learn.SCRIPT,
+                    tersive = tl.lvl4,
+                    sort = index + 1
+                ).also { userDb.learnDao.save(it) }
+                Learn(
+                    userIndex = newUser.index,
+                    flags = tersiveType or Learn.FRONT or Learn.KEY,
+                    tersive = tl.kbd,
+                    sort = index + 1
+                ).also { userDb.learnDao.save(it) }
+                Learn(
+                    userIndex = newUser.index,
+                    flags = tersiveType or Learn.BACK or Learn.KEY,
+                    tersive = tl.kbd,
+                    sort = index + 1
+                ).also { userDb.learnDao.save(it) }
             }
             userDb.setTransactionSuccessful()
         } finally {

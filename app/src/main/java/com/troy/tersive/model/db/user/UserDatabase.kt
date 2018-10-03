@@ -14,8 +14,8 @@ import com.troy.tersive.model.db.user.entity.User
 import com.troy.tersive.model.db.user.migrate.AddInitial
 
 @Database(
-    version = 1, entities = [
-        /*  1 */ User::class, Learn::class
+    version = 2, entities = [
+        /*  2 */ User::class, Learn::class
     ]
 )
 @TypeConverters(ConvertDateTime::class, ConvertUUID::class)

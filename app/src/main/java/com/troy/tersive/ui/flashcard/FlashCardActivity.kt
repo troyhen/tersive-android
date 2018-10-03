@@ -87,7 +87,7 @@ class FlashCardActivity : AppCompatActivity() {
         cardLiveData.observeNotNull(this@FlashCardActivity) { card ->
             answerCard.isInvisible = true
             val tersive =
-                if (typeMode) card.learn.kbd else tersiveUtil.optimizeHand(card.learn.lvl4)
+                if (typeMode) card.learn.tersive else tersiveUtil.optimizeHand(card.learn.tersive)
             val phrases = card.tersiveList.asSequence()
                 .mapNotNull { it.phrase }
                 .joinToString(", ") { it }

@@ -9,15 +9,21 @@ data class Learn(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val userIndex: Int,
-    val type: Int,
-    val lvl4: String,
-    val kbd: String,
-    val sort1: Int,
-    val sort2: Int = sort1,
-    val time1: LocalDateTime? = null,
-    val time2: LocalDateTime? = null,
-    val easy1: Int = 0,
-    val easy2: Int = 0,
-    val tries1: Int = 0,
-    val tries2: Int = 0
-)
+    val flags: Int,
+    val tersive: String,
+    val sort: Int,
+    val time: LocalDateTime? = null,
+    val easy: Int = 0,
+    val tries: Int = 0
+) {
+    companion object {
+        const val WORD = 0
+        const val PHRASE = 1
+        const val NONRELIGIOUS = 0
+        const val RELIGIOUS = 2
+        const val FRONT = 0
+        const val BACK = 4
+        const val SCRIPT = 0
+        const val KEY = 8
+    }
+}

@@ -1,7 +1,6 @@
 package com.troy.tersive.app
 
 import com.troy.tersive.model.db.tersive.PopulateTersive
-import com.troy.tersive.model.db.user.PopulateLearn
 import com.troy.tersive.ui.base.ViewModelModule
 import com.troy.tersive.ui.flashcard.FlashCardActivity
 import com.troy.tersive.ui.main.MainActivity
@@ -17,7 +16,6 @@ interface AppComponent {
     fun inject(it: FlashCardActivity)
     fun inject(it: LoginActivity)
     fun inject(it: MainActivity)
-    fun inject(it: PopulateLearn)
     fun inject(it: PopulateTersive)
     fun inject(it: RegisterActivity)
 }

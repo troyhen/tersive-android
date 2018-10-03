@@ -37,8 +37,7 @@ class FlashCardViewModel @Inject constructor(
         val step = FlashCardRepo.SESSION_COUNT
         val easy = when {
             result != EASY -> 0
-            card.front -> card.learn.easy1 + 1
-            else -> card.learn.easy2 + 1
+            else -> card.learn.easy + 1
         }
         val delta = when (result) {
             EASY -> step * 4 * easy
@@ -46,7 +45,7 @@ class FlashCardViewModel @Inject constructor(
             HARD -> step * 2
             AGAIN -> step * 1
         }
-        val tries = 1 + if (card.front) card.learn.tries1 else card.learn.tries2
+        val tries = 1 + card.learn.tries
         flashCardRepo.moveCard(card, delta, result.timeAdd, easy, tries)
         nextCard()
     }
