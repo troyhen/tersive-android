@@ -155,7 +155,7 @@
                 tools:text="Answers" />
 
             <Button
-                android:id="@+id/againButton"
+                android:id="@+id/easyButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -163,33 +163,33 @@
                 android:text="@string/easy"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/hardButton"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <Button
-                android:id="@+id/hardButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="@string/good"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/goodButton"
-                app:layout_constraintStart_toEndOf="@+id/againButton" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/goodButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:text="@string/good"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/hardButton"
+                app:layout_constraintStart_toEndOf="@+id/easyButton" />
+
+            <Button
+                android:id="@+id/hardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="@string/hard"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/easyButton"
-                app:layout_constraintStart_toEndOf="@+id/hardButton" />
+                app:layout_constraintEnd_toStartOf="@+id/againButton"
+                app:layout_constraintStart_toEndOf="@+id/goodButton" />
 
             <Button
-                android:id="@+id/easyButton"
+                android:id="@+id/againButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -198,7 +198,7 @@
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/goodButton" />
+                app:layout_constraintStart_toEndOf="@+id/hardButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
