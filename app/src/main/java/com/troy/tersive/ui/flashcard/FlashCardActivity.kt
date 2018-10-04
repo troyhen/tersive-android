@@ -105,26 +105,6 @@ class FlashCardActivity : AppCompatActivity() {
                 .joinToString(", ") { it }
             if (card.front) {
                 quizText.run {
-                    if (typeMode) {
-                        text = tersive
-                        textSize = KEY_SIZE
-                        typeface = keyTypeFace
-                        quizPencilLine.isVisible = false
-                    } else {
-                        text = tersive
-                        textSize = TERSIVE_SIZE
-                        typeface = tersiveTypeFace
-                        quizPencilLine.isVisible = true
-                    }
-                }
-                answerText.run {
-                    text = phrases
-                    textSize = LEARN_SIZE
-                    typeface = learnTypeFace
-                }
-                answerPencilLine.isVisible = false
-            } else {
-                quizText.run {
                     text = phrases
                     textSize = LEARN_SIZE
                     typeface = learnTypeFace
@@ -143,6 +123,26 @@ class FlashCardActivity : AppCompatActivity() {
                         answerPencilLine.isVisible = true
                     }
                 }
+            } else {
+                quizText.run {
+                    if (typeMode) {
+                        text = tersive
+                        textSize = KEY_SIZE
+                        typeface = keyTypeFace
+                        quizPencilLine.isVisible = false
+                    } else {
+                        text = tersive
+                        textSize = TERSIVE_SIZE
+                        typeface = tersiveTypeFace
+                        quizPencilLine.isVisible = true
+                    }
+                }
+                answerText.run {
+                    text = phrases
+                    textSize = LEARN_SIZE
+                    typeface = learnTypeFace
+                }
+                answerPencilLine.isVisible = false
             }
         }
     }

@@ -86,31 +86,34 @@ class UserRepo @Inject constructor(
             val newUser = User(UUID.randomUUID(), lastIndex + 1, email, passHash)
             userDb.userDao.save(newUser)
             onLogin(newUser)
-            tersiveDatabaseManager.tersiveDb.tersiveDao.findUserList().forEachIndexed { index, tl ->
+            val sorts = arrayOf(1, 1, 1, 1)
+            tersiveDatabaseManager.tersiveDb.tersiveDao.findUserList().forEach { tl ->
                 val tersiveType = tl.type
+                val sort = sorts[tersiveType] + 1
+                sorts[tersiveType] = sort
                 Learn(
                     userIndex = newUser.index,
                     flags = tersiveType or Learn.FRONT or Learn.SCRIPT,
                     tersive = tl.lvl4,
-                    sort = index + 1
+                    sort = sort
                 ).also { userDb.learnDao.save(it) }
                 Learn(
                     userIndex = newUser.index,
                     flags = tersiveType or Learn.BACK or Learn.SCRIPT,
                     tersive = tl.lvl4,
-                    sort = index + 1
+                    sort = sort
                 ).also { userDb.learnDao.save(it) }
                 Learn(
                     userIndex = newUser.index,
                     flags = tersiveType or Learn.FRONT or Learn.KEY,
                     tersive = tl.kbd,
-                    sort = index + 1
+                    sort = sort
                 ).also { userDb.learnDao.save(it) }
                 Learn(
                     userIndex = newUser.index,
                     flags = tersiveType or Learn.BACK or Learn.KEY,
                     tersive = tl.kbd,
-                    sort = index + 1
+                    sort = sort
                 ).also { userDb.learnDao.save(it) }
             }
             userDb.setTransactionSuccessful()

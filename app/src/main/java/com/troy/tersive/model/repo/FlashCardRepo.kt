@@ -68,7 +68,7 @@ class FlashCardRepo @Inject constructor(
             learn.tersive,
             tersiveType
         ) else tdm.tersiveDb.tersiveDao.findLvl4Matches(learn.tersive, tersiveType)
-        return Card(back.not(), index, learn, tersiveList)
+        return Card(!back, index, learn, tersiveList)
     }
 
     companion object {
