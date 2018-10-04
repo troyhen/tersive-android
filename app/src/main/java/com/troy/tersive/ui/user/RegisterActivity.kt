@@ -11,6 +11,7 @@ import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import kotlinx.android.synthetic.main.activity_register.*
 import org.lds.mobile.livedata.observeNotNull
+import org.lds.mobile.ui.ext.isVisible
 import javax.inject.Inject
 
 class RegisterActivity : AppCompatActivity() {
@@ -29,12 +30,15 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        refreshLayout.isEnabled = false
         initListeners()
         viewModel.initObservers()
     }
 
     private fun initListeners() {
         registerButton.setOnClickListener {
+            it.isVisible = false
+            refreshLayout.isRefreshing = true
             viewModel.register(
                 emailAddress.text?.toString(),
                 password1.text?.toString(),
@@ -45,6 +49,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun RegisterViewModel.initObservers() {
         registerEvent.observeNotNull(this@RegisterActivity) {
+            registerButton.isVisible = true
+            refreshLayout.isRefreshing = false
             when (it) {
                 RegisterViewModel.RegisterResult.SUCCESS -> {
                     Toast.makeText(this@RegisterActivity, R.string.login_success, Toast.LENGTH_LONG)

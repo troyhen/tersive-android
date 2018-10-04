@@ -60,6 +60,10 @@ class FlashCardActivity : AppCompatActivity() {
         tersiveTypeFace = Typeface.createFromAsset(assets, "Tersive_Script.otf")
         initListeners()
         viewModel.initObservers()
+    }
+
+    override fun onStart() {
+        super.onStart()
         reset()
     }
 
