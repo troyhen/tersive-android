@@ -3,6 +3,7 @@ package com.troy.tersive.ui.flashcard
 import androidx.lifecycle.MutableLiveData
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
+import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
 import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
@@ -35,12 +36,17 @@ class FlashCardViewModel @Inject constructor(
     fun updateCard(result: FlashCardRepo.Result) = launch {
         val card = cardLiveData.value ?: return@launch
         val step = FlashCardRepo.SESSION_COUNT
-        val easy = when {
-            result != EASY -> 0
-            else -> card.learn.easy + 1
-        }
+        val easy = if (result != EASY) 0 else card.learn.easy + 1
         val delta = when (result) {
-            EASY -> step * 4 * easy
+            EASY -> {
+                val maxDelta =
+                    flashCardRepo.maxSort(card.learn.flags and (Learn.PHRASE or Learn.RELIGIOUS)) - card.learn.sort
+                if (easy > 3) {
+                    maxDelta
+                } else {
+                    (step * 4 * easy).coerceIn(step, maxDelta)
+                }
+            }
             GOOD -> step * 3
             HARD -> step * 2
             AGAIN -> step * 1

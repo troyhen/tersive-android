@@ -8,6 +8,9 @@ import com.troy.tersive.model.db.user.entity.Learn
 @Dao
 interface LearnDao : BaseDao<Learn> {
 
+    @Query("select max(sort) from Learn where flags = :flags")
+    fun findMaxSort(flags: Int): Int
+
     @Query(
         """
         select *

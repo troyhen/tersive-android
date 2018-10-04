@@ -31,6 +31,8 @@ class FlashCardRepo @Inject constructor(
 ) {
     private val rnd = Random()
 
+    fun maxSort(type: Int) = udm.userDb.learnDao.findMaxSort(type)
+
     fun moveCard(card: Card, delta: Int, delay: Duration, easy: Int, tries: Int) {
         val user = userRepo.user ?: return
         val now = LocalDateTime.now(clock)
