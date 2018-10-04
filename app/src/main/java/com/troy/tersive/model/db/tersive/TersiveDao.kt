@@ -9,10 +9,10 @@ import com.troy.tersive.model.db.BaseDao
 @Dao
 interface TersiveDao : BaseDao<Tersive> {
 
-    @Query("select * from Tersive where lvl4 = :lvl4 and type = :type order by phrase")
+    @Query("select * from Tersive where lvl4 = :lvl4 and type = :type order by length(phrase), phrase")
     fun findLvl4Matches(lvl4: String, type: Int): List<Tersive>
 
-    @Query("select * from Tersive where kbd = :kbd and type = :type order by phrase")
+    @Query("select * from Tersive where kbd = :kbd and type = :type order by length(phrase), phrase")
     fun findKbdMatches(kbd: String, type: Int): List<Tersive>
 
     @Query(
