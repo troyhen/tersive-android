@@ -88,7 +88,7 @@ class FlashCardActivity : AppCompatActivity() {
         cardLiveData.observeNotNull(this@FlashCardActivity) { card ->
             answerCard.isInvisible = true
             val wordPhraseId = when {
-                card.learn.flags and Learn.WORD == 0 -> R.string.word
+                card.learn.flags and Learn.PHRASE == 0 -> R.string.word
                 else -> R.string.phrase
             }
             wordPhraseText.setText(wordPhraseId)
