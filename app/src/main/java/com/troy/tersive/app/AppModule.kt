@@ -8,7 +8,6 @@ package com.troy.tersive.app
 //import org.lds.ldsaccount.NetworkConnectionManager
 //import org.lds.mobile.media.cast.CastManager
 import android.app.Application
-import com.troy.tersive.mgr.AsyncRunner
 import dagger.Module
 import dagger.Provides
 import org.lds.mobile.coroutine.CoroutineContextProvider
@@ -40,10 +39,6 @@ class AppModule(private val application: Application) {
     @Singleton
     fun provideCoroutineContextProvider(): CoroutineContextProvider =
         CoroutineContextProvider.MainCoroutineContextProvider
-
-    @Provides
-    @Singleton
-    fun provideAsyncRunner(): AsyncRunner = AsyncRunner.MainRunner
 
 //    @Provides
 //    fun provideConnectivityManager(application: Application): ConnectivityManager {
