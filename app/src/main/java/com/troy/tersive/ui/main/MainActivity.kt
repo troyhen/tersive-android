@@ -14,6 +14,7 @@ import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.ui.flashcard.FlashCardActivity
+import com.troy.tersive.ui.intro.IntroActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -115,6 +116,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             hand_mode.isSelected = false
             type_mode.isSelected = true
             viewModel.typeMode = true
+        }
+        tersiveIntroButton.setOnClickListener {
+            IntroActivity.startActivity(this)
         }
         wordFlashCardButton.setOnClickListener {
             FlashCardActivity.start(this, FlashCardRepo.Type.WORD_ONLY)
