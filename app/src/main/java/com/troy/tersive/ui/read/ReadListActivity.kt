@@ -33,10 +33,10 @@ class ReadListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_read_list)
         toolbar.setup()
         recyclerView.adapter = adapter
-        viewModel.setup()
+        viewModel.observe()
     }
 
-    private fun ReadListViewModel.setup() {
+    private fun ReadListViewModel.observe() {
         docsLiveData.observeNotNull(this@ReadListActivity) {
             adapter.submitList(it)
         }
