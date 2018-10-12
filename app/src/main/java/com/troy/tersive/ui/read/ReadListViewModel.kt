@@ -1,12 +1,13 @@
 package com.troy.tersive.ui.read
 
-import androidx.lifecycle.ViewModel
 import com.troy.tersive.model.data.WebDoc
+import com.troy.tersive.ui.base.BaseViewModel
+import org.lds.mobile.coroutine.CoroutineContextProvider
 import org.lds.mobile.livedata.SingleLiveEvent
 import org.lds.mobile.livedata.mutableLiveData
 import javax.inject.Inject
 
-class ReadListViewModel @Inject constructor() : ViewModel() {
+class ReadListViewModel @Inject constructor(cc: CoroutineContextProvider) : BaseViewModel(cc) {
 
     val docsLiveData = mutableLiveData(
         listOf(

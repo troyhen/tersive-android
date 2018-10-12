@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.troy.tersive.ui.flashcard.FlashCardViewModel
 import com.troy.tersive.ui.main.MainViewModel
 import com.troy.tersive.ui.read.ReadListViewModel
+import com.troy.tersive.ui.read.ReadViewModel
 import com.troy.tersive.ui.user.LoginViewModel
 import com.troy.tersive.ui.user.RegisterViewModel
 import dagger.Binds
@@ -38,7 +39,12 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ReadListViewModel::class)
-    internal abstract fun bindReadViewModel(viewModel: ReadListViewModel): ViewModel
+    internal abstract fun bindReadListViewModel(viewModel: ReadListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReadViewModel::class)
+    internal abstract fun bindReadViewModel(viewModel: ReadViewModel): ViewModel
 
     @Binds
     @IntoMap

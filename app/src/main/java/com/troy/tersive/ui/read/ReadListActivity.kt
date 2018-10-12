@@ -37,11 +37,12 @@ class ReadListActivity : AppCompatActivity() {
     }
 
     private fun ReadListViewModel.observe() {
-        docsLiveData.observeNotNull(this@ReadListActivity) {
+        val activity = this@ReadListActivity
+        docsLiveData.observeNotNull(activity) {
             adapter.submitList(it)
         }
-        onClickEvent.observeNotNull(this@ReadListActivity) {
-
+        onClickEvent.observeNotNull(activity) {
+            ReadActivity.startActivity(activity, it)
         }
     }
 

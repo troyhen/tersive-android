@@ -12,6 +12,7 @@
     <string name="good">Good</string>
     <string name="hand">Hand</string>
     <string name="hard">Hard</string>
+    <string name="loading">Loading...</string>
     <string name="login">Login</string>
     <string name="login_success">Successful login</string>
     <string name="login_failure">Invalid login</string>
