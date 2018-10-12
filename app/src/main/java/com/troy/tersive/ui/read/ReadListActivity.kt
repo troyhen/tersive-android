@@ -9,6 +9,7 @@ import com.troy.tersive.app.Injector
 import kotlinx.android.synthetic.main.activity_read_list.*
 import org.lds.mobile.extras.SelfActivityCompanion
 import org.lds.mobile.livedata.observeNotNull
+import org.lds.mobile.ui.ext.tintDrawable
 import javax.inject.Inject
 
 class ReadListActivity : AppCompatActivity() {
@@ -29,6 +30,11 @@ class ReadListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_list)
+        with(toolbar) {
+            setTitle(R.string.practice_reading)
+            navigationIcon = tintDrawable(R.drawable.ic_lds_arrow_back_24dp, R.color.white)
+            setNavigationOnClickListener { finish() }
+        }
         recyclerView.adapter = adapter
         viewModel.setupObservers()
     }
