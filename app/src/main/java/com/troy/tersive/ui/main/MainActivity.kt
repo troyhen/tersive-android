@@ -15,6 +15,7 @@ import com.troy.tersive.app.Injector
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.ui.flashcard.FlashCardActivity
 import com.troy.tersive.ui.intro.IntroActivity
+import com.troy.tersive.ui.read.ReadListActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     init {
         Injector.get().inject(this)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -125,6 +127,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         phraseFlashCardButton.setOnClickListener {
             FlashCardActivity.start(this, FlashCardRepo.Type.PHRASE_ONLY)
+        }
+        readingButton.setOnClickListener {
+            ReadListActivity.start(this)
         }
 
         fab.setOnClickListener { view ->

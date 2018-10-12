@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Tersive</string>
     <string name="action_settings">Settings</string>
+    <string name="author_name">by %s</string>
     <string name="again">Again</string>
     <string name="back">Back</string>
     <string name="confirm_password">Confirm password</string>

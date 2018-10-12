@@ -5,6 +5,7 @@ import com.troy.tersive.ui.base.ViewModelModule
 import com.troy.tersive.ui.flashcard.FlashCardActivity
 import com.troy.tersive.ui.intro.IntroActivity
 import com.troy.tersive.ui.main.MainActivity
+import com.troy.tersive.ui.read.ReadListActivity
 import com.troy.tersive.ui.user.LoginActivity
 import com.troy.tersive.ui.user.RegisterActivity
 import dagger.Component
@@ -19,5 +20,6 @@ interface AppComponent {
     fun inject(it: LoginActivity)
     fun inject(it: MainActivity)
     fun inject(it: PopulateTersive)
+    fun inject(id: ReadListActivity)
     fun inject(it: RegisterActivity)
 }
