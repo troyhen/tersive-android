@@ -2,6 +2,7 @@ package com.troy.tersive.ui.read
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.troy.tersive.R
@@ -30,22 +31,24 @@ class ReadListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_list)
-        with(toolbar) {
-            setTitle(R.string.practice_reading)
-            navigationIcon = tintDrawable(R.drawable.ic_lds_arrow_back_24dp, R.color.white)
-            setNavigationOnClickListener { finish() }
-        }
+        toolbar.setup()
         recyclerView.adapter = adapter
-        viewModel.setupObservers()
+        viewModel.setup()
     }
 
-    private fun ReadListViewModel.setupObservers() {
+    private fun ReadListViewModel.setup() {
         docsLiveData.observeNotNull(this@ReadListActivity) {
             adapter.submitList(it)
         }
         onClickEvent.observeNotNull(this@ReadListActivity) {
 
         }
+    }
+
+    private fun Toolbar.setup() {
+        setTitle(R.string.practice_reading)
+        navigationIcon = tintDrawable(R.drawable.ic_lds_arrow_back_24dp, R.color.white)
+        setNavigationOnClickListener { finish() }
     }
 
     companion object : SelfActivityCompanion<Companion>(ReadListActivity::class)
