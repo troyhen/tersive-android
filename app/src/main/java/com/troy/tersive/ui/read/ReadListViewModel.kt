@@ -14,22 +14,37 @@ class ReadListViewModel @Inject constructor(cc: CoroutineContextProvider) : Base
             WebDoc(
                 "https://www.gutenberg.org/files/74/74-0.txt",
                 "The Adventures of Tom Sawyer",
-                "Mark Twain"
+                "Mark Twain",
+                "PREFACE",
+                "part of their lives at present."
             ),
             WebDoc(
-                "https://www.gutenberg.org/files/11/11-0.txt",
+                "http://www.gutenberg.org/files/11/11-0.txt",
                 "Alice’s Adventures in Wonderland",
-                "Lewis Carroll"
+                "Lewis Carroll",
+                "CHAPTER I.",
+                "              THE END"
             ),
             WebDoc(
                 "https://www.gutenberg.org/files/41/41-0.txt",
                 "The Legend of Sleepy Hollow",
-                "Washington Irving"
+                "Washington Irving",
+                "FOUND AMONG THE PAPERS",
+                "THE END."
+            ),
+            WebDoc(
+                "https://www.gutenberg.org/files/16/16-0.txt",
+                "Peter Pan",
+                "James M. Barrie",
+                "Chapter 1 PETER BREAKS THROUGH\r\n\r\nAll children",
+                "THE END"
             ),
             WebDoc(
                 "https://www.gutenberg.org/files/1342/1342-0.txt",
                 "Pride and Prejudice",
-                "Jane Austin"
+                "Jane Austin",
+                "Chapter 1",
+                "Derbyshire, had been the means of uniting them."
             )
         )
     )

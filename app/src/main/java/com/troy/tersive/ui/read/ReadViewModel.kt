@@ -14,13 +14,13 @@ class ReadViewModel @Inject constructor(
     private val webRepo: WebRepo
 ) : BaseViewModel(cc) {
 
-    var webUrl: String? = null
+    var webDoc: WebDoc? = null
         set(value) {
             field = value
             load()
         }
 
-    val textLiveData = MutableLiveData<String>()
+    val textLiveData = MutableLiveData<CharSequence>()
 
     val onClickEvent = SingleLiveEvent<WebDoc>()
 
@@ -29,6 +29,6 @@ class ReadViewModel @Inject constructor(
     }
 
     private fun load() = launch {
-        textLiveData.postValue(webUrl?.let { webRepo.load(it) })
+        textLiveData.postValue(webDoc?.let { webRepo.load(it) })
     }
 }

@@ -12,7 +12,7 @@ import com.troy.tersive.app.Injector
 import com.troy.tersive.model.data.WebDoc
 import kotlinx.android.synthetic.main.activity_read.*
 import me.eugeniomarletti.extras.intent.IntentExtra
-import me.eugeniomarletti.extras.intent.base.String
+import me.eugeniomarletti.extras.intent.base.Parcelable
 import org.lds.mobile.extras.SelfActivityCompanion
 import org.lds.mobile.livedata.observeNotNull
 import org.lds.mobile.ui.ext.tintDrawable
@@ -40,27 +40,25 @@ class ReadActivity : AppCompatActivity() {
 
     private fun ReadViewModel.observe() {
         textLiveData.value = getString(R.string.loading)
-        webUrl = intent.url
+        webDoc = intent.webDoc
         textLiveData.observeNotNull(this@ReadActivity) {
             textView.text = it
         }
     }
 
     private fun Toolbar.setup() {
-        title = intent.title
+        title = intent.webDoc?.title
         navigationIcon = tintDrawable(R.drawable.ic_lds_arrow_back_24dp, R.color.white)
         setNavigationOnClickListener { finish() }
     }
 
     companion object : SelfActivityCompanion<Companion>(ReadActivity::class) {
 
-        var Intent.url by IntentExtra.String()
-        var Intent.title by IntentExtra.String()
+        var Intent.webDoc by IntentExtra.Parcelable<WebDoc>()
 
         fun startActivity(context: Context, webDoc: WebDoc) {
             start(context) {
-                it.url = webDoc.url
-                it.title = webDoc.title
+                it.webDoc = webDoc
             }
         }
     }
