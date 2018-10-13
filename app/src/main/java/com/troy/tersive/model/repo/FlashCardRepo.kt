@@ -2,9 +2,9 @@ package com.troy.tersive.model.repo
 
 import androidx.annotation.WorkerThread
 import com.troy.tersive.mgr.Prefs
-import com.troy.tersive.mgr.TersiveDatabaseManager
-import com.troy.tersive.mgr.UserDatabaseManager
 import com.troy.tersive.model.data.Card
+import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
+import com.troy.tersive.model.db.user.UserDatabaseManager
 import com.troy.tersive.model.db.user.entity.Learn.Companion.BACK
 import com.troy.tersive.model.db.user.entity.Learn.Companion.FRONT
 import com.troy.tersive.model.db.user.entity.Learn.Companion.KEY

@@ -6,7 +6,6 @@ import com.troy.tersive.model.repo.WebRepo
 import com.troy.tersive.ui.base.BaseViewModel
 import kotlinx.coroutines.experimental.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
-import org.lds.mobile.livedata.SingleLiveEvent
 import javax.inject.Inject
 
 class ReadViewModel @Inject constructor(
@@ -21,12 +20,6 @@ class ReadViewModel @Inject constructor(
         }
 
     val textLiveData = MutableLiveData<CharSequence>()
-
-    val onClickEvent = SingleLiveEvent<WebDoc>()
-
-    fun onClick(item: WebDoc) {
-        onClickEvent.value = item
-    }
 
     private fun load() = launch {
         textLiveData.postValue(webDoc?.let { webRepo.load(it) })

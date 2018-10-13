@@ -3,9 +3,9 @@ package com.troy.tersive.model.repo
 import androidx.annotation.WorkerThread
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.mgr.Prefs.Companion.NO_USER
-import com.troy.tersive.mgr.TersiveDatabaseManager
-import com.troy.tersive.mgr.UserDatabaseManager
 import com.troy.tersive.model.data.HashUtil
+import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
+import com.troy.tersive.model.db.user.UserDatabaseManager
 import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.db.user.entity.User
 import kotlinx.coroutines.experimental.GlobalScope
@@ -17,8 +17,8 @@ import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@WorkerThread
 @Singleton
+@WorkerThread
 class UserRepo @Inject constructor(
     private val cc: CoroutineContextProvider,
     private val clock: Clock,
