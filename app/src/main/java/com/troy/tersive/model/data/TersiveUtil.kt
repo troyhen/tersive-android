@@ -1,10 +1,11 @@
 package com.troy.tersive.model.data
 
+import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.db.tersive.Tersive
 import timber.log.Timber
 import javax.inject.Inject
 
-class TersiveUtil @Inject constructor() {
+class TersiveUtil @Inject constructor(prefs: Prefs) {
 
     private val map = HashMap<CharSequence, String>()
     private val output = StringBuilder()
@@ -13,7 +14,9 @@ class TersiveUtil @Inject constructor() {
     private lateinit var words: Array<CharSequence>
     private var index = 0
     private var end = 0
-    private val ignored = hashSetOf("the")
+    private val ignored =
+        hashSetOf("the", "-", ":", "\"", "'", "(", ")", "/u201C", "/u201D", "/u2018")
+    private val keyMode = prefs.typeMode
 
     fun loadPhrases(phrases: List<Tersive>, key: Boolean) {
         map.clear()
@@ -35,17 +38,25 @@ class TersiveUtil @Inject constructor() {
         var needed = words.size
         while (index < end) {
             fillWords(needed)
+            needed = 1
 
-            val phrase2 = "${words[0]} ${words[1]}"
+            val word0 = words[0]
+            val singular = when {
+                word0.endsWith("'s") -> word0.subSequence(0, word0.length - 2)
+                word0.endsWith('s') -> word0.subSequence(0, word0.length - 1)
+                else -> ""
+            }
+            val phrase2 = "$word0 ${words[1]}"
             val phrase3 = "$phrase2 ${words[2]}"
             val phrase4 = "$phrase3 ${words[3]}"
             val phrase5 = "$phrase4 ${words[4]}"
 
-            val tersive1 = map[words[0]]
-            val tersive2 = map[phrase2]
-            val tersive3 = map[phrase3]
-            val tersive4 = map[phrase4]
             val tersive5 = map[phrase5]
+            val tersive4 = map[phrase4]
+            val tersive3 = map[phrase3]
+            val tersive2 = map[phrase2]
+            val tersive1 = map[word0]
+            val tersiveS = map[singular]
 
             when {
                 tersive5 != null -> {
@@ -64,16 +75,11 @@ class TersiveUtil @Inject constructor() {
                     append(tersive2)
                     needed = 2
                 }
-                tersive1 != null -> {
-                    append(tersive1)
-                    needed = 1
+                tersive1 != null -> append(tersive1)
+                tersiveS != null -> append(tersiveS + 's')
+                ignored.contains(word0) -> {
                 }
-                ignored.contains(words[0]) -> {
-                }
-                else -> {
-                    Timber.i("Unknown word '${words[0]}'")
-                    needed = 1
-                }
+                else -> Timber.i("Unknown word '$word0'")
             }
         }
         return output
@@ -81,7 +87,8 @@ class TersiveUtil @Inject constructor() {
 
     private fun append(phrase: CharSequence) {
         if (output.isNotEmpty()) output.append(' ')
-        output.append(phrase)
+        val text = if (keyMode) phrase else optimizeHand(phrase)
+        output.append(text)
     }
 
     private fun fillWords(needed: Int) {
@@ -90,12 +97,22 @@ class TersiveUtil @Inject constructor() {
             word.setLength(0)
             loop@ while (index < text.length) {
                 val found = word.isNotEmpty()
-                val ch = text[index++].toLowerCase()
-                val isLetter = ch.isLetterOrDigit()
+                val _ch = text[index++].toLowerCase()
+                val ch = when (_ch) {
+                    '\u2019' -> '\''
+                    else -> _ch
+                }
+                val isLetter = ch.isLetterOrDigit() || (found && ch == '\'')
                 val isSpace = ch.isWhitespace()
                 when {
-                    found && !isLetter -> break@loop
-                    found || !isSpace -> word.append(ch)
+                    found && !isLetter -> {
+                        if (!isSpace) index--
+                        break@loop
+                    }
+                    found || !isSpace -> {
+                        word.append(ch)
+                        if (!found && !isLetter) break@loop
+                    }
                 }
             }
             System.arraycopy(words, 1, words, 0, last)
@@ -140,7 +157,7 @@ class TersiveUtil @Inject constructor() {
 //        return words
 //    }
 
-    fun optimizeHand(tersive: String): CharSequence {
+    fun optimizeHand(tersive: CharSequence): CharSequence {
         val buffer = StringBuilder(" ")
         var index = 0
         val length = tersive.length
@@ -153,7 +170,7 @@ class TersiveUtil @Inject constructor() {
             prev = char
         }
         buffer.append(' ')
-        Timber.d("Converted '$tersive' to '$buffer'")
+//        Timber.d("Converted '$tersive' to '$buffer'")
         return buffer
     }
 
