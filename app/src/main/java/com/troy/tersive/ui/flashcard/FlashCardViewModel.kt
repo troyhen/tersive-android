@@ -11,8 +11,8 @@ import com.troy.tersive.model.repo.FlashCardRepo.Result.GOOD
 import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
 import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.BaseViewModel
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
 import javax.inject.Inject
 

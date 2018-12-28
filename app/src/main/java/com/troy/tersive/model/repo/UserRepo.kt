@@ -8,8 +8,8 @@ import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import com.troy.tersive.model.db.user.UserDatabaseManager
 import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.db.user.entity.User
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
 import org.threeten.bp.Clock
 import org.threeten.bp.LocalDateTime
