@@ -7,7 +7,7 @@ import com.troy.tersive.model.data.WebDoc
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import com.troy.tersive.model.repo.WebRepo
 import com.troy.tersive.ui.base.BaseViewModel
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import org.lds.mobile.coroutine.CoroutineContextProvider
 import javax.inject.Inject
 
