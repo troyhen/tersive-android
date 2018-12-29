@@ -8,7 +8,6 @@ import com.troy.tersive.ui.main.MainActivity
 import com.troy.tersive.ui.read.ReadActivity
 import com.troy.tersive.ui.read.ReadListActivity
 import com.troy.tersive.ui.user.LoginActivity
-import com.troy.tersive.ui.user.RegisterActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -23,5 +22,4 @@ interface AppComponent {
     fun inject(it: PopulateTersive)
     fun inject(it: ReadListActivity)
     fun inject(it: ReadActivity)
-    fun inject(it: RegisterActivity)
 }

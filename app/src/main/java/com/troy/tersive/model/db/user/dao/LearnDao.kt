@@ -8,6 +8,9 @@ import com.troy.tersive.model.db.user.entity.Learn
 @Dao
 interface LearnDao : BaseDao<Learn> {
 
+    @Query("select count(*) from Learn where userId = :userId")
+    fun countUser(userId: String): Int
+
     @Query("select max(sort) from Learn where flags = :flags")
     fun findMaxSort(flags: Int): Int
 
@@ -15,22 +18,22 @@ interface LearnDao : BaseDao<Learn> {
         """
         select *
         from Learn
-        where userIndex = :userIndex
+        where userId = :userId
             and flags = :flags
             and (time is null or time >= :time)
         order by sort
         limit 1
         offset :index"""
     )
-    fun findNext(userIndex: Int, flags: Int, index: Int, time: Long): Learn
+    fun findNext(userId: String, flags: Int, index: Int, time: Long): Learn
 
     @Query(
         """
         update Learn
         set sort = sort - 1
-        where userIndex = :userIndex
+        where userId = :userId
             and flags = :flags
             and sort between :from and :to"""
     )
-    fun shiftSort(userIndex: Int, flags: Int, from: Int, to: Int)
+    fun shiftSort(userId: String, flags: Int, from: Int, to: Int)
 }

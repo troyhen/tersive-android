@@ -15,7 +15,6 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.troy.tersive.R
 import com.troy.tersive.app.Injector
-import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.TersiveUtil
 import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.repo.FlashCardRepo
@@ -35,8 +34,6 @@ import javax.inject.Inject
 
 class FlashCardActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var prefs: Prefs
     @Inject
     lateinit var tersiveUtil: TersiveUtil
     @Inject
@@ -62,7 +59,7 @@ class FlashCardActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 FirebaseAuth.getInstance().currentUser?.let { user ->
-                    prefs.userId = user.uid
+                    viewModel.onLogin(user)
                 }
             } else {
                 when (response?.error?.errorCode) {

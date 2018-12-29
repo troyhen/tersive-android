@@ -24,10 +24,8 @@
         </activity>
         <activity android:name=".ui.flashcard.FlashCardActivity" />
         <activity android:name=".ui.intro.IntroActivity" />
-        <activity android:name=".ui.user.LoginActivity" />
         <activity android:name=".ui.read.ReadListActivity" />
         <activity android:name=".ui.read.ReadActivity" />
-        <activity android:name=".ui.user.RegisterActivity" />
     </application>
 
 </manifest>

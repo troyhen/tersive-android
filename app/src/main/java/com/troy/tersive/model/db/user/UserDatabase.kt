@@ -8,21 +8,18 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.troy.tersive.model.db.convert.ConvertDateTime
 import com.troy.tersive.model.db.convert.ConvertUUID
 import com.troy.tersive.model.db.user.dao.LearnDao
-import com.troy.tersive.model.db.user.dao.UserDao
 import com.troy.tersive.model.db.user.entity.Learn
-import com.troy.tersive.model.db.user.entity.User
 import com.troy.tersive.model.db.user.migrate.AddInitial
 
 @Database(
     version = 2, entities = [
-        /*  2 */ User::class, Learn::class
+        /*  2 */ Learn::class
     ]
 )
 @TypeConverters(ConvertDateTime::class, ConvertUUID::class)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract val learnDao: LearnDao
-    abstract val userDao: UserDao
 
     companion object {
         val migrations get() = arrayOf<Migration>(AddInitial)

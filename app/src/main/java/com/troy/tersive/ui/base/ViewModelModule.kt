@@ -6,8 +6,6 @@ import com.troy.tersive.ui.flashcard.FlashCardViewModel
 import com.troy.tersive.ui.main.MainViewModel
 import com.troy.tersive.ui.read.ReadListViewModel
 import com.troy.tersive.ui.read.ReadViewModel
-import com.troy.tersive.ui.user.LoginViewModel
-import com.troy.tersive.ui.user.RegisterViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -45,9 +43,4 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ReadViewModel::class)
     internal abstract fun bindReadViewModel(viewModel: ReadViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(RegisterViewModel::class)
-    internal abstract fun bindRegisterViewModel(viewModel: RegisterViewModel): ViewModel
 }

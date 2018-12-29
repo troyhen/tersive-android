@@ -39,14 +39,14 @@ class FlashCardRepo @Inject constructor(
         val time = now + delay
         val oldSort = card.learn.sort
         val newSort = oldSort + delta
-        udm.userDb.learnDao.shiftSort(user.index, card.learn.flags, oldSort + 1, newSort)
+        udm.userDb.learnDao.shiftSort(user.uid, card.learn.flags, oldSort + 1, newSort)
         udm.userDb.learnDao.save(
             card.learn.copy(sort = newSort, time = time, easy = easy, tries = tries)
         )
     }
 
     fun nextCard(type: Type, side: Side): Card {
-        val user = userRepo.user!!.index
+        val userId = userRepo.user!!.uid
         val index = rnd.nextInt(SESSION_COUNT)
         val time = clock.millis()
         val back = when (side) {
@@ -65,7 +65,7 @@ class FlashCardRepo @Inject constructor(
         val tersiveType =
             (if (phrase) PHRASE else WORD) or (if (religious) RELIGIOUS else NONRELIGIOUS)
         val flags = tersiveType or (if (back) BACK else FRONT) or (if (key) KEY else SCRIPT)
-        val learn = udm.userDb.learnDao.findNext(user, flags, index, time)
+        val learn = udm.userDb.learnDao.findNext(userId, flags, index, time)
         val tersiveList = if (key) tdm.tersiveDb.tersiveDao.findKbdMatches(
             learn.tersive,
             tersiveType

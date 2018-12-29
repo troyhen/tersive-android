@@ -1,6 +1,7 @@
 package com.troy.tersive.ui.flashcard
 
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
 import com.troy.tersive.model.db.user.entity.Learn
@@ -27,6 +28,8 @@ class FlashCardViewModel @Inject constructor(
     val needLogin get() = !userRepo.isLoggedIn
     var phraseType = FlashCardRepo.Type.ANY
     val typeMode get() = prefs.typeMode
+
+    fun onLogin(user: FirebaseUser) = userRepo.login(user)
 
     fun nextCard() = launch {
         val card = flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY)

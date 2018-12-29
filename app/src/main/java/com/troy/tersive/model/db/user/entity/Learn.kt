@@ -8,7 +8,7 @@ import org.threeten.bp.LocalDateTime
 data class Learn(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val userIndex: Int,
+    val userId: String,
     val flags: Int,
     val tersive: String,
     val sort: Int,
