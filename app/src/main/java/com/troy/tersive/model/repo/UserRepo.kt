@@ -13,6 +13,7 @@ import javax.inject.Singleton
 @Singleton
 @WorkerThread
 class UserRepo @Inject constructor(
+    @Suppress("unused") private val firestoreRepo: FirestoreRepo,   // simply import so it will be constructed
     private val prefs: Prefs,
     private val tersiveDatabaseManager: TersiveDatabaseManager,
     private val userDatabaseManager: UserDatabaseManager
@@ -38,7 +39,7 @@ class UserRepo @Inject constructor(
         auth.signOut()
     }
 
-    fun initUser(newUser: FirebaseUser) {
+    private fun initUser(newUser: FirebaseUser) {
         val userDb = userDatabaseManager.userDb
         userDb.beginTransaction()
         try {
