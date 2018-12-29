@@ -45,7 +45,7 @@ class FlashCardRepo @Inject constructor(
         )
     }
 
-    fun nextCard(type: Type, side: Side): Card {
+    fun nextCard(type: Type, side: Side): Card? {
         val userId = userRepo.user!!.uid
         val index = rnd.nextInt(SESSION_COUNT)
         val time = clock.millis()
@@ -65,12 +65,13 @@ class FlashCardRepo @Inject constructor(
         val tersiveType =
             (if (phrase) PHRASE else WORD) or (if (religious) RELIGIOUS else NONRELIGIOUS)
         val flags = tersiveType or (if (back) BACK else FRONT) or (if (key) KEY else SCRIPT)
-        val learn = udm.userDb.learnDao.findNext(userId, flags, index, time)
-        val tersiveList = if (key) tdm.tersiveDb.tersiveDao.findKbdMatches(
-            learn.tersive,
-            tersiveType
-        ) else tdm.tersiveDb.tersiveDao.findLvl4Matches(learn.tersive, tersiveType)
-        return Card(!back, index, learn, tersiveList)
+        return udm.userDb.learnDao.findNext(userId, flags, index, time)?.let { learn ->
+            val tersiveList = if (key) tdm.tersiveDb.tersiveDao.findKbdMatches(
+                learn.tersive,
+                tersiveType
+            ) else tdm.tersiveDb.tersiveDao.findLvl4Matches(learn.tersive, tersiveType)
+            Card(!back, index, learn, tersiveList)
+        }
     }
 
     companion object {

@@ -25,7 +25,7 @@ interface LearnDao : BaseDao<Learn> {
         limit 1
         offset :index"""
     )
-    fun findNext(userId: String, flags: Int, index: Int, time: Long): Learn
+    fun findNext(userId: String, flags: Int, index: Int, time: Long): Learn?
 
     @Query(
         """

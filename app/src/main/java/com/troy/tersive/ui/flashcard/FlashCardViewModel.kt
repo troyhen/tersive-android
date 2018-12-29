@@ -29,11 +29,15 @@ class FlashCardViewModel @Inject constructor(
     var phraseType = FlashCardRepo.Type.ANY
     val typeMode get() = prefs.typeMode
 
-    fun onLogin(user: FirebaseUser) = userRepo.login(user)
+    fun onLogin(user: FirebaseUser) = launch {
+        userRepo.login(user)
+        nextCard()
+    }
 
     fun nextCard() = launch {
-        val card = flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY)
-        cardLiveData.postValue(card)
+        flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY)?.let {
+            cardLiveData.postValue(it)
+        }
     }
 
     fun updateCard(result: FlashCardRepo.Result) = launch {
