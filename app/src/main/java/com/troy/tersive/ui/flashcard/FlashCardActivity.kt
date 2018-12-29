@@ -1,13 +1,18 @@
 package com.troy.tersive.ui.flashcard
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.firebase.ui.auth.IdpResponse
+import com.google.firebase.auth.FirebaseAuth
 import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import com.troy.tersive.mgr.Prefs
@@ -18,14 +23,14 @@ import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
 import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
 import com.troy.tersive.model.repo.FlashCardRepo.Result.GOOD
 import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
+import com.troy.tersive.ui.base.RequestCode.SIGN_IN
 import com.troy.tersive.ui.user.LoginActivity
 import kotlinx.android.synthetic.main.activity_flash_card.*
 import me.eugeniomarletti.extras.intent.IntentExtra
 import me.eugeniomarletti.extras.intent.base.Int
 import org.lds.mobile.extras.SelfActivityCompanion
 import org.lds.mobile.livedata.observeNotNull
-import org.lds.mobile.ui.ext.isInvisible
-import org.lds.mobile.ui.ext.isVisible
+import timber.log.Timber
 import javax.inject.Inject
 
 class FlashCardActivity : AppCompatActivity() {
@@ -48,6 +53,26 @@ class FlashCardActivity : AppCompatActivity() {
     private var keyTypeFace: Typeface? = null
     private var learnTypeFace: Typeface? = null
     private var tersiveTypeFace: Typeface? = null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SIGN_IN.ordinal) {
+            val response = IdpResponse.fromResultIntent(data)
+            if (resultCode == Activity.RESULT_OK) {
+                // Successfully signed in
+                FirebaseAuth.getInstance().currentUser?.let { user ->
+                    prefs.userId = user.uid
+                }
+            } else {
+                when (response?.error?.errorCode) {
+                    null -> {
+                    }
+                    else -> Timber.e(response.error)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,7 +178,7 @@ class FlashCardActivity : AppCompatActivity() {
 
     private fun reset() {
         if (viewModel.needLogin) {
-            LoginActivity.start(this)
+            LoginActivity.startForResult(this)
         } else {
             answerCard.isInvisible = true
             viewModel.nextCard()

@@ -34,10 +34,10 @@ class UserRepo @Inject constructor(
 
     fun autoLogin() {
         if (isLoggedIn) return
-        val username = prefs.username
-        if (username != NO_USER) {
+        val userId = prefs.userId
+        if (userId != NO_USER) {
             GlobalScope.launch(cc.default) {
-                onLogin(dbManager.userDb.userDao.findUser(username))
+                onLogin(dbManager.userDb.userDao.findUser(userId))
             }
         }
     }
@@ -71,7 +71,7 @@ class UserRepo @Inject constructor(
     private fun onLogin(foundUser: User?) {
         val now = LocalDateTime.now(clock)
         user = foundUser?.copy(lastLogin = now)
-        prefs.username = foundUser?.email ?: NO_USER
+        prefs.userId = foundUser?.email ?: NO_USER
         if (user != null) userDatabaseManager.userDb.userDao.save(user!!)
     }
 

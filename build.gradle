@@ -15,7 +15,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion"
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0' // version plugin support
-        classpath 'com.google.gms:google-services:4.0.1'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 

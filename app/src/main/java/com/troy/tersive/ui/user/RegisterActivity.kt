@@ -5,13 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.troy.tersive.R
 import com.troy.tersive.app.Injector
 import kotlinx.android.synthetic.main.activity_register.*
 import org.lds.mobile.livedata.observeNotNull
-import org.lds.mobile.ui.ext.isVisible
 import javax.inject.Inject
 
 class RegisterActivity : AppCompatActivity() {

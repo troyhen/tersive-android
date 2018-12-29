@@ -1,14 +1,15 @@
 package com.troy.tersive.ui.user
 
-import android.content.Context
-import android.content.Intent
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.firebase.ui.auth.AuthUI
 import com.troy.tersive.R
 import com.troy.tersive.app.Injector
+import com.troy.tersive.ui.base.RequestCode.SIGN_IN
 import kotlinx.android.synthetic.main.activity_login.*
 import org.lds.mobile.livedata.observeNotNull
 import javax.inject.Inject
@@ -58,9 +59,22 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun start(context: Context) {
-            val intent = Intent(context, LoginActivity::class.java)
-            context.startActivity(intent)
+        fun startForResult(activity: Activity) {
+            val providers = arrayListOf(
+                AuthUI.IdpConfig.EmailBuilder().build()/*,
+                AuthUI.IdpConfig.PhoneBuilder().build(),
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.FacebookBuilder().build(),
+                AuthUI.IdpConfig.TwitterBuilder().build()*/
+            )
+
+            activity.startActivityForResult(
+                AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build(),
+                SIGN_IN.ordinal
+            )
         }
     }
 }

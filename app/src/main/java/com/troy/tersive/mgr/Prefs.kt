@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class Prefs @Inject constructor() : PrefsContainer(PrefsManager.PROTECTED_NAMESPACE) {
 
-    var username by SharedPref(NO_USER)
+    var userId by SharedPref(NO_USER)
     var typeMode by SharedPref(DEFAULT_MODE)
 
     companion object {
