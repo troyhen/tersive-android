@@ -5,10 +5,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 ext {
-    archRoomVersion = '2.0.0'
-    daggerVersion = '2.17'
+    archRoomVersion = '2.1.0-alpha04'
+    daggerVersion = '2.21'
     devToolsVersion = '2.4.0'
-    dbtoolsRoomVersion = '4.3.0'
+    dbtoolsRoomVersion = '4.4.0'
     sdkVersion = 28
 }
 
@@ -49,7 +49,7 @@ dependencies {
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
 
     // Android
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -65,13 +65,13 @@ dependencies {
     // Google
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
-    implementation 'com.google.firebase:firebase-firestore:17.1.5'
+    implementation 'com.google.firebase:firebase-firestore:18.0.0'
 
     // LDS
-    implementation 'org.lds.mobile:ldsmobile-commons:22.1.1'
-    implementation 'org.lds.mobile:lds-ui-kit:9.0.6'
+    implementation 'org.lds.mobile:ldsmobile-commons:22.2.0'
+    implementation 'org.lds.mobile:lds-ui-kit:9.0.7'
 
     // Dagger 2
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -89,7 +89,7 @@ dependencies {
     // Other
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
     implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
 
     // Test
     testImplementation 'junit:junit:4.12'
