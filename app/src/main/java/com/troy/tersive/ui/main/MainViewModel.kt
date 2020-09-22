@@ -1,24 +1,30 @@
 package com.troy.tersive.ui.main
 
+import androidx.compose.runtime.mutableStateOf
+import com.troy.tersive.app.App
 import com.troy.tersive.mgr.Prefs
-import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.BaseViewModel
-import org.lds.mobile.coroutine.CoroutineContextProvider
-import javax.inject.Inject
+import dagger.hilt.EntryPoint
+import dagger.hilt.EntryPoints
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
-class MainViewModel @Inject constructor(
-    cc: CoroutineContextProvider,
-    private val prefs: Prefs,
-    userRepo: UserRepo
-) : BaseViewModel(cc) {
+class MainViewModel : BaseViewModel<Unit>() {
 
-    init {
-        userRepo.autoLogin()
-    }
+    private val inject = EntryPoints.get(App.app, Inject::class.java)
+    private val prefs = inject.prefs
 
+    private val typeModeState = mutableStateOf(prefs.typeMode)
     var typeMode
-        get() = prefs.typeMode
+        get() = typeModeState.value
         set(value) {
             prefs.typeMode = value
+            typeModeState.value = value
         }
+
+    @EntryPoint
+    @InstallIn(ApplicationComponent::class)
+    interface Inject {
+        val prefs: Prefs
+    }
 }

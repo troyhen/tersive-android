@@ -13,9 +13,9 @@ import com.troy.tersive.model.db.user.entity.Learn.Companion.PHRASE
 import com.troy.tersive.model.db.user.entity.Learn.Companion.RELIGIOUS
 import com.troy.tersive.model.db.user.entity.Learn.Companion.SCRIPT
 import com.troy.tersive.model.db.user.entity.Learn.Companion.WORD
-import org.threeten.bp.Clock
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDateTime
+import java.time.Clock
+import java.time.Duration
+import java.time.LocalDateTime
 import java.util.Random
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +23,6 @@ import javax.inject.Singleton
 @Singleton
 @WorkerThread
 class FlashCardRepo @Inject constructor(
-    private val clock: Clock,
     private val prefs: Prefs,
     private val tdm: TersiveDatabaseManager,
     private val udm: UserDatabaseManager,
@@ -31,11 +30,11 @@ class FlashCardRepo @Inject constructor(
 ) {
     private val rnd = Random()
 
-    fun maxSort(type: Int) = udm.userDb.learnDao.findMaxSort(type)
+    suspend fun maxSort(type: Int) = udm.userDb.learnDao.findMaxSort(type)
 
-    fun moveCard(card: Card, delta: Int, delay: Duration, easy: Int, tries: Int) {
-        val user = userRepo.user ?: return
-        val now = LocalDateTime.now(clock)
+    suspend fun moveCard(card: Card, delta: Int, delay: Duration, easy: Int, tries: Int) {
+        val user = userRepo.userFlow.value ?: return
+        val now = LocalDateTime.now()
         val time = now + delay
         val oldSort = card.learn.sort
         val newSort = oldSort + delta
@@ -45,22 +44,22 @@ class FlashCardRepo @Inject constructor(
         )
     }
 
-    fun nextCard(type: Type, side: Side): Card? {
-        val userId = userRepo.user!!.uid
+    suspend fun nextCard(type: Type, side: Side): Card? {
+        val userId = userRepo.userFlow.value?.uid ?: return null
         val index = rnd.nextInt(SESSION_COUNT)
-        val time = clock.millis()
+        val time = Clock.systemDefaultZone().millis()
         val back = when (side) {
             Side.ANY -> rnd.nextBoolean()
             Side.FRONT_ONLY -> false
             Side.BACK_ONLY -> true
         }
         val phrase = when (type) {
-            FlashCardRepo.Type.ANY,
-            FlashCardRepo.Type.RELIGIOUS_ONLY -> rnd.nextBoolean()
-            FlashCardRepo.Type.WORD_ONLY -> false
-            FlashCardRepo.Type.PHRASE_ONLY -> true
+            Type.ANY,
+            Type.RELIGIOUS_ONLY -> rnd.nextBoolean()
+            Type.WORD_ONLY -> false
+            Type.PHRASE_ONLY -> true
         }
-        val religious = type == FlashCardRepo.Type.RELIGIOUS_ONLY
+        val religious = type == Type.RELIGIOUS_ONLY
         val key = prefs.typeMode
         val tersiveType =
             (if (phrase) PHRASE else WORD) or (if (religious) RELIGIOUS else NONRELIGIOUS)

@@ -1,8 +1,8 @@
 package com.troy.tersive.model.db.convert
 
 import androidx.room.TypeConverter
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 class ConvertDateTime {
 

@@ -1,18 +1,17 @@
 package com.troy.tersive.ui.base
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import org.lds.mobile.coroutine.CoroutineContextProvider
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.launch
 
-open class BaseViewModel(cc: CoroutineContextProvider) : ViewModel(), CoroutineScope {
+open class BaseViewModel<T> : ViewModel() {
 
-    private val job = Job() // create a job as a parent for coroutines
-    private val backgroundContext = cc.default
-    override val coroutineContext get() = backgroundContext + job // actual context to use with coroutines
+    private val _eventChannel = Channel<T>()
+    val eventChannel: ReceiveChannel<T> = _eventChannel
 
-    override fun onCleared() {
-        super.onCleared()
-        job.cancel()
+    protected fun send(event: T) = viewModelScope.launch {
+        _eventChannel.send(event)
     }
 }

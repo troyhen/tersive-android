@@ -1,9 +1,22 @@
 package com.troy.tersive.ui.intro
 
 import com.troy.tersive.ui.base.BaseViewModel
-import org.lds.mobile.coroutine.CoroutineContextProvider
-import javax.inject.Inject
+import com.troy.tersive.ui.nav.IntroScreen
 
-class IntroViewModel @Inject constructor(cc: CoroutineContextProvider) : BaseViewModel(cc) {
+class IntroViewModel() : BaseViewModel<Unit>() {//Event>() {
 
+    val webContext = WebContext()
+
+    fun onBackPressed() {
+        if (webContext.canGoBack()) {
+            webContext.goBack()
+        } else {
+            IntroScreen.pop()
+//            send(Finish)
+        }
+    }
+
+//    sealed class Event {
+//        object Finish : Event()
+//    }
 }

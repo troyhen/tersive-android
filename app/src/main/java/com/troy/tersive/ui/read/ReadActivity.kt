@@ -1,65 +1,48 @@
 package com.troy.tersive.ui.read
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.troy.tersive.R
-import com.troy.tersive.app.Injector
 import com.troy.tersive.model.data.WebDoc
-import kotlinx.android.synthetic.main.activity_read.*
-import me.eugeniomarletti.extras.intent.IntentExtra
-import me.eugeniomarletti.extras.intent.base.Parcelable
-import org.lds.mobile.extras.SelfActivityCompanion
-import org.lds.mobile.livedata.observeNotNull
-import org.lds.mobile.ui.ext.tintDrawable
-import javax.inject.Inject
+import com.troy.tersive.model.ext.collectWhenStarted
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReadActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private val viewModel by lazy {
-        ViewModelProviders.of(this, viewModelFactory).get(ReadViewModel::class.java)
-    }
-
-    init {
-        Injector.get().inject(this)
-    }
+    private lateinit var arguments: ReadActivityArguments
+    private val viewModel: ReadViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read)
-        toolbar.setup()
+        arguments = ReadActivityArguments.fromIntent(intent)!!
+//        toolbar.setup()
         viewModel.observe()
     }
 
     private fun ReadViewModel.observe() {
-        textLiveData.value = getString(R.string.loading)
-        webDoc = intent.webDoc
-        textLiveData.observeNotNull(this@ReadActivity) {
-            textView.text = it
+        textFlow.value = getString(R.string.loading)
+        webDoc = arguments.webDoc
+        collectWhenStarted(textFlow) {
+//            textView.text = it
         }
     }
 
     private fun Toolbar.setup() {
-        title = intent.webDoc?.title
-        navigationIcon = tintDrawable(R.drawable.ic_lds_arrow_back_24dp, R.color.white)
+        title = arguments.webDoc.title
+//        navigationIcon = tintDrawable(R.drawable.ic_lds_arrow_back_24dp, R.color.white)
         setNavigationOnClickListener { finish() }
     }
 
-    companion object : SelfActivityCompanion<Companion>(ReadActivity::class) {
-
-        var Intent.webDoc by IntentExtra.Parcelable<WebDoc>()
-
+    companion object {
         fun startActivity(context: Context, webDoc: WebDoc) {
-            start(context) {
-                it.webDoc = webDoc
-            }
+            val arguments = ReadActivityArguments(webDoc)
+            val intent = arguments.toIntent(context)
+            context.startActivity(intent)
         }
     }
 }

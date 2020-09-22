@@ -8,4 +8,5 @@
     <color name="errorColor">#802010</color>
     <color name="selectedColor">@color/colorPrimary</color>
     <color name="textColorPrimary">#000000</color>
+    <color name="white">#ffffff</color>
 </resources>

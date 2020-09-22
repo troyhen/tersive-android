@@ -10,13 +10,13 @@ import com.troy.tersive.model.db.BaseDao
 interface TersiveDao : BaseDao<Tersive> {
 
     @Query("select * from Tersive")
-    fun findAll(): List<Tersive>
+    suspend fun findAll(): List<Tersive>
 
     @Query("select * from Tersive where lvl4 = :lvl4 and type = :type order by length(phrase), phrase")
-    fun findLvl4Matches(lvl4: String, type: Int): List<Tersive>
+    suspend fun findLvl4Matches(lvl4: String, type: Int): List<Tersive>
 
     @Query("select * from Tersive where kbd = :kbd and type = :type order by length(phrase), phrase")
-    fun findKbdMatches(kbd: String, type: Int): List<Tersive>
+    suspend fun findKbdMatches(kbd: String, type: Int): List<Tersive>
 
     @Query(
         """select lvl4, kbd, (words > 1) + (frequency < 0) * 2 as type
@@ -25,14 +25,14 @@ interface TersiveDao : BaseDao<Tersive> {
 		group by lvl4, kbd, type
 		order by max(frequency) desc, kbd, lvl4"""
     )
-    fun findUserList(): List<TersiveLearn>
+    suspend fun findUserList(): List<TersiveLearn>
 
     companion object {
-        fun onCreate(db: SupportSQLiteDatabase) {
+        suspend fun onCreate(db: SupportSQLiteDatabase) {
             PopulateTersive().populate(db)
         }
 
-        fun onOpen(db: SupportSQLiteDatabase) {
+        suspend fun onOpen(db: SupportSQLiteDatabase) {
             if (BaseDao.countRecords(db, "Tersive") == 0L) {
                 onCreate(db)
             }

@@ -9,10 +9,10 @@ import com.troy.tersive.model.db.user.entity.Learn
 interface LearnDao : BaseDao<Learn> {
 
     @Query("select count(*) from Learn where userId = :userId")
-    fun countUser(userId: String): Int
+    suspend fun countUser(userId: String): Int
 
     @Query("select max(sort) from Learn where flags = :flags")
-    fun findMaxSort(flags: Int): Int
+    suspend fun findMaxSort(flags: Int): Int
 
     @Query(
         """
@@ -25,7 +25,7 @@ interface LearnDao : BaseDao<Learn> {
         limit 1
         offset :index"""
     )
-    fun findNext(userId: String, flags: Int, index: Int, time: Long): Learn?
+    suspend fun findNext(userId: String, flags: Int, index: Int, time: Long): Learn?
 
     @Query(
         """
@@ -35,5 +35,5 @@ interface LearnDao : BaseDao<Learn> {
             and flags = :flags
             and sort between :from and :to"""
     )
-    fun shiftSort(userId: String, flags: Int, from: Int, to: Int)
+    suspend fun shiftSort(userId: String, flags: Int, from: Int, to: Int)
 }

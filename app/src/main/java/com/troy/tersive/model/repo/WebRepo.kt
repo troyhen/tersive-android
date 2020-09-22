@@ -2,6 +2,8 @@ package com.troy.tersive.model.repo
 
 import androidx.annotation.WorkerThread
 import com.troy.tersive.model.data.WebDoc
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import javax.inject.Inject
@@ -13,7 +15,7 @@ class WebRepo @Inject constructor() {
 
     private var client = OkHttpClient()
 
-    fun load(webDoc: WebDoc): CharSequence? {
+    suspend fun load(webDoc: WebDoc): CharSequence? {
         return load(webDoc.url)?.let { content ->
             val start = webDoc.beginning?.let {
                 val index = content.indexOf(it)
@@ -27,11 +29,13 @@ class WebRepo @Inject constructor() {
         }
     }
 
-    fun load(url: String): String? {
+    suspend fun load(url: String): String? {
         val request = Request.Builder()
             .url(url)
             .build()
-        val response = client.newCall(request).execute()
-        return response.body()?.string()
+        return withContext(Dispatchers.IO) {
+            val response = client.newCall(request).execute()
+            response.body?.string()
+        }
     }
 }

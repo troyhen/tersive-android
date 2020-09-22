@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.troy.tersive">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.troy.tersive"
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,19 +16,38 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.nav.NavActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.flashcard.FlashCardActivity" />
-        <activity android:name=".ui.intro.IntroActivity" />
         <activity android:name=".ui.read.ReadListActivity" />
         <activity android:name=".ui.read.ReadActivity" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge"
+            >
+            <meta-data
+                android:name="com.troy.tersive.app.init.ActivityLifecycleInitializer"
+                android:value="androidx.startup"
+                />
+            <meta-data
+                android:name="com.troy.tersive.app.init.LoggingInitializer"
+                android:value="androidx.startup"
+                />
+            <meta-data
+                android:name="com.troy.tersive.app.init.PrefsInitializer"
+                android:value="androidx.startup"
+                />
+        </provider>
     </application>
 
 </manifest>

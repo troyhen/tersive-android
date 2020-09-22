@@ -4,6 +4,8 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.runBlocking
+import org.dbtools.android.room.ext.runInTransaction
 
 @Database(
     version = 1, entities = [
@@ -21,22 +23,14 @@ abstract class TersiveDatabase : RoomDatabase() {
     object Callback : RoomDatabase.Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
-            db.beginTransaction()
-            try {
-                TersiveDao.onCreate(db)
-                db.setTransactionSuccessful()
-            } finally {
-                db.endTransaction()
+            db.runInTransaction {
+                runBlocking { TersiveDao.onCreate(db) }
             }
         }
 
         override fun onOpen(db: SupportSQLiteDatabase) {
-            db.beginTransaction()
-            try {
-                TersiveDao.onOpen(db)
-                db.setTransactionSuccessful()
-            } finally {
-                db.endTransaction()
+            db.runInTransaction {
+                runBlocking { TersiveDao.onOpen(db) }
             }
         }
     }

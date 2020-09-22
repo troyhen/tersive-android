@@ -8,16 +8,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.troy.tersive.model.db.tersive.Tersive
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.lds.mobile.coroutine.CoroutineContextProvider
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FirestoreRepo @Inject constructor(
-    private val cc: CoroutineContextProvider,
     private val tersiveDatabaseManager: TersiveDatabaseManager
 ) {
 
@@ -28,7 +27,7 @@ class FirestoreRepo @Inject constructor(
         tersiveRef.addSnapshotListener(TersiveListener())
     }
 
-    fun sendAll() {
+    fun sendAll() = GlobalScope.launch {
         var count = 1
         tersiveDatabaseManager.tersiveDb.tersiveDao.findAll().chunked(500).forEach { chunk ->
             val batch = db.batch()
@@ -101,7 +100,7 @@ class FirestoreRepo @Inject constructor(
         override fun onEvent(query: QuerySnapshot?, e: FirebaseFirestoreException?) {
             when {
                 e != null -> Timber.e(e)
-                query != null -> GlobalScope.launch(cc.default) {
+                query != null -> GlobalScope.launch(Dispatchers.IO) {
                     update(query)
                 }
             }

@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.troy.tersive.R
 import com.troy.tersive.model.data.WebDoc
-import kotlinx.android.synthetic.main.item_book.view.*
-import org.lds.mobile.ui.ext.inflate
+import com.troy.tersive.ui.ext.inflate
 
 class ReadListAdapter(private val context: Context, private val viewModel: ReadListViewModel) :
     ListAdapter<WebDoc, ReadListAdapter.Holder>(Differ) {
@@ -17,8 +16,8 @@ class ReadListAdapter(private val context: Context, private val viewModel: ReadL
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val item = getItem(position)
-        holder.itemView.titleText.text = item.title
-        holder.itemView.authorText.text = context.getString(R.string.author_name, item.author)
+//        holder.itemView.titleText.text = item.title
+//        holder.itemView.authorText.text = context.getString(R.string.author_name, item.author)
         holder.itemView.setOnClickListener {
             viewModel.onClick(item)
         }

@@ -2,15 +2,19 @@ package com.troy.tersive.ui.read
 
 import com.troy.tersive.model.data.WebDoc
 import com.troy.tersive.ui.base.BaseViewModel
-import org.lds.mobile.coroutine.CoroutineContextProvider
-import org.lds.mobile.livedata.SingleLiveEvent
-import org.lds.mobile.livedata.mutableLiveData
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class ReadListViewModel @Inject constructor(cc: CoroutineContextProvider) : BaseViewModel(cc) {
+class ReadListViewModel() : BaseViewModel<ReadListViewModel.Event>() {
 
-    val docsLiveData = mutableLiveData(
-        listOf(
+    val docsFlow: Flow<List<WebDoc>> = MutableStateFlow(sampleDocs)
+
+    fun onClick(item: WebDoc) {
+        send(Event.ClickEvent(item))
+    }
+
+    companion object {
+        val sampleDocs = listOf(
             WebDoc(
                 "https://www.gutenberg.org/files/74/74-0.txt",
                 "The Adventures of Tom Sawyer",
@@ -47,11 +51,9 @@ class ReadListViewModel @Inject constructor(cc: CoroutineContextProvider) : Base
                 "Derbyshire, had been the means of uniting them."
             )
         )
-    )
+    }
 
-    val onClickEvent = SingleLiveEvent<WebDoc>()
-
-    fun onClick(item: WebDoc) {
-        onClickEvent.value = item
+    sealed class Event {
+        data class ClickEvent(val doc: WebDoc) : Event()
     }
 }
