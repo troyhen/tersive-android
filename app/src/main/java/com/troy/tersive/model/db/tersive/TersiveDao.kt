@@ -33,7 +33,7 @@ interface TersiveDao : BaseDao<Tersive> {
         }
 
         suspend fun onOpen(db: SupportSQLiteDatabase) {
-            if (BaseDao.countRecords(db, "Tersive") == 0L) {
+            if (BaseDao.isTableEmpty(db, "Tersive")) {
                 onCreate(db)
             }
         }

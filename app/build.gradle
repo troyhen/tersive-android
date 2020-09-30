@@ -113,7 +113,6 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.0.0-alpha02")
 
     // Database
-    implementation("org.sqlite.sqliteX:sqlite-android:3.15.2")
     implementation("androidx.room:room-ktx:2.2.5")
     kapt("androidx.room:room-compiler:2.2.5")
     implementation("org.dbtools:dbtools-room:5.7.1")

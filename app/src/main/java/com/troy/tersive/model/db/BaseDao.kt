@@ -64,12 +64,9 @@ interface BaseDao<in T> {
     fun delete(obj: T)
 
     companion object {
-        fun isTableEmpty(db: SupportSQLiteDatabase, table: String) = countRecords(
-            db,
-            table
-        ) == 0L
+        suspend fun isTableEmpty(db: SupportSQLiteDatabase, table: String) = countRecords(db, table) == 0L
 
-        fun countRecords(db: SupportSQLiteDatabase, table: String): Long {
+        suspend fun countRecords(db: SupportSQLiteDatabase, table: String): Long {
             return db.query("select count(*) from `$table`").use { cursor ->
                 if (cursor.moveToNext()) {
                     cursor.getLong(0)

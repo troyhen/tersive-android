@@ -1,14 +1,17 @@
 package com.troy.tersive.ui.flashcard
 
+import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ConstraintLayout
+import androidx.compose.foundation.layout.Dimension.Companion.fillToConstraints
 import androidx.compose.foundation.layout.RowScope.weight
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -27,7 +30,6 @@ import com.troy.tersive.ui.base.AppTheme
 import com.troy.tersive.ui.base.appBackground
 import com.troy.tersive.ui.base.cardBackground
 import com.troy.tersive.ui.base.colorPrimary
-import com.troy.tersive.ui.base.material_white
 import com.troy.tersive.ui.nav.Screen
 
 //@AndroidEntryPoint
@@ -75,7 +77,7 @@ import com.troy.tersive.ui.nav.Screen
 //        viewModel.phraseType = arguments.phraseType
 //        learnTypeFace = Typeface.DEFAULT
 //        keyTypeFace = Typeface.MONOSPACE
-//        tersiveTypeFace = Typeface.createFromAsset(assets, "Tersive_Script.otf")
+//        tersiveTypeFace = Typeface.createFromAsset(assets, "tersive_script.otf")
 //        initListeners()
 //        viewModel.initObservers()
 //    }
@@ -280,6 +282,18 @@ private fun QuestionCard() {
                 },
                 style = MaterialTheme.typography.caption,
             )
+            if (!viewModel.isFront && !viewModel.typeMode) {
+                Box(Modifier
+                    .constrainAs(quizPencilLine) {
+                        linkTo(quizText.top, quizText.bottom, 1.dp)
+                        start.linkTo(quizText.start)
+                        end.linkTo(quizText.end)
+                        width = fillToConstraints
+                    }
+                    .preferredHeight(1.dp)
+                    .background(colorPrimary)
+                )
+            }
             Text(
                 text = viewModel.cardQuestion,
                 modifier = Modifier
@@ -287,10 +301,9 @@ private fun QuestionCard() {
                         centerHorizontallyTo(parent)
                         centerVerticallyTo(parent)
                     }
-                    .background(colorPrimary)
                     .padding(16.dp),
-                color = material_white,
-                style = MaterialTheme.typography.caption,
+                fontFamily = viewModel.questionFont,
+                style = viewModel.questionStyle(),
             )
             if (!viewModel.showAnswer.value) {
                 TextButton(onClick = {
@@ -319,7 +332,19 @@ private fun AnswerCard() {
     ) {
         val viewModel: FlashCardViewModel = viewModel()
         ConstraintLayout(Modifier.fillMaxSize()) {
-            val (answerText, easyButton, goodButton, hardButton, againButton) = createRefs()
+            val (answerText, answerPencilLine, easyButton, goodButton, hardButton, againButton) = createRefs()
+            if (viewModel.isFront && !viewModel.typeMode) {
+                Box(Modifier
+                    .constrainAs(answerPencilLine) {
+                        linkTo(answerText.top, answerText.bottom, 1.dp)
+                        start.linkTo(answerText.start)
+                        end.linkTo(answerText.end)
+                        width = fillToConstraints
+                    }
+                    .preferredHeight(1.dp)
+                    .background(colorPrimary)
+                )
+            }
             Text(
                 text = viewModel.cardAnswer,
                 modifier = Modifier
@@ -327,10 +352,9 @@ private fun AnswerCard() {
                         centerHorizontallyTo(parent)
                         centerVerticallyTo(parent)
                     }
-                    .background(colorPrimary)
                     .padding(16.dp),
-                color = material_white,
-                style = MaterialTheme.typography.caption,
+                fontFamily = viewModel.answerFont,
+                style = viewModel.answerStyle(),
             )
             TextButton(onClick = {
                 viewModel.updateCard(FlashCardRepo.Result.EASY)

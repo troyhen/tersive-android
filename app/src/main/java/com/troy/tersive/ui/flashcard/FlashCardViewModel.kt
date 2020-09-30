@@ -1,10 +1,16 @@
 package com.troy.tersive.ui.flashcard
 
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.asFontFamily
+import androidx.compose.ui.text.font.font
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
+import com.troy.tersive.R
 import com.troy.tersive.app.App
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
@@ -43,6 +49,16 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
                 else -> cardTersive(card)
             }
         }
+    val questionFont: FontFamily
+        get() {
+            val card = card ?: return FontFamily.Default
+            return when {
+                card.front -> phraseFont
+                prefs.typeMode -> keyFont
+                else -> tersiveFont
+            }
+        }
+
     val cardAnswer: String
         get() {
             val card = card ?: return ""
@@ -51,11 +67,40 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
                 else -> cardPhrases(card)
             }
         }
+    val answerFont: FontFamily
+        get() {
+            val card = card ?: return FontFamily.Default
+            return when {
+                !card.front -> phraseFont
+                prefs.typeMode -> keyFont
+                else -> tersiveFont
+            }
+        }
+
     val isFront get() = card?.front == true
 
     var phraseType = FlashCardRepo.Type.ANY
     val showAnswer = mutableStateOf(false)
     val typeMode get() = prefs.typeMode
+    private val keyFont = FontFamily.Monospace
+    private val phraseFont = FontFamily.Default
+    private val tersiveFont = font(R.font.tersive_script).asFontFamily()
+
+    init {
+        if (userRepo.isLoggedIn) {
+            nextCard()
+        }
+    }
+
+    @Composable
+    fun answerStyle(): TextStyle {
+        val card = card ?: return MaterialTheme.typography.subtitle1
+        return when {
+            !card.front -> MaterialTheme.typography.subtitle1
+            prefs.typeMode -> MaterialTheme.typography.subtitle1
+            else -> MaterialTheme.typography.h2
+        }
+    }
 
     fun autoSignIn() {
         if (!userRepo.isLoggedIn) {
@@ -71,14 +116,24 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
             .joinToString(", ") { it }
     }
 
-    fun onLogin(user: FirebaseUser) = viewModelScope.launch(Dispatchers.IO) {
-        userRepo.login(user)
-        nextCard()
-    }
+//    fun onLogin(user: FirebaseUser) = viewModelScope.launch(Dispatchers.IO) {
+//        userRepo.login(user)
+//        nextCard()
+//    }
 
     private fun nextCard() = viewModelScope.launch(Dispatchers.IO) {
         flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY)?.let {
             card = it
+        }
+    }
+
+    @Composable
+    fun questionStyle(): TextStyle {
+        val card = card ?: return MaterialTheme.typography.subtitle1
+        return when {
+            card.front -> MaterialTheme.typography.subtitle1
+            prefs.typeMode -> MaterialTheme.typography.subtitle1
+            else -> MaterialTheme.typography.h2
         }
     }
 

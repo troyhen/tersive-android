@@ -30,6 +30,10 @@ class FlashCardRepo @Inject constructor(
 ) {
     private val rnd = Random()
 
+    init {
+        tdm.tersiveDb
+    }
+
     suspend fun maxSort(type: Int) = udm.userDb.learnDao.findMaxSort(type)
 
     suspend fun moveCard(card: Card, delta: Int, delay: Duration, easy: Int, tries: Int) {
