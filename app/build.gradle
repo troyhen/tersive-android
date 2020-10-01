@@ -8,7 +8,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 ext {
     kotlinVersion = "1.4.10"
     composeVersion = "1.0.0-alpha03"
-    sdkVersion = 29
+    sdkVersion = 30
 }
 
 android {
@@ -83,15 +83,15 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha07")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha07")
     implementation("androidx.preference:preference-ktx:1.1.1")
-    implementation("androidx.startup:startup-runtime:1.0.0-alpha03")
+    implementation("androidx.startup:startup-runtime:1.0.0-beta01")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Google
     implementation("com.google.android.material:material:1.2.1")
     implementation("com.google.firebase:firebase-core:17.5.0")
-    implementation("com.firebaseui:firebase-ui-auth:4.3.1")
+    implementation("com.firebaseui:firebase-ui-auth:6.3.0")
     implementation("com.google.firebase:firebase-auth:19.4.0")
-    implementation("com.google.firebase:firebase-firestore:21.6.0")
+    implementation("com.google.firebase:firebase-firestore:21.7.0")
 
     // Compose
 //    const val core = "androidx.compose.ui:ui:$version"
@@ -115,8 +115,7 @@ dependencies {
     // Database
     implementation("androidx.room:room-ktx:2.2.5")
     kapt("androidx.room:room-compiler:2.2.5")
-    implementation("org.dbtools:dbtools-room:5.7.1")
-    implementation("org.dbtools:dbtools-room-sqliteorg:5.7.1")
+    implementation("org.dbtools:dbtools-room:5.7.2")
 
     // Other
     implementation("com.squareup.okhttp3:okhttp:4.9.0")

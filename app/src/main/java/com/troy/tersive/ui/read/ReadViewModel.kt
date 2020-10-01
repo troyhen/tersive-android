@@ -31,7 +31,7 @@ class ReadViewModel @Inject constructor(
         val phrases = tersiveMgr.tersiveDb.tersiveDao.findAll()
         tersiveUtil.loadPhrases(phrases, prefs.typeMode)
         val original = webDoc?.let { webRepo.load(it) } ?: ""
-        val tersive = original?.let { tersiveUtil.toTersive(it) } ?: ""
+        val tersive = tersiveUtil.toTersive(original)
         textFlow.value = original
         tersiveFlow.value = tersive
     }

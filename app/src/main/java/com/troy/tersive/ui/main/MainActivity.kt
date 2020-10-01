@@ -215,7 +215,7 @@ private fun NavDrawerHeader() {
 
 @Composable
 private fun MainButtons(typeMode: Boolean = false, setMode: (Boolean) -> Unit = {}) {
-    val viewModel: MainViewModel = viewModel()
+//    val viewModel: MainViewModel = viewModel()
     val context = ContextAmbient.current
     val padding = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp)
     val paddingExtra = Modifier.padding(start = 8.dp, top = 24.dp, end = 8.dp)
@@ -274,7 +274,7 @@ private fun TersiveButton(
         )
         Text(
             text = text,
-            modifier = Modifier.gravity(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             color = textColor
         )
     }
