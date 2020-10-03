@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.troy.tersive.model.db.BaseDao
 import com.troy.tersive.model.db.user.entity.Learn
+import java.time.LocalDateTime
 
 @Dao
 interface LearnDao : BaseDao<Learn> {
@@ -25,7 +26,7 @@ interface LearnDao : BaseDao<Learn> {
         limit 1
         offset :index"""
     )
-    suspend fun findNext(userId: String, flags: Int, index: Int, time: Long): Learn?
+    suspend fun findNext(userId: String, flags: Int, index: Int, time: LocalDateTime): Learn?
 
     @Query(
         """

@@ -13,7 +13,6 @@ import com.troy.tersive.model.db.user.entity.Learn.Companion.PHRASE
 import com.troy.tersive.model.db.user.entity.Learn.Companion.RELIGIOUS
 import com.troy.tersive.model.db.user.entity.Learn.Companion.SCRIPT
 import com.troy.tersive.model.db.user.entity.Learn.Companion.WORD
-import java.time.Clock
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.Random
@@ -51,7 +50,7 @@ class FlashCardRepo @Inject constructor(
     suspend fun nextCard(type: Type, side: Side): Card? {
         val userId = userRepo.userFlow.value?.uid ?: return null
         val index = rnd.nextInt(SESSION_COUNT)
-        val time = Clock.systemDefaultZone().millis()
+        val time = LocalDateTime.now()
         val back = when (side) {
             Side.ANY -> rnd.nextBoolean()
             Side.FRONT_ONLY -> false

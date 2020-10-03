@@ -30,6 +30,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FlashCardViewModel : BaseViewModel<Unit>() {
 
@@ -96,9 +97,9 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
     fun answerStyle(): TextStyle {
         val card = card ?: return MaterialTheme.typography.subtitle1
         return when {
-            !card.front -> MaterialTheme.typography.subtitle1
-            prefs.typeMode -> MaterialTheme.typography.subtitle1
-            else -> MaterialTheme.typography.h2
+            !card.front -> MaterialTheme.typography.h6
+            prefs.typeMode -> MaterialTheme.typography.h6
+            else -> MaterialTheme.typography.h1
         }
     }
 
@@ -121,8 +122,9 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
 //        nextCard()
 //    }
 
-    private fun nextCard() = viewModelScope.launch(Dispatchers.IO) {
-        flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY)?.let {
+    private fun nextCard() = viewModelScope.launch(Dispatchers.Main) {
+        showAnswer.value = false
+        withContext(Dispatchers.IO) { flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY) }?.let {
             card = it
         }
     }
@@ -131,9 +133,9 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
     fun questionStyle(): TextStyle {
         val card = card ?: return MaterialTheme.typography.subtitle1
         return when {
-            card.front -> MaterialTheme.typography.subtitle1
-            prefs.typeMode -> MaterialTheme.typography.subtitle1
-            else -> MaterialTheme.typography.h2
+            card.front -> MaterialTheme.typography.h6
+            prefs.typeMode -> MaterialTheme.typography.h6
+            else -> MaterialTheme.typography.h1
         }
     }
 
@@ -155,8 +157,14 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
             HARD -> step * 2
             AGAIN -> step * 1
         }
+        var timeAdd = result.timeAdd
+        if (result == EASY) {
+            repeat(easy - 1) {
+                timeAdd += timeAdd
+            }
+        }
         val tries = 1 + card.learn.tries
-        flashCardRepo.moveCard(card, delta, result.timeAdd, easy, tries)
+        flashCardRepo.moveCard(card, delta, timeAdd, easy, tries)
         nextCard()
     }
 

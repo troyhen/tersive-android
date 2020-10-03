@@ -381,7 +381,7 @@ private fun AnswerCard() {
                 end.linkTo(againButton.start)
                 bottom.linkTo(parent.bottom, margin = 16.dp)
             }) {
-                Text(text = stringResource(R.string.hand))
+                Text(text = stringResource(R.string.hard))
             }
             TextButton(onClick = {
                 viewModel.updateCard(FlashCardRepo.Result.AGAIN)
