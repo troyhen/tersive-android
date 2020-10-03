@@ -4,10 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.Stack
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
@@ -261,7 +261,7 @@ private fun TersiveButton(
 ) {
     val background = if (selected) selectedColor else material_white
     val textColor = if (selected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface
-    Stack(
+    Box(
         modifier
             .clickable(onClick = onClick)
             .background(background)
