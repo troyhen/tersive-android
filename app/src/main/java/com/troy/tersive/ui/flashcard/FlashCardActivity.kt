@@ -4,9 +4,9 @@ import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.Dimension.Companion.fillToConstraints
-import androidx.compose.foundation.layout.RowScope.weight
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -215,7 +215,7 @@ fun FlashCardPage(phraseType: FlashCardRepo.Type) {
 }
 
 @Composable
-fun HideAnswer() {
+fun ColumnScope.HideAnswer() {
     Spacer(modifier = Modifier.weight(1f))
 }
 
@@ -226,7 +226,7 @@ private fun FlashCardPreview() {
 }
 
 @Composable
-private fun QuestionCard() {
+private fun ColumnScope.QuestionCard() {
     Card(
         modifier = Modifier
             .weight(1f)
@@ -320,7 +320,7 @@ private fun QuestionCard() {
 }
 
 @Composable
-private fun AnswerCard() {
+private fun ColumnScope.AnswerCard() {
     Card(
         modifier = Modifier
             .weight(1f)
