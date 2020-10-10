@@ -40,6 +40,14 @@ interface BaseDao<in T> {
     fun save(vararg obj: T)
 
     /**
+     * Save an array of objects in the database.
+     *
+     * @param obj the objects to be inserted.
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(list: Iterable<T>)
+
+    /**
      * Update an object from the database.
      *
      * @param obj the object to be updated
@@ -62,6 +70,14 @@ interface BaseDao<in T> {
      */
     @Delete
     fun delete(obj: T)
+
+    /**
+     * Delete an object from the database
+     *
+     * @param list the object to be deleted
+     */
+    @Delete
+    fun delete(list: Iterable<T>)
 
     companion object {
         suspend fun isTableEmpty(db: SupportSQLiteDatabase, table: String) = countRecords(db, table) == 0L
