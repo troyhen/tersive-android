@@ -8,16 +8,20 @@ import kotlinx.coroutines.runBlocking
 import org.dbtools.android.room.ext.runInTransaction
 
 @Database(
-    version = 1, entities = [
-        /*  1 */ Tersive::class
+    version = 2, entities = [
+        /*  1 */
+        Tersive::class,
+        /*  2 */
+        Datum::class,
     ]
 )
 abstract class TersiveDatabase : RoomDatabase() {
 
+    abstract val datumDao: DatumDao
     abstract val tersiveDao: TersiveDao
 
     companion object {
-        val migrations get() = arrayOf<Migration>(AddTersive)
+        val migrations get() = arrayOf<Migration>()
     }
 
     object Callback : RoomDatabase.Callback() {

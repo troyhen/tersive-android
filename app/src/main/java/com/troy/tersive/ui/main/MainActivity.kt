@@ -1,5 +1,6 @@
 package com.troy.tersive.ui.main
 
+import androidx.compose.foundation.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.background
@@ -12,9 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +38,6 @@ import com.troy.tersive.ui.base.AppTheme
 import com.troy.tersive.ui.base.drawerCenterColor
 import com.troy.tersive.ui.base.drawerEndColor
 import com.troy.tersive.ui.base.drawerStartColor
-import com.troy.tersive.ui.base.material_white
 import com.troy.tersive.ui.base.selectedColor
 import com.troy.tersive.ui.nav.MainScreen
 import com.troy.tersive.ui.read.ReadListActivity
@@ -181,17 +184,16 @@ private fun AppBar() {
         title = {
             Text(stringResource(id = R.string.app_name))
         },
-//        actions = {
-//            IconButton(onClick = {
-////                val directions = IndividualFragmentDirections.actionIndividualEditFragment(viewModel.individualId)
-////                navController.navigate(directions)
-//            }) {
-//                Icon(Icons.Filled.Edit)
-//            }
+        actions = {
+            IconButton(onClick = {
+                MainScreen.goAdminMenu()
+            }) {
+                Icon(Icons.Filled.Settings)
+            }
 //            IconButton(onClick = { viewModel.confirmDeleteState = true }) {
 //                Icon(Icons.Filled.Delete)
 //            }
-//        },
+        },
     )
 }
 
@@ -259,7 +261,7 @@ private fun TersiveButton(
     selected: Boolean = false,
     onClick: () -> Unit = {}
 ) {
-    val background = if (selected) selectedColor else material_white
+    val background = if (selected) selectedColor else MaterialTheme.colors.surface
     val textColor = if (selected) MaterialTheme.colors.onPrimary else MaterialTheme.colors.onSurface
     Box(
         modifier

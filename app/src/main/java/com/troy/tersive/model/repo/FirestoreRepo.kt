@@ -7,12 +7,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.troy.tersive.model.db.tersive.Datum
 import com.troy.tersive.model.db.tersive.Tersive
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,6 +51,7 @@ class FirestoreRepo @Inject constructor(
             }.addOnFailureListener {
                 Timber.e(it)
             }
+            tersiveDatabaseManager.tersiveDb.datumDao.save(Datum(updateTimestamp, Instant.now().toString()))
         }
     }
 
@@ -171,6 +174,7 @@ class FirestoreRepo @Inject constructor(
 
     companion object {
         private const val chunkSize = 10_000
+        private const val updateTimestamp = "updateTimestamp"
     }
 
     inner class TersiveListener : EventListener<QuerySnapshot> {

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import com.troy.tersive.model.repo.FlashCardRepo
+import com.troy.tersive.ui.admin.AdminMenuPage
 import com.troy.tersive.ui.flashcard.FlashCardPage
 import com.troy.tersive.ui.intro.IntroPage
 import com.troy.tersive.ui.main.MainPage
@@ -58,6 +59,7 @@ object MainScreen : Screen() {
     @Composable
     override fun compose() = MainPage()
 
+    fun goAdminMenu() = backstack.push(AdminMenuScreen)
     fun goIntro() = backstack.push(IntroScreen)
     fun goFlashCards(phraseType: FlashCardRepo.Type) = backstack.push(FlashCardsScreen(phraseType))
 //    fun goReading() = backstack.push(ReadingScreen)
@@ -72,6 +74,11 @@ object IntroScreen : Screen() {
 data class FlashCardsScreen(val phraseType: FlashCardRepo.Type) : Screen() {
     @Composable
     override fun compose() = FlashCardPage(phraseType)
+}
+
+object AdminMenuScreen : Screen() {
+    @Composable
+    override fun compose() = AdminMenuPage()
 }
 
 //object LoginScreen : Screen() {
