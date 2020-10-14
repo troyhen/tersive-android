@@ -5,7 +5,7 @@ import com.troy.tersive.ui.base.BaseViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class ReadListViewModel() : BaseViewModel<ReadListViewModel.Event>() {
+class ReadListViewModel : BaseViewModel<ReadListViewModel.Event>() {
 
     val docsFlow: Flow<List<WebDoc>> = MutableStateFlow(sampleDocs)
 

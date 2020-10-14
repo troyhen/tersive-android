@@ -24,21 +24,16 @@ import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
 import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.BaseViewModel
 import com.troy.tersive.ui.nav.NavActivity
-import dagger.hilt.EntryPoint
-import dagger.hilt.EntryPoints
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FlashCardViewModel : BaseViewModel<Unit>() {
-
-    private val inject = EntryPoints.get(App.app, Inject::class.java)
-    private val flashCardRepo = inject.flashCardRepo
-    private val prefs = inject.prefs
-    private val tersiveUtil = inject.tersiveUtil
-    private val userRepo = inject.userRepo
+class FlashCardViewModel(
+    private val flashCardRepo: FlashCardRepo,
+    private val prefs: Prefs,
+    private val tersiveUtil: TersiveUtil,
+    private val userRepo: UserRepo,
+) : BaseViewModel<Unit>() {
 
     private var card by mutableStateOf<Card?>(null)
     val cardFlags: Int get() = card?.learn?.flags ?: 0
@@ -166,14 +161,5 @@ class FlashCardViewModel : BaseViewModel<Unit>() {
         val tries = 1 + card.learn.tries
         flashCardRepo.moveCard(card, delta, timeAdd, easy, tries)
         nextCard()
-    }
-
-    @EntryPoint
-    @InstallIn(ApplicationComponent::class)
-    interface Inject {
-        val flashCardRepo: FlashCardRepo
-        val prefs: Prefs
-        val tersiveUtil: TersiveUtil
-        val userRepo: UserRepo
     }
 }

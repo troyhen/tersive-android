@@ -11,15 +11,12 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.RequestCode
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
-@AndroidEntryPoint
 class NavActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var userRepo: UserRepo
+    private val userRepo: UserRepo by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

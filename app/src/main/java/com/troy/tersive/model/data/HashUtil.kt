@@ -3,12 +3,9 @@ package com.troy.tersive.model.data
 import timber.log.Timber
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.experimental.and
 
-@Singleton
-class HashUtil @Inject constructor() {
+class HashUtil {
 
     fun hash(string: String): String {
         try {

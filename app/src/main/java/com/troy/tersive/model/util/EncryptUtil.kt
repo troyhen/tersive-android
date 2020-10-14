@@ -4,12 +4,8 @@ import android.annotation.SuppressLint
 import timber.log.Timber
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class EncryptUtil @Inject
-constructor() {
+class EncryptUtil {
 
     /**
      * Encrypt the plain text password.

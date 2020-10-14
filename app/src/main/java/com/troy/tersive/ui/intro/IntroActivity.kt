@@ -13,12 +13,11 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.viewinterop.viewModel
 import com.troy.tersive.R
 import com.troy.tersive.ui.base.AppTheme
+import org.koin.androidx.compose.getViewModel
 import timber.log.Timber
 
-//@AndroidEntryPoint
 //class IntroActivity : AppCompatActivity() {
 //
 //    private val viewModel: IntroViewModel by viewModels()
@@ -54,7 +53,7 @@ import timber.log.Timber
 
 @Composable
 fun IntroPage() {
-    val viewModel: IntroViewModel = viewModel()
+    val viewModel: IntroViewModel = getViewModel()
     AppTheme {
         Scaffold(topBar = { AppBar() }) {
             WebComponent(url = "file:///android_asset/Tersive_Intro.html", webContext = viewModel.webContext)
@@ -65,7 +64,7 @@ fun IntroPage() {
 @Composable
 private fun AppBar() {
 //    val navController = NavControllerAmbient.current
-    val viewModel: IntroViewModel = viewModel()
+    val viewModel: IntroViewModel = getViewModel()
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = { viewModel.onBackPressed() }) {

@@ -36,15 +36,19 @@
             tools:node="merge"
             >
             <meta-data
-                android:name="com.troy.tersive.app.init.ActivityLifecycleInitializer"
+                android:name="com.troy.tersive.app.init.KoinInit"
                 android:value="androidx.startup"
                 />
             <meta-data
-                android:name="com.troy.tersive.app.init.LoggingInitializer"
+                android:name="com.troy.tersive.app.init.LifecycleInit"
                 android:value="androidx.startup"
                 />
             <meta-data
-                android:name="com.troy.tersive.app.init.PrefsInitializer"
+                android:name="com.troy.tersive.app.init.PrefsInit"
+                android:value="androidx.startup"
+                />
+            <meta-data
+                android:name="com.troy.tersive.app.init.TimberInit"
                 android:value="androidx.startup"
                 />
         </provider>

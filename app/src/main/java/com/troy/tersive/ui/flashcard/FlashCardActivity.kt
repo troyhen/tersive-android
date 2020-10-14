@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
 import com.troy.tersive.model.db.user.entity.Learn
@@ -31,8 +30,8 @@ import com.troy.tersive.ui.base.appBackground
 import com.troy.tersive.ui.base.cardBackground
 import com.troy.tersive.ui.base.colorPrimary
 import com.troy.tersive.ui.nav.Screen
+import org.koin.androidx.compose.getViewModel
 
-//@AndroidEntryPoint
 //class FlashCardActivity : AppCompatActivity() {
 //
 //    @Inject
@@ -195,7 +194,7 @@ import com.troy.tersive.ui.nav.Screen
 
 @Composable
 fun FlashCardPage(phraseType: FlashCardRepo.Type) {
-    val viewModel: FlashCardViewModel = viewModel()
+    val viewModel: FlashCardViewModel = getViewModel()
     viewModel.autoSignIn()
     viewModel.phraseType = phraseType
     AppTheme {
@@ -236,7 +235,7 @@ private fun ColumnScope.QuestionCard() {
         backgroundColor = cardBackground,
         elevation = 6.dp,
     ) {
-        val viewModel: FlashCardViewModel = viewModel()
+        val viewModel: FlashCardViewModel = getViewModel()
         val scriptKeyId = when {
             viewModel.cardFlags and Learn.KEY == 0 -> R.string.tersive_script
             else -> R.string.tersive_key
@@ -330,7 +329,7 @@ private fun ColumnScope.AnswerCard() {
         backgroundColor = cardBackground,
         elevation = 6.dp,
     ) {
-        val viewModel: FlashCardViewModel = viewModel()
+        val viewModel: FlashCardViewModel = getViewModel()
         ConstraintLayout(Modifier.fillMaxSize()) {
             val (answerText, answerPencilLine, easyButton, goodButton, hardButton, againButton) = createRefs()
             if (viewModel.isFront && !viewModel.typeMode) {

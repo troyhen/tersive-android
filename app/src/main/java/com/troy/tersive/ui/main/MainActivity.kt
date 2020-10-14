@@ -30,7 +30,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
 import com.troy.tersive.model.repo.FlashCardRepo
@@ -41,8 +40,8 @@ import com.troy.tersive.ui.base.drawerStartColor
 import com.troy.tersive.ui.base.selectedColor
 import com.troy.tersive.ui.nav.MainScreen
 import com.troy.tersive.ui.read.ReadListActivity
+import org.koin.androidx.compose.getViewModel
 
-//@AndroidEntryPoint
 //class MainActivity : AppCompatActivity() {//}, NavigationView.OnNavigationItemSelectedListener {
 
 //    private val viewModel: MainViewModel by viewModels()
@@ -158,7 +157,7 @@ import com.troy.tersive.ui.read.ReadListActivity
 
 @Composable
 fun MainPage() {
-    val viewModel: MainViewModel = viewModel()
+    val viewModel: MainViewModel = getViewModel()
     AppTheme {
         Scaffold(topBar = {
             AppBar()

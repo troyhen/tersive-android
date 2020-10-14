@@ -3,11 +3,8 @@ package com.troy.tersive.model.db.user
 import android.app.Application
 import androidx.room.Room
 import org.dbtools.android.room.CloseableDatabaseWrapper
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class UserDatabaseManager @Inject constructor(private val app: Application) : CloseableDatabaseWrapper<UserDatabase>(app) {
+class UserDatabaseManager(private val app: Application) : CloseableDatabaseWrapper<UserDatabase>(app) {
 
     val userDb: UserDatabase get() = getDatabase()
 

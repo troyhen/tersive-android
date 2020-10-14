@@ -9,11 +9,9 @@ import com.troy.tersive.BuildConfig
 import timber.log.Timber
 import java.lang.Integer.min
 
-class LoggingInitializer : Initializer<Unit> {
+class TimberInit : Initializer<Unit> {
     override fun create(context: Context) {
 //        val applicationContext = checkNotNull(context.applicationContext) { "Missing Application Context" }
-//        val injector = EntryPoints.get(applicationContext, LoggingInitializerInjector::class.java)
-//        val prefs = injector.getPrefs()
 //        val aboutPrefs = injector.getAboutPrefs()
 
         // Always register userId (even if FirebaseCrashlyticsTree is not planted)
@@ -35,13 +33,6 @@ class LoggingInitializer : Initializer<Unit> {
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()//listOf(PrefsInitializer::class.java)
-
-//    @EntryPoint
-//    @InstallIn(ApplicationComponent::class)
-//    interface LoggingInitializerInjector {
-//        fun getPrefs(): Prefs
-//        fun getAboutPrefs(): AboutPrefs
-//    }
 
 //    companion object {
 //        private const val FORCE_CRASHLYTICS = true

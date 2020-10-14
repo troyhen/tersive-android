@@ -7,7 +7,7 @@ import androidx.startup.Initializer
 import com.troy.tersive.app.App
 import java.lang.ref.WeakReference
 
-class ActivityLifecycleInitializer : Initializer<Unit> {
+class LifecycleInit : Initializer<Unit> {
 
     var starts = 0
     val inForeground get() = starts > 0     // true when the application is in the foreground
@@ -65,17 +65,11 @@ class ActivityLifecycleInitializer : Initializer<Unit> {
 //    }
 
     companion object {
-        lateinit var activityLifecycleTracker: ActivityLifecycleInitializer
+        lateinit var activityLifecycleTracker: LifecycleInit
             private set
     }
 
     interface StartListener {
         fun onStart()
     }
-
-//    @EntryPoint
-//    @InstallIn(ApplicationComponent::class)
-//    interface ActivityLifecycleCallbacksInitializerInjector {
-//        fun getSessionPrefs(): SessionPrefs
-//    }
 }

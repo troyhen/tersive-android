@@ -8,14 +8,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.troy.tersive.model.util.EncryptUtil
 import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-@Singleton
-class Prefs @Inject constructor() : PrefsContainer(PrefsManager.PROTECTED_NAMESPACE) {
+class Prefs : PrefsContainer(PrefsManager.PROTECTED_NAMESPACE) {
 
     var userId by SharedPref(NO_USER)
     var typeMode by SharedPref(DEFAULT_MODE)

@@ -15,11 +15,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Instant
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class FirestoreRepo @Inject constructor(
+class FirestoreRepo(
     private val tersiveDatabaseManager: TersiveDatabaseManager
 ) {
 

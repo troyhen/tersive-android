@@ -1,17 +1,12 @@
 package com.troy.tersive.model.repo
 
-import androidx.annotation.WorkerThread
 import com.troy.tersive.model.data.WebDoc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@WorkerThread
-class WebRepo @Inject constructor() {
+class WebRepo {
 
     private var client = OkHttpClient()
 

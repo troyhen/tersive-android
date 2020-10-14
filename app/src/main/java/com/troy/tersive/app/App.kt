@@ -2,10 +2,8 @@ package com.troy.tersive.app
 
 import android.app.Activity
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
 import java.lang.ref.WeakReference
 
-@HiltAndroidApp
 class App : Application() {
 
     init {

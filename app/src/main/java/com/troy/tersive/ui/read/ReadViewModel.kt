@@ -9,9 +9,8 @@ import com.troy.tersive.model.repo.WebRepo
 import com.troy.tersive.ui.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class ReadViewModel @Inject constructor(
+class ReadViewModel(
     private val prefs: Prefs,
     private val tersiveMgr: TersiveDatabaseManager,
     private val tersiveUtil: TersiveUtil,

@@ -3,9 +3,8 @@ package com.troy.tersive.model.data
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.db.tersive.Tersive
 import timber.log.Timber
-import javax.inject.Inject
 
-class TersiveUtil @Inject constructor(prefs: Prefs) {
+class TersiveUtil(prefs: Prefs) {
 
     private val map = HashMap<CharSequence, String>()
     private val output = StringBuilder()

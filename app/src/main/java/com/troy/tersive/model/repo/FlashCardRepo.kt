@@ -1,6 +1,5 @@
 package com.troy.tersive.model.repo
 
-import androidx.annotation.WorkerThread
 import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
@@ -16,12 +15,8 @@ import com.troy.tersive.model.db.user.entity.Learn.Companion.WORD
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.Random
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-@WorkerThread
-class FlashCardRepo @Inject constructor(
+class FlashCardRepo(
     private val prefs: Prefs,
     private val tdm: TersiveDatabaseManager,
     private val udm: UserDatabaseManager,
