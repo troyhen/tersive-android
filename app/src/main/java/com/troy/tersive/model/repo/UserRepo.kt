@@ -8,6 +8,7 @@ import com.troy.tersive.model.db.user.UserDatabaseManager
 import com.troy.tersive.model.db.user.entity.Learn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -17,8 +18,9 @@ class UserRepo(
     private val userDatabaseManager: UserDatabaseManager
 ) {
     private val auth = FirebaseAuth.getInstance()
-    val isLoggedIn get() = userFlow.value != null
     val userFlow = MutableStateFlow(auth.currentUser)
+    val isLoggedIn get() = userFlow.value != null
+    val isLoggedInFlow get() = userFlow.map { it != null }
 
     init {
         auth.addAuthStateListener { auth ->

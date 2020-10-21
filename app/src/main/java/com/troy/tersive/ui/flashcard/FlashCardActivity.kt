@@ -17,6 +17,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
@@ -197,7 +198,9 @@ fun FlashCardPage(phraseType: FlashCardRepo.Type) {
     val viewModel: FlashCardViewModel = getViewModel()
     viewModel.autoSignIn()
     viewModel.phraseType = phraseType
+    val isLoggedIn = viewModel.isLoggedInFlow.collectAsState(false)
     AppTheme {
+        if (!isLoggedIn.value) return@AppTheme
         Column(
             modifier = Modifier
                 .fillMaxSize()

@@ -25,6 +25,7 @@ import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.BaseViewModel
 import com.troy.tersive.ui.nav.NavActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -35,6 +36,7 @@ class FlashCardViewModel(
     private val userRepo: UserRepo,
 ) : BaseViewModel<Unit>() {
 
+    val isLoggedInFlow get() = userRepo.isLoggedInFlow
     private var card by mutableStateOf<Card?>(null)
     val cardFlags: Int get() = card?.learn?.flags ?: 0
     val cardQuestion: String
@@ -83,8 +85,12 @@ class FlashCardViewModel(
     private val tersiveFont = font(R.font.tersive_script).asFontFamily()
 
     init {
-        if (userRepo.isLoggedIn) {
-            nextCard()
+        viewModelScope.launch {
+            isLoggedInFlow.collect { loggedIn ->
+                if (loggedIn) {
+                    nextCard()
+                }
+            }
         }
     }
 
