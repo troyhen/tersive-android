@@ -10,6 +10,25 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.troy.tersive.model.db.tersive.Datum
 import com.troy.tersive.model.db.tersive.Tersive
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
+import com.troy.tersive.model.repo.FirestoreConst.FIRST
+import com.troy.tersive.model.repo.FirestoreConst.FREQUENCY
+import com.troy.tersive.model.repo.FirestoreConst.ID
+import com.troy.tersive.model.repo.FirestoreConst.KBD
+import com.troy.tersive.model.repo.FirestoreConst.LANES
+import com.troy.tersive.model.repo.FirestoreConst.LAST
+import com.troy.tersive.model.repo.FirestoreConst.LVL1
+import com.troy.tersive.model.repo.FirestoreConst.LVL2
+import com.troy.tersive.model.repo.FirestoreConst.LVL3
+import com.troy.tersive.model.repo.FirestoreConst.LVL4
+import com.troy.tersive.model.repo.FirestoreConst.MODIFIED
+import com.troy.tersive.model.repo.FirestoreConst.PHRASE
+import com.troy.tersive.model.repo.FirestoreConst.SORT
+import com.troy.tersive.model.repo.FirestoreConst.STAGE
+import com.troy.tersive.model.repo.FirestoreConst.TERSIVE
+import com.troy.tersive.model.repo.FirestoreConst.TERSIVE_CACHE
+import com.troy.tersive.model.repo.FirestoreConst.TERSIVE_TIMESTAMP
+import com.troy.tersive.model.repo.FirestoreConst.TYPE
+import com.troy.tersive.model.repo.FirestoreConst.WORDS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,8 +41,8 @@ class FirestoreRepo(
 
     private val db = FirebaseFirestore.getInstance()
 
-    //    private val tersiveRef = db.collection("lanes").document("stage").collection("tersive")
-    private val tersiveCacheRef = db.collection("lanes").document("stage").collection("tersiveCache")
+    //    private val tersiveRef = db.collection(LANES).document(STAGE).collection(TERSIVE)
+    private val tersiveCacheRef = db.collection(LANES).document(STAGE).collection(TERSIVE_CACHE)
 
     init {
         tersiveCacheRef.addSnapshotListener(TersiveListener())
@@ -36,19 +55,19 @@ class FirestoreRepo(
         tersiveDatabaseManager.tersiveDb.tersiveDao.findAll().chunked(chunkSize).forEach { chunk ->
             data.clear()
             tersive.clear()
-            data["first"] = chunk.first().id
-            data["last"] = chunk.last().id
-            data["modified"] = FieldValue.serverTimestamp()
+            data[FIRST] = chunk.first().id
+            data[LAST] = chunk.last().id
+            data[MODIFIED] = FieldValue.serverTimestamp()
             chunk.forEach {
                 tersive.add(it.toMap())
             }
-            data["tersive"] = tersive
+            data[TERSIVE] = tersive
             tersiveCacheRef.document().set(data).addOnSuccessListener {
                 Timber.d("Sent ${chunk.size} to tersiveCache")
             }.addOnFailureListener {
                 Timber.e(it)
             }
-            tersiveDatabaseManager.tersiveDb.datumDao.save(Datum(updateTimestamp, Instant.now().toString()))
+            tersiveDatabaseManager.tersiveDb.datumDao.save(Datum(TERSIVE_TIMESTAMP, Instant.now().toString()))
         }
     }
 
@@ -72,7 +91,7 @@ class FirestoreRepo(
             for (change in query.documentChanges) {
                 val doc = change.document
                 if (doc.metadata.hasPendingWrites()) continue   // ignore documents which we just sent
-                val tersiveList = doc.getTersiveList("tersive")
+                val tersiveList = doc.getTersiveList(TERSIVE)
                 when (change.type) {
                     DocumentChange.Type.REMOVED -> tersiveList.delete()
                     else -> tersiveList.save()
@@ -97,16 +116,16 @@ class FirestoreRepo(
 
     private fun Tersive.toMap(): Map<String, Any> {
         return mutableMapOf<String, Any>().apply {
-            set("id", id)
-            set("phrase", phrase)
-            lvl1?.let { set("lvl1", it) }
-            lvl2?.let { set("lvl2", it) }
-            lvl3?.let { set("lvl3", it) }
-            lvl4?.let { set("lvl4", it) }
-            kbd?.let { set("kbd", it) }
-            set("words", words)
-            sort?.let { set("sort", it) }
-            set("type", type)
+            set(ID, id)
+            set(PHRASE, phrase)
+            lvl1?.let { set(LVL1, it) }
+            lvl2?.let { set(LVL2, it) }
+            lvl3?.let { set(LVL3, it) }
+            lvl4?.let { set(LVL4, it) }
+            kbd?.let { set(KBD, it) }
+            set(WORDS, words)
+            sort?.let { set(SORT, it) }
+            set(TYPE, type)
         }
     }
 
@@ -118,22 +137,22 @@ class FirestoreRepo(
     private fun Map<*, *>.getString(key: String) = get(key) as? String
 
     private fun Map<*, *>.toTersive(): Tersive? {
-        val id = getLong("id") ?: return null
-        val phrase = getString("phrase") ?: return null
-        val words = getInt("words") ?: return null
-        val frequency = getInt("frequency") ?: return null
-        val type = getInt("type") ?: return null
+        val id = getLong(ID) ?: return null
+        val phrase = getString(PHRASE) ?: return null
+        val words = getInt(WORDS) ?: return null
+        val frequency = getInt(FREQUENCY) ?: return null
+        val type = getInt(TYPE) ?: return null
         return Tersive(
             id = id,
             phrase = phrase,
-            lvl1 = getString("lvl1"),
-            lvl2 = getString("lvl2"),
-            lvl3 = getString("lvl3"),
-            lvl4 = getString("lvl4"),
-            kbd = getString("kbd"),
+            lvl1 = getString(LVL1),
+            lvl2 = getString(LVL2),
+            lvl3 = getString(LVL3),
+            lvl4 = getString(LVL4),
+            kbd = getString(KBD),
             words = words,
             frequency = frequency,
-            sort = (get("sort") as? Long)?.toInt(),
+            sort = (get(SORT) as? Long)?.toInt(),
             type = type
         )
     }
@@ -145,23 +164,23 @@ class FirestoreRepo(
         val list = ArrayList<Tersive>(tersive.size)
         tersive.forEach {
             val map = it as? Map<*, *> ?: return@forEach
-            val id = map.getLong("id") ?: return@forEach
-            val phrase = map.getString("phrase") ?: return@forEach
-            val words = map.getInt("words") ?: return@forEach
-            val frequency = map.getInt("frequency") ?: return@forEach
-            val type = map.getInt("type") ?: return@forEach
+            val id = map.getLong(ID) ?: return@forEach
+            val phrase = map.getString(PHRASE) ?: return@forEach
+            val words = map.getInt(WORDS) ?: return@forEach
+            val frequency = map.getInt(FREQUENCY) ?: return@forEach
+            val type = map.getInt(TYPE) ?: return@forEach
             list.add(
                 Tersive(
                     id = id,
                     phrase = phrase,
-                    lvl1 = map.getString("lvl1"),
-                    lvl2 = map.getString("lvl2"),
-                    lvl3 = map.getString("lvl3"),
-                    lvl4 = map.getString("lvl4"),
-                    kbd = map.getString("kbd"),
+                    lvl1 = map.getString(LVL1),
+                    lvl2 = map.getString(LVL2),
+                    lvl3 = map.getString(LVL3),
+                    lvl4 = map.getString(LVL4),
+                    kbd = map.getString(KBD),
                     words = words,
                     frequency = frequency,
-                    sort = map.getInt("sort"),
+                    sort = map.getInt(SORT),
                     type = type
                 )
             )
@@ -171,7 +190,6 @@ class FirestoreRepo(
 
     companion object {
         private const val chunkSize = 10_000
-        private const val updateTimestamp = "updateTimestamp"
     }
 
     inner class TersiveListener : EventListener<QuerySnapshot> {
