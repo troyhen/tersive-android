@@ -2,11 +2,11 @@ package com.troy.tersive.app.init
 
 import android.content.Context
 import androidx.startup.Initializer
-import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.HashUtil
 import com.troy.tersive.model.data.TersiveUtil
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import com.troy.tersive.model.db.user.UserDatabaseManager
+import com.troy.tersive.model.prefs.Prefs
 import com.troy.tersive.model.repo.FirestoreRepo
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.model.repo.UserRepo

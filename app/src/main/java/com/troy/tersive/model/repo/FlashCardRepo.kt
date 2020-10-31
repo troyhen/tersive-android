@@ -1,6 +1,5 @@
 package com.troy.tersive.model.repo
 
-import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import com.troy.tersive.model.db.user.UserDatabaseManager
@@ -12,6 +11,7 @@ import com.troy.tersive.model.db.user.entity.Learn.Companion.PHRASE
 import com.troy.tersive.model.db.user.entity.Learn.Companion.RELIGIOUS
 import com.troy.tersive.model.db.user.entity.Learn.Companion.SCRIPT
 import com.troy.tersive.model.db.user.entity.Learn.Companion.WORD
+import com.troy.tersive.model.prefs.Prefs
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.Random

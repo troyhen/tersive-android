@@ -2,10 +2,10 @@ package com.troy.tersive.model.repo
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import com.troy.tersive.model.db.user.UserDatabaseManager
 import com.troy.tersive.model.db.user.entity.Learn
+import com.troy.tersive.model.prefs.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map

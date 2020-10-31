@@ -1,4 +1,4 @@
-package com.troy.tersive.mgr
+package com.troy.tersive.model.prefs
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,7 +12,7 @@ import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class Prefs : PrefsContainer(PrefsManager.PROTECTED_NAMESPACE) {
+class Prefs : PrefsContainer(PROTECTED_NAMESPACE) {
 
     var userId by SharedPref(NO_USER)
     var typeMode by SharedPref(DEFAULT_MODE)
@@ -57,8 +57,8 @@ sealed class PrefsManager {
         private var isTest: Boolean = false
 
         fun init(context: Context, isTest: Boolean = false) {
-            this.context = context
-            this.isTest = isTest
+            Companion.context = context
+            Companion.isTest = isTest
         }
 
         fun protectedNamespace(namespace: String) {

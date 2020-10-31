@@ -1,4 +1,4 @@
-package com.troy.tersive.mgr
+package com.troy.tersive.model.prefs
 
 import timber.log.Timber
 import java.time.Instant

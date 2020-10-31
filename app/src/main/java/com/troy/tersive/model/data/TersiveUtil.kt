@@ -1,7 +1,7 @@
 package com.troy.tersive.model.data
 
-import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.db.tersive.Tersive
+import com.troy.tersive.model.prefs.Prefs
 import timber.log.Timber
 
 class TersiveUtil(prefs: Prefs) {

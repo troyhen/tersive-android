@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import androidx.startup.Initializer
 import com.troy.tersive.R
-import com.troy.tersive.mgr.PrefsManager
+import com.troy.tersive.model.prefs.PrefsManager
 
 class PrefsInit : Initializer<Unit> {
 

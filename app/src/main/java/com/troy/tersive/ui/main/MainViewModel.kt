@@ -1,7 +1,7 @@
 package com.troy.tersive.ui.main
 
 import androidx.compose.runtime.mutableStateOf
-import com.troy.tersive.mgr.Prefs
+import com.troy.tersive.model.prefs.Prefs
 import com.troy.tersive.model.repo.FirestoreRepo
 import com.troy.tersive.ui.base.BaseViewModel
 

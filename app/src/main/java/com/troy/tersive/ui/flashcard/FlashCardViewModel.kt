@@ -12,10 +12,10 @@ import androidx.compose.ui.text.font.font
 import androidx.lifecycle.viewModelScope
 import com.troy.tersive.R
 import com.troy.tersive.app.App
-import com.troy.tersive.mgr.Prefs
 import com.troy.tersive.model.data.Card
 import com.troy.tersive.model.data.TersiveUtil
 import com.troy.tersive.model.db.user.entity.Learn
+import com.troy.tersive.model.prefs.Prefs
 import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
 import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
