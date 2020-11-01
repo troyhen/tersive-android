@@ -14,6 +14,7 @@ import com.troy.tersive.model.repo.WebRepo
 import com.troy.tersive.model.util.EncryptUtil
 import com.troy.tersive.ui.admin.AdminMenuViewModel
 import com.troy.tersive.ui.flashcard.FlashCardViewModel
+import com.troy.tersive.ui.intro.IntroViewModel
 import com.troy.tersive.ui.main.MainViewModel
 import com.troy.tersive.ui.read.ReadListViewModel
 import com.troy.tersive.ui.read.ReadViewModel
@@ -49,6 +50,7 @@ class KoinInit : Initializer<Unit> {
 
             viewModel { AdminMenuViewModel() }
             viewModel { FlashCardViewModel(get(), get(), get(), get()) }
+            viewModel { IntroViewModel() }
             viewModel { MainViewModel(get(), get()) }
             viewModel { ReadListViewModel() }
             viewModel { ReadViewModel(get(), get(), get(), get()) }

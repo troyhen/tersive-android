@@ -30,6 +30,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.navigate
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
 import com.troy.tersive.model.repo.FlashCardRepo
@@ -38,7 +39,8 @@ import com.troy.tersive.ui.base.drawerCenterColor
 import com.troy.tersive.ui.base.drawerEndColor
 import com.troy.tersive.ui.base.drawerStartColor
 import com.troy.tersive.ui.base.selectedColor
-import com.troy.tersive.ui.nav.MainScreen
+import com.troy.tersive.ui.nav.NavControllerAmbient
+import com.troy.tersive.ui.nav.Screen
 import com.troy.tersive.ui.read.ReadListActivity
 import org.koin.androidx.compose.getViewModel
 
@@ -173,7 +175,7 @@ fun MainPage() {
 
 @Composable
 private fun AppBar() {
-//    val navController = NavControllerAmbient.current
+    val navController = NavControllerAmbient.current
     TopAppBar(
 //        navigationIcon = {
 //            IconButton(onClick = { /*navController.popBackStack()*/ }) {
@@ -185,7 +187,7 @@ private fun AppBar() {
         },
         actions = {
             IconButton(onClick = {
-                MainScreen.goAdminMenu()
+                navController.navigate(Screen.ADMIN.route)
             }) {
                 Icon(Icons.Filled.Settings)
             }
@@ -216,6 +218,7 @@ private fun NavDrawerHeader() {
 
 @Composable
 private fun MainButtons(typeMode: Boolean = false, setMode: (Boolean) -> Unit = {}) {
+    val navController = NavControllerAmbient.current
 //    val viewModel: MainViewModel = viewModel()
     val context = ContextAmbient.current
     val padding = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp)
@@ -231,13 +234,13 @@ private fun MainButtons(typeMode: Boolean = false, setMode: (Boolean) -> Unit = 
             }
         }
         TersiveButton(modifier = paddingExtra, image = imageResource(R.drawable.handwriting), text = stringResource(R.string.tersive_basics)) {
-            MainScreen.goIntro()
+            navController.navigate(Screen.INTRO.route)
         }
         TersiveButton(modifier = paddingExtra, image = imageResource(R.drawable.word_cards), text = stringResource(R.string.word_cards)) {
-            MainScreen.goFlashCards(FlashCardRepo.Type.WORD_ONLY)
+            navController.navigate("card/${FlashCardRepo.Type.WORD_ONLY}")
         }
         TersiveButton(modifier = padding, image = imageResource(R.drawable.phrase_cards), text = stringResource(R.string.phrase_cards)) {
-            MainScreen.goFlashCards(FlashCardRepo.Type.PHRASE_ONLY)
+            navController.navigate("card/${FlashCardRepo.Type.PHRASE_ONLY}")
         }
         TersiveButton(modifier = paddingExtra, image = imageResource(R.drawable.practice_reading), text = stringResource(R.string.practice_reading)) {
             ReadListActivity.start(context)

@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import com.troy.tersive.R
 import com.troy.tersive.ui.base.AppTheme
+import com.troy.tersive.ui.nav.NavControllerAmbient
 import org.koin.androidx.compose.getViewModel
 import timber.log.Timber
 
@@ -63,11 +64,11 @@ fun IntroPage() {
 
 @Composable
 private fun AppBar() {
-//    val navController = NavControllerAmbient.current
+    val navController = NavControllerAmbient.current
     val viewModel: IntroViewModel = getViewModel()
     TopAppBar(
         navigationIcon = {
-            IconButton(onClick = { viewModel.onBackPressed() }) {
+            IconButton(onClick = { viewModel.onBackPressed(navController) }) {
                 Icon(Icons.Filled.ArrowBack)
             }
         },

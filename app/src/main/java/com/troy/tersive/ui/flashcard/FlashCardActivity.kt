@@ -30,7 +30,7 @@ import com.troy.tersive.ui.base.AppTheme
 import com.troy.tersive.ui.base.appBackground
 import com.troy.tersive.ui.base.cardBackground
 import com.troy.tersive.ui.base.colorPrimary
-import com.troy.tersive.ui.nav.Screen
+import com.troy.tersive.ui.nav.NavControllerAmbient
 import org.koin.androidx.compose.getViewModel
 
 //class FlashCardActivity : AppCompatActivity() {
@@ -194,7 +194,7 @@ import org.koin.androidx.compose.getViewModel
 //}
 
 @Composable
-fun FlashCardPage(phraseType: FlashCardRepo.Type) {
+fun FlashCardPage(phraseType: FlashCardRepo.Type = FlashCardRepo.Type.ANY) {
     val viewModel: FlashCardViewModel = getViewModel()
     viewModel.autoSignIn()
     viewModel.phraseType = phraseType
@@ -246,7 +246,8 @@ private fun ColumnScope.QuestionCard() {
         ConstraintLayout(Modifier.fillMaxSize()) {
             val (doneButton, scriptKeyText, wordPhraseText, frontBackText, quizPencilLine,
                 quizText, showButton) = createRefs()
-            TextButton(onClick = { Screen.current().pop() }, modifier = Modifier.constrainAs(doneButton) {
+            val navController = NavControllerAmbient.current
+            TextButton(onClick = { navController.popBackStack() }, modifier = Modifier.constrainAs(doneButton) {
                 top.linkTo(parent.top, margin = 16.dp)
                 start.linkTo(parent.start, margin = 16.dp)
             }) {
