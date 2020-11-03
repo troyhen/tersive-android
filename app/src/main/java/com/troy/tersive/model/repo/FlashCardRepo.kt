@@ -47,17 +47,17 @@ class FlashCardRepo(
         val index = rnd.nextInt(SESSION_COUNT)
         val time = LocalDateTime.now()
         val back = when (side) {
-            Side.ANY -> rnd.nextBoolean()
-            Side.FRONT_ONLY -> false
-            Side.BACK_ONLY -> true
+            Side.any -> rnd.nextBoolean()
+            Side.front -> false
+            Side.back -> true
         }
         val phrase = when (type) {
-            Type.ANY,
-            Type.RELIGIOUS_ONLY -> rnd.nextBoolean()
-            Type.WORD_ONLY -> false
-            Type.PHRASE_ONLY -> true
+            Type.any,
+            Type.religious -> rnd.nextBoolean()
+            Type.word -> false
+            Type.phrase -> true
         }
-        val religious = type == Type.RELIGIOUS_ONLY
+        val religious = type == Type.religious
         val key = prefs.typeMode
         val tersiveType =
             (if (phrase) PHRASE else WORD) or (if (religious) RELIGIOUS else NONRELIGIOUS)
@@ -76,11 +76,11 @@ class FlashCardRepo(
     }
 
     enum class Side {
-        ANY, FRONT_ONLY, BACK_ONLY
+        any, front, back
     }
 
     enum class Type {
-        ANY, WORD_ONLY, PHRASE_ONLY, RELIGIOUS_ONLY
+        any, word, phrase, religious
     }
 
     enum class Result(val sortAdd: Int, val timeAdd: Duration) {

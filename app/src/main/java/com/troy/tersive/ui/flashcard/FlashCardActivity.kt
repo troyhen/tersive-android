@@ -194,7 +194,7 @@ import org.koin.androidx.compose.getViewModel
 //}
 
 @Composable
-fun FlashCardPage(phraseType: FlashCardRepo.Type = FlashCardRepo.Type.ANY) {
+fun FlashCardPage(phraseType: FlashCardRepo.Type = FlashCardRepo.Type.any) {
     val viewModel: FlashCardViewModel = getViewModel()
     viewModel.autoSignIn()
     viewModel.phraseType = phraseType
@@ -224,7 +224,7 @@ fun ColumnScope.HideAnswer() {
 @Preview
 @Composable
 private fun FlashCardPreview() {
-    FlashCardPage(FlashCardRepo.Type.WORD_ONLY)
+    FlashCardPage(FlashCardRepo.Type.word)
 }
 
 @Composable

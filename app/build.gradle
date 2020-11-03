@@ -8,7 +8,7 @@ apply plugin: 'koin'
 ext {
     kotlinVersion = "1.4.10"
     composeVersion = "1.0.0-alpha06"
-    koinVersion = "2.2.0-rc-2"
+    koinVersion = "2.2.0-rc-4"
     sdkVersion = 30
 }
 
@@ -112,7 +112,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha01"
 
     // Injection
-    implementation "org.koin:koin-androidx-scope:$koinVersion"
+//    implementation "org.koin:koin-androidx-scope:$koinVersion"
     implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
 //    implementation "org.koin:koin-androidx-fragment:$koinVersion"
 //    implementation "org.koin:koin-androidx-workmanager:$koinVersion"

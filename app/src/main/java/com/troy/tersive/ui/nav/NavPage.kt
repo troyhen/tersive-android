@@ -14,6 +14,7 @@ import com.troy.tersive.ui.admin.AdminMenuPage
 import com.troy.tersive.ui.flashcard.FlashCardPage
 import com.troy.tersive.ui.intro.IntroPage
 import com.troy.tersive.ui.main.MainPage
+import java.util.Locale
 
 enum class Screen(val route: String) {
     ADMIN("admin"),
@@ -33,7 +34,7 @@ fun NavPage() {
             composable(
                 route = Screen.CARD.route,
                 arguments = listOf(navArgument("type") { type = NavType.EnumType(FlashCardRepo.Type::class.java) })
-            ) { backStackEntry -> FlashCardPage(FlashCardRepo.Type.valueOf(backStackEntry.arguments?.getString("type") ?: FlashCardRepo.Type.ANY.name)) }
+            ) { backStackEntry -> FlashCardPage(FlashCardRepo.Type.valueOf(backStackEntry.arguments?.getString("type")?.toUpperCase(Locale.US) ?: FlashCardRepo.Type.any.name)) }
             composable(Screen.INTRO.route) { IntroPage() }
             composable(Screen.MAIN.route) { MainPage() }
         }

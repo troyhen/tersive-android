@@ -77,7 +77,7 @@ class FlashCardViewModel(
 
     val isFront get() = card?.front == true
 
-    var phraseType = FlashCardRepo.Type.ANY
+    var phraseType = FlashCardRepo.Type.any
     val showAnswer = mutableStateOf(false)
     val typeMode get() = prefs.typeMode
     private val keyFont = FontFamily.Monospace
@@ -125,7 +125,7 @@ class FlashCardViewModel(
 
     private fun nextCard() = viewModelScope.launch(Dispatchers.Main) {
         showAnswer.value = false
-        withContext(Dispatchers.IO) { flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.ANY) }?.let {
+        withContext(Dispatchers.IO) { flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.any) }?.let {
             card = it
         }
     }
