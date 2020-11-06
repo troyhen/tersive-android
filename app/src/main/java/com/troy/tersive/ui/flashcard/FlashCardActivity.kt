@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Dimension.Companion.fillToConstraints
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,11 +22,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.asFontFamily
+import androidx.compose.ui.text.font.font
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
+import com.troy.tersive.model.data.Card
+import com.troy.tersive.model.data.CardResult
+import com.troy.tersive.model.data.CardType
+import com.troy.tersive.model.db.tersive.Tersive
 import com.troy.tersive.model.db.user.entity.Learn
-import com.troy.tersive.model.repo.FlashCardRepo
 import com.troy.tersive.ui.base.AppTheme
 import com.troy.tersive.ui.base.appBackground
 import com.troy.tersive.ui.base.cardBackground
@@ -194,21 +201,21 @@ import org.koin.androidx.compose.getViewModel
 //}
 
 @Composable
-fun FlashCardPage(phraseType: FlashCardRepo.Type = FlashCardRepo.Type.any) {
+fun FlashCardPage(cardType: CardType = CardType.ANY) {
     val viewModel: FlashCardViewModel = getViewModel()
+    viewModel.cardType = cardType
     viewModel.autoSignIn()
-    viewModel.phraseType = phraseType
-    val isLoggedIn = viewModel.isLoggedInFlow.collectAsState(false)
+    val cardState = viewModel.cardFlow.collectAsState(initial = null)
     AppTheme {
-        if (!isLoggedIn.value) return@AppTheme
+        val card = cardState.value ?: return@AppTheme
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(appBackground)
         ) {
-            QuestionCard()
+            QuestionCard(viewModel, card)
             if (viewModel.showAnswer.value) {
-                AnswerCard()
+                AnswerCard(viewModel, card)
             } else {
                 HideAnswer()
             }
@@ -217,18 +224,14 @@ fun FlashCardPage(phraseType: FlashCardRepo.Type = FlashCardRepo.Type.any) {
 }
 
 @Composable
-fun ColumnScope.HideAnswer() {
-    Spacer(modifier = Modifier.weight(1f))
-}
-
-@Preview
-@Composable
-private fun FlashCardPreview() {
-    FlashCardPage(FlashCardRepo.Type.word)
-}
-
-@Composable
-private fun ColumnScope.QuestionCard() {
+private fun ColumnScope.QuestionCard(viewModel: FlashCardViewModel? = null, card: Card = previewCard) {
+    val cardFlags = card.learn.flags
+    val isFront = card.front
+    val typeMode = viewModel?.typeMode ?: false
+    val cardQuestion = viewModel?.cardQuestion(card, typeMode) ?: "it, to"
+    val questionFont = viewModel?.questionFont(card) ?: FontFamily.Default
+    val questionStyle = viewModel?.questionStyle(card) ?: MaterialTheme.typography.h6
+    val showAnswer = viewModel?.showAnswer?.value ?: false
     Card(
         modifier = Modifier
             .weight(1f)
@@ -238,9 +241,8 @@ private fun ColumnScope.QuestionCard() {
         backgroundColor = cardBackground,
         elevation = 6.dp,
     ) {
-        val viewModel: FlashCardViewModel = getViewModel()
         val scriptKeyId = when {
-            viewModel.cardFlags and Learn.KEY == 0 -> R.string.tersive_script
+            cardFlags and Learn.KEY == 0 -> R.string.tersive_script
             else -> R.string.tersive_key
         }
         ConstraintLayout(Modifier.fillMaxSize()) {
@@ -262,7 +264,7 @@ private fun ColumnScope.QuestionCard() {
                 style = MaterialTheme.typography.caption,
             )
             val wordPhraseId = when {
-                viewModel.cardFlags and Learn.PHRASE == 0 -> R.string.word
+                cardFlags and Learn.PHRASE == 0 -> R.string.word
                 else -> R.string.phrase
             }
             Text(
@@ -274,7 +276,7 @@ private fun ColumnScope.QuestionCard() {
                 style = MaterialTheme.typography.caption,
             )
             val frontBackId = when {
-                viewModel.isFront -> R.string.front
+                isFront -> R.string.front
                 else -> R.string.back
             }
             Text(
@@ -285,7 +287,7 @@ private fun ColumnScope.QuestionCard() {
                 },
                 style = MaterialTheme.typography.caption,
             )
-            if (!viewModel.isFront && !viewModel.typeMode) {
+            if (!isFront && !typeMode) {
                 Box(Modifier
                     .constrainAs(quizPencilLine) {
                         linkTo(quizText.top, quizText.bottom, 1.dp)
@@ -298,19 +300,19 @@ private fun ColumnScope.QuestionCard() {
                 )
             }
             Text(
-                text = viewModel.cardQuestion,
+                text = cardQuestion,
                 modifier = Modifier
                     .constrainAs(quizText) {
                         centerHorizontallyTo(parent)
                         centerVerticallyTo(parent)
                     }
                     .padding(16.dp),
-                fontFamily = viewModel.questionFont,
-                style = viewModel.questionStyle(),
+                fontFamily = questionFont,
+                style = questionStyle,
             )
-            if (!viewModel.showAnswer.value) {
+            if (!showAnswer) {
                 TextButton(onClick = {
-                    viewModel.showAnswer.value = true
+                    viewModel?.showAnswer?.value = true
                 }, Modifier.constrainAs(showButton) {
                     bottom.linkTo(parent.bottom, margin = 16.dp)
                     centerHorizontallyTo(parent)
@@ -323,7 +325,17 @@ private fun ColumnScope.QuestionCard() {
 }
 
 @Composable
-private fun ColumnScope.AnswerCard() {
+fun ColumnScope.HideAnswer() {
+    Spacer(modifier = Modifier.weight(1f))
+}
+
+@Composable
+private fun ColumnScope.AnswerCard(viewModel: FlashCardViewModel? = null, card: Card = previewCard) {
+    val isFront = card.front
+    val typeMode = viewModel?.typeMode ?: false
+    val cardAnswer = viewModel?.cardAnswer(card, typeMode) ?: "t"
+    val answerFont = viewModel?.answerFont(card) ?: font(R.font.tersive_script).asFontFamily()
+    val answerStyle = viewModel?.answerStyle(card) ?: MaterialTheme.typography.h1
     Card(
         modifier = Modifier
             .weight(1f)
@@ -333,10 +345,9 @@ private fun ColumnScope.AnswerCard() {
         backgroundColor = cardBackground,
         elevation = 6.dp,
     ) {
-        val viewModel: FlashCardViewModel = getViewModel()
         ConstraintLayout(Modifier.fillMaxSize()) {
             val (answerText, answerPencilLine, easyButton, goodButton, hardButton, againButton) = createRefs()
-            if (viewModel.isFront && !viewModel.typeMode) {
+            if (isFront && !typeMode) {
                 Box(Modifier
                     .constrainAs(answerPencilLine) {
                         linkTo(answerText.top, answerText.bottom, 1.dp)
@@ -349,18 +360,18 @@ private fun ColumnScope.AnswerCard() {
                 )
             }
             Text(
-                text = viewModel.cardAnswer,
+                text = cardAnswer,
                 modifier = Modifier
                     .constrainAs(answerText) {
                         centerHorizontallyTo(parent)
                         centerVerticallyTo(parent)
                     }
                     .padding(16.dp),
-                fontFamily = viewModel.answerFont,
-                style = viewModel.answerStyle(),
+                fontFamily = answerFont,
+                style = answerStyle,
             )
             TextButton(onClick = {
-                viewModel.updateCard(FlashCardRepo.Result.EASY)
+                viewModel?.updateCard(card, CardResult.EASY)
             }, Modifier.constrainAs(easyButton) {
                 start.linkTo(parent.start)
                 end.linkTo(goodButton.start)
@@ -369,7 +380,7 @@ private fun ColumnScope.AnswerCard() {
                 Text(text = stringResource(R.string.easy))
             }
             TextButton(onClick = {
-                viewModel.updateCard(FlashCardRepo.Result.GOOD)
+                viewModel?.updateCard(card, CardResult.GOOD)
             }, Modifier.constrainAs(goodButton) {
                 start.linkTo(easyButton.end)
                 end.linkTo(hardButton.start)
@@ -378,7 +389,7 @@ private fun ColumnScope.AnswerCard() {
                 Text(text = stringResource(R.string.good))
             }
             TextButton(onClick = {
-                viewModel.updateCard(FlashCardRepo.Result.HARD)
+                viewModel?.updateCard(card, CardResult.HARD)
             }, Modifier.constrainAs(hardButton) {
                 start.linkTo(goodButton.end)
                 end.linkTo(againButton.start)
@@ -387,7 +398,7 @@ private fun ColumnScope.AnswerCard() {
                 Text(text = stringResource(R.string.hard))
             }
             TextButton(onClick = {
-                viewModel.updateCard(FlashCardRepo.Result.AGAIN)
+                viewModel?.updateCard(card, CardResult.AGAIN)
             }, Modifier.constrainAs(againButton) {
                 start.linkTo(hardButton.end)
                 end.linkTo(parent.end)
@@ -396,5 +407,31 @@ private fun ColumnScope.AnswerCard() {
                 Text(text = stringResource(R.string.again))
             }
         }
+    }
+}
+
+private val previewCard = Card(true, 0, Learn(0, "", 0, "t", 0), listOf(Tersive(0L, "it", "it", "it", "it", "t", "t", 1, 0, null, 0)))
+
+@Preview
+@Composable
+private fun questionPreview() {
+    Column(
+        modifier = Modifier
+            .height(300.dp)
+            .background(appBackground)
+    ) {
+        QuestionCard()
+    }
+}
+
+@Preview
+@Composable
+private fun answerPreview() {
+    Column(
+        modifier = Modifier
+            .height(300.dp)
+            .background(appBackground)
+    ) {
+        AnswerCard()
     }
 }

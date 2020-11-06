@@ -9,18 +9,28 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
-import com.troy.tersive.model.repo.FlashCardRepo
+import com.troy.tersive.model.data.CardType
 import com.troy.tersive.ui.admin.AdminMenuPage
 import com.troy.tersive.ui.flashcard.FlashCardPage
 import com.troy.tersive.ui.intro.IntroPage
 import com.troy.tersive.ui.main.MainPage
-import java.util.Locale
 
-enum class Screen(val route: String) {
+enum class Screen(val route: String, val root: String = route) {
     ADMIN("admin"),
-    CARD("card/{type}"),
+    CARD("card/{type}", "card"),
     INTRO("intro"),
-    MAIN("main"),
+    MAIN("main");
+
+    companion object {
+        fun path(screen: Screen) = screen.root
+
+        fun path(screen: Screen, vararg args: Any): String {
+            return when (screen) {
+                CARD -> "${screen.root}/${args[0]}"
+                else -> path(screen)
+            }
+        }
+    }
 }
 
 val NavControllerAmbient = staticAmbientOf<NavController>()
@@ -33,8 +43,10 @@ fun NavPage() {
             composable(Screen.ADMIN.route) { AdminMenuPage() }
             composable(
                 route = Screen.CARD.route,
-                arguments = listOf(navArgument("type") { type = NavType.EnumType(FlashCardRepo.Type::class.java) })
-            ) { backStackEntry -> FlashCardPage(FlashCardRepo.Type.valueOf(backStackEntry.arguments?.getString("type")?.toUpperCase(Locale.US) ?: FlashCardRepo.Type.any.name)) }
+                arguments = listOf(navArgument("type") { type = NavType.EnumType(CardType::class.java) })
+            ) { backStackEntry ->
+                FlashCardPage(backStackEntry.arguments?.get("type") as? CardType ?: CardType.ANY)
+            }
             composable(Screen.INTRO.route) { IntroPage() }
             composable(Screen.MAIN.route) { MainPage() }
         }

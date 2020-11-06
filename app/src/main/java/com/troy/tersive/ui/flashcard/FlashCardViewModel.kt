@@ -2,9 +2,7 @@ package com.troy.tersive.ui.flashcard
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.asFontFamily
@@ -13,21 +11,26 @@ import androidx.lifecycle.viewModelScope
 import com.troy.tersive.R
 import com.troy.tersive.app.App
 import com.troy.tersive.model.data.Card
+import com.troy.tersive.model.data.CardResult
+import com.troy.tersive.model.data.CardResult.AGAIN
+import com.troy.tersive.model.data.CardResult.EASY
+import com.troy.tersive.model.data.CardResult.GOOD
+import com.troy.tersive.model.data.CardResult.HARD
+import com.troy.tersive.model.data.CardSide
+import com.troy.tersive.model.data.CardType
 import com.troy.tersive.model.data.TersiveUtil
 import com.troy.tersive.model.db.user.entity.Learn
 import com.troy.tersive.model.prefs.Prefs
 import com.troy.tersive.model.repo.FlashCardRepo
-import com.troy.tersive.model.repo.FlashCardRepo.Result.AGAIN
-import com.troy.tersive.model.repo.FlashCardRepo.Result.EASY
-import com.troy.tersive.model.repo.FlashCardRepo.Result.GOOD
-import com.troy.tersive.model.repo.FlashCardRepo.Result.HARD
 import com.troy.tersive.model.repo.UserRepo
 import com.troy.tersive.ui.base.BaseViewModel
 import com.troy.tersive.ui.nav.NavActivity
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FlashCardViewModel(
     private val flashCardRepo: FlashCardRepo,
@@ -36,67 +39,38 @@ class FlashCardViewModel(
     private val userRepo: UserRepo,
 ) : BaseViewModel<Unit>() {
 
-    val isLoggedInFlow get() = userRepo.isLoggedInFlow
-    private var card by mutableStateOf<Card?>(null)
-    val cardFlags: Int get() = card?.learn?.flags ?: 0
-    val cardQuestion: String
-        get() {
-            val card = card ?: return ""
-            return when {
-                card.front -> cardPhrases(card)
-                else -> cardTersive(card)
-            }
-        }
-    val questionFont: FontFamily
-        get() {
-            val card = card ?: return FontFamily.Default
-            return when {
-                card.front -> phraseFont
-                prefs.typeMode -> keyFont
-                else -> tersiveFont
-            }
+    private val isLoggedInFlow get() = userRepo.isLoggedInFlow
+    private val cardIndex = MutableStateFlow(1)
+    private var cardTypeFlow = MutableStateFlow(CardType.ANY)
+    var cardType: CardType
+        get() = cardTypeFlow.value
+        set(value) {
+            cardTypeFlow.value = value
         }
 
-    val cardAnswer: String
-        get() {
-            val card = card ?: return ""
-            return when {
-                card.front -> cardTersive(card)
-                else -> cardPhrases(card)
-            }
-        }
-    val answerFont: FontFamily
-        get() {
-            val card = card ?: return FontFamily.Default
-            return when {
-                !card.front -> phraseFont
-                prefs.typeMode -> keyFont
-                else -> tersiveFont
-            }
-        }
+    private var card: Card? = null
+    val cardFlow = combine(isLoggedInFlow, cardTypeFlow, cardIndex) { isLoggedIn, cardType, _ ->
+        if (isLoggedIn) {
+            showAnswer.value = false
+            flashCardRepo.nextCard(cardType, CardSide.ANY)
+        } else null
+    }.flowOn(Dispatchers.IO).onEach {
+        card = it
+    }
 
-    val isFront get() = card?.front == true
-
-    var phraseType = FlashCardRepo.Type.any
     val showAnswer = mutableStateOf(false)
     val typeMode get() = prefs.typeMode
-    private val keyFont = FontFamily.Monospace
-    private val phraseFont = FontFamily.Default
-    private val tersiveFont = font(R.font.tersive_script).asFontFamily()
 
-    init {
-        viewModelScope.launch {
-            isLoggedInFlow.collect { loggedIn ->
-                if (loggedIn) {
-                    nextCard()
-                }
-            }
+    fun answerFont(card: Card): FontFamily {
+        return when {
+            !card.front -> phraseFont
+            prefs.typeMode -> keyFont
+            else -> tersiveFont
         }
     }
 
     @Composable
-    fun answerStyle(): TextStyle {
-        val card = card ?: return MaterialTheme.typography.subtitle1
+    fun answerStyle(card: Card): TextStyle {
         return when {
             !card.front -> MaterialTheme.typography.h6
             prefs.typeMode -> MaterialTheme.typography.h6
@@ -110,7 +84,12 @@ class FlashCardViewModel(
         }
     }
 
-    private fun cardTersive(card: Card) = if (typeMode) card.learn.tersive else tersiveUtil.optimizeHand(card.learn.tersive).toString()
+    fun cardAnswer(card: Card, typeMode: Boolean): String {
+        return when {
+            card.front -> cardTersive(card, typeMode)
+            else -> cardPhrases(card)
+        }
+    }
 
     private fun cardPhrases(card: Card): String {
         return card.tersiveList.asSequence()
@@ -118,21 +97,25 @@ class FlashCardViewModel(
             .joinToString(", ") { it }
     }
 
-//    fun onLogin(user: FirebaseUser) = viewModelScope.launch(Dispatchers.IO) {
-//        userRepo.login(user)
-//        nextCard()
-//    }
+    fun cardQuestion(card: Card, typeMode: Boolean): String {
+        return when {
+            card.front -> cardPhrases(card)
+            else -> cardTersive(card, typeMode)
+        }
+    }
 
-    private fun nextCard() = viewModelScope.launch(Dispatchers.Main) {
-        showAnswer.value = false
-        withContext(Dispatchers.IO) { flashCardRepo.nextCard(phraseType, FlashCardRepo.Side.any) }?.let {
-            card = it
+    private fun cardTersive(card: Card, typeMode: Boolean) = if (typeMode) card.learn.tersive else tersiveUtil.optimizeHand(card.learn.tersive).toString()
+
+    fun questionFont(card: Card): FontFamily {
+        return when {
+            card.front -> phraseFont
+            prefs.typeMode -> keyFont
+            else -> tersiveFont
         }
     }
 
     @Composable
-    fun questionStyle(): TextStyle {
-        val card = card ?: return MaterialTheme.typography.subtitle1
+    fun questionStyle(card: Card): TextStyle {
         return when {
             card.front -> MaterialTheme.typography.h6
             prefs.typeMode -> MaterialTheme.typography.h6
@@ -140,8 +123,7 @@ class FlashCardViewModel(
         }
     }
 
-    fun updateCard(result: FlashCardRepo.Result) = viewModelScope.launch(Dispatchers.IO) {
-        val card = card ?: return@launch
+    fun updateCard(card: Card, result: CardResult) = viewModelScope.launch(Dispatchers.IO) {
         val step = FlashCardRepo.SESSION_COUNT
         val easy = if (result != EASY) 0 else card.learn.easy + 1
         val delta = when (result) {
@@ -166,6 +148,12 @@ class FlashCardViewModel(
         }
         val tries = 1 + card.learn.tries
         flashCardRepo.moveCard(card, delta, timeAdd, easy, tries)
-        nextCard()
+        cardIndex.value++
+    }
+
+    companion object {
+        private val keyFont = FontFamily.Monospace
+        private val phraseFont = FontFamily.Default
+        private val tersiveFont = font(R.font.tersive_script).asFontFamily()
     }
 }

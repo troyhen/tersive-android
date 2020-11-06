@@ -1,6 +1,8 @@
 package com.troy.tersive.model.repo
 
 import com.troy.tersive.model.data.Card
+import com.troy.tersive.model.data.CardSide
+import com.troy.tersive.model.data.CardType
 import com.troy.tersive.model.db.tersive.TersiveDatabaseManager
 import com.troy.tersive.model.db.user.UserDatabaseManager
 import com.troy.tersive.model.db.user.entity.Learn.Companion.BACK
@@ -42,22 +44,22 @@ class FlashCardRepo(
         )
     }
 
-    suspend fun nextCard(type: Type, side: Side): Card? {
+    suspend fun nextCard(type: CardType, side: CardSide): Card? {
         val userId = userRepo.userFlow.value?.uid ?: return null
         val index = rnd.nextInt(SESSION_COUNT)
         val time = LocalDateTime.now()
         val back = when (side) {
-            Side.any -> rnd.nextBoolean()
-            Side.front -> false
-            Side.back -> true
+            CardSide.ANY -> rnd.nextBoolean()
+            CardSide.FRONT -> false
+            CardSide.BACK -> true
         }
         val phrase = when (type) {
-            Type.any,
-            Type.religious -> rnd.nextBoolean()
-            Type.word -> false
-            Type.phrase -> true
+            CardType.ANY,
+            CardType.RELIGIOUS -> rnd.nextBoolean()
+            CardType.WORD -> false
+            CardType.PHRASE -> true
         }
-        val religious = type == Type.religious
+        val religious = type == CardType.RELIGIOUS
         val key = prefs.typeMode
         val tersiveType =
             (if (phrase) PHRASE else WORD) or (if (religious) RELIGIOUS else NONRELIGIOUS)
@@ -75,18 +77,4 @@ class FlashCardRepo(
         const val SESSION_COUNT = 20
     }
 
-    enum class Side {
-        any, front, back
-    }
-
-    enum class Type {
-        any, word, phrase, religious
-    }
-
-    enum class Result(val sortAdd: Int, val timeAdd: Duration) {
-        EASY(160, Duration.ofDays(4)),
-        GOOD(80, Duration.ofDays(1)),
-        HARD(40, Duration.ofHours(2)),
-        AGAIN(20, Duration.ofMinutes(15))
-    }
 }

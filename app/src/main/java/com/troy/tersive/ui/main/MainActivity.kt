@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.navigate
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
+import com.troy.tersive.model.data.CardType
 import com.troy.tersive.ui.base.AppTheme
 import com.troy.tersive.ui.base.drawerCenterColor
 import com.troy.tersive.ui.base.drawerEndColor
@@ -233,13 +234,13 @@ private fun MainButtons(typeMode: Boolean = false, setMode: (Boolean) -> Unit = 
             }
         }
         TersiveButton(modifier = paddingExtra, image = imageResource(R.drawable.handwriting), text = stringResource(R.string.tersive_basics)) {
-            navController.navigate(Screen.INTRO.route)
+            navController.navigate(Screen.path(Screen.INTRO))
         }
         TersiveButton(modifier = paddingExtra, image = imageResource(R.drawable.word_cards), text = stringResource(R.string.word_cards)) {
-            navController.navigate("card/word")
+            navController.navigate(Screen.path(Screen.CARD, CardType.WORD))
         }
         TersiveButton(modifier = padding, image = imageResource(R.drawable.phrase_cards), text = stringResource(R.string.phrase_cards)) {
-            navController.navigate("card/phrase")
+            navController.navigate(Screen.path(Screen.CARD, CardType.PHRASE))
         }
         TersiveButton(modifier = paddingExtra, image = imageResource(R.drawable.practice_reading), text = stringResource(R.string.practice_reading)) {
             ReadListActivity.start(context)
