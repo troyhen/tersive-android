@@ -211,16 +211,10 @@ fun FlashCardPage(cardType: CardType = CardType.ANY) {
     val cardState = viewModel.cardFlow.collectAsState(initial = null)
     val card = cardState.value ?: return
     AppTheme {
-        val configuration = ConfigurationAmbient.current
-        when (configuration.orientation) {
-            Configuration.ORIENTATION_LANDSCAPE -> {
-                LandscapePage(viewModel = viewModel, card = card)
-            }
-            else -> {
-                PortraitPage(viewModel = viewModel, card = card)
-            }
+        when (ConfigurationAmbient.current.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> LandscapePage(viewModel = viewModel, card = card)
+            else -> PortraitPage(viewModel = viewModel, card = card)
         }
-
     }
 }
 
