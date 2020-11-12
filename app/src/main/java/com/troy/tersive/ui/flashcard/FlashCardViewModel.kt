@@ -7,6 +7,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.asFontFamily
 import androidx.compose.ui.text.font.font
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.troy.tersive.R
 import com.troy.tersive.app.App
@@ -31,6 +33,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.context.GlobalContext
 
 class FlashCardViewModel(
     private val flashCardRepo: FlashCardRepo,
@@ -156,4 +159,9 @@ class FlashCardViewModel(
         private val phraseFont = FontFamily.Default
         private val tersiveFont = font(R.font.tersive_script).asFontFamily()
     }
+}
+
+object FlashCardViewModelFactory : ViewModelProvider.Factory {
+    private val koin = GlobalContext.get()
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T = FlashCardViewModel(koin.get(), koin.get(), koin.get(), koin.get()) as T
 }

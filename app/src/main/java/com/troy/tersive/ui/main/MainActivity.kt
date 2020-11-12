@@ -30,6 +30,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
 import androidx.navigation.compose.navigate
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
@@ -42,7 +43,6 @@ import com.troy.tersive.ui.base.selectedColor
 import com.troy.tersive.ui.nav.NavControllerAmbient
 import com.troy.tersive.ui.nav.Screen
 import com.troy.tersive.ui.read.ReadListActivity
-import org.koin.androidx.compose.getViewModel
 
 //class MainActivity : AppCompatActivity() {//}, NavigationView.OnNavigationItemSelectedListener {
 
@@ -159,7 +159,8 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun MainPage() {
-    val viewModel: MainViewModel = getViewModel()
+//todo broken in Koin 2.2.0    val viewModel: MainViewModel = getViewModel()
+    val viewModel: MainViewModel = viewModel(factory = MainViewModelFactory)
     AppTheme {
         Scaffold(topBar = {
             AppBar()

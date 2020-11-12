@@ -13,10 +13,10 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.viewinterop.viewModel
 import com.troy.tersive.R
 import com.troy.tersive.ui.base.AppTheme
 import com.troy.tersive.ui.nav.NavControllerAmbient
-import org.koin.androidx.compose.getViewModel
 import timber.log.Timber
 
 //class IntroActivity : AppCompatActivity() {
@@ -54,18 +54,18 @@ import timber.log.Timber
 
 @Composable
 fun IntroPage() {
-    val viewModel: IntroViewModel = getViewModel()
+//todo broken in Koin 2.2.0    val viewModel: IntroViewModel = getViewModel()
+    val viewModel: IntroViewModel = viewModel()
     AppTheme {
-        Scaffold(topBar = { AppBar() }) {
+        Scaffold(topBar = { AppBar(viewModel) }) {
             WebComponent(url = "file:///android_asset/Tersive_Intro.html", webContext = viewModel.webContext)
         }
     }
 }
 
 @Composable
-private fun AppBar() {
+private fun AppBar(viewModel: IntroViewModel) {
     val navController = NavControllerAmbient.current
-    val viewModel: IntroViewModel = getViewModel()
     TopAppBar(
         navigationIcon = {
             IconButton(onClick = { viewModel.onBackPressed(navController) }) {

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.asFontFamily
 import androidx.compose.ui.text.font.font
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.R
 import com.troy.tersive.model.data.Card
@@ -38,7 +39,6 @@ import com.troy.tersive.ui.base.appBackground
 import com.troy.tersive.ui.base.cardBackground
 import com.troy.tersive.ui.base.colorPrimary
 import com.troy.tersive.ui.nav.NavControllerAmbient
-import org.koin.androidx.compose.getViewModel
 
 //class FlashCardActivity : AppCompatActivity() {
 //
@@ -202,7 +202,8 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun FlashCardPage(cardType: CardType = CardType.ANY) {
-    val viewModel: FlashCardViewModel = getViewModel()
+//todo broken in Koin 2.2.0    val viewModel: FlashCardViewModel = getViewModel()
+    val viewModel: FlashCardViewModel = viewModel(factory = FlashCardViewModelFactory)
     viewModel.cardType = cardType
     viewModel.autoSignIn()
     val cardState = viewModel.cardFlow.collectAsState(initial = null)

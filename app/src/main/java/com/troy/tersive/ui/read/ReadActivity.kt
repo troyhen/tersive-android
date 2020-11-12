@@ -2,17 +2,19 @@ package com.troy.tersive.ui.read
 
 import android.content.Context
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.troy.tersive.R
 import com.troy.tersive.model.data.WebDoc
 import com.troy.tersive.model.ext.collectWhenStarted
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class ReadActivity : AppCompatActivity() {
 
     private lateinit var arguments: ReadActivityArguments
-    private val viewModel: ReadViewModel = getViewModel()
+
+    //todo broken in Koin 2.2.0    private val viewModel: ReadViewModel = getViewModel()
+    val viewModel: ReadViewModel by viewModels { ReadViewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -12,13 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
 import androidx.ui.tooling.preview.Preview
 import com.troy.tersive.ui.base.AppTheme
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AdminMenuPage() {
-    val viewModel: AdminMenuViewModel = getViewModel()  //by viewModel()
+//todo broken in Koin 2.2.0    val viewModel: AdminMenuViewModel = getViewModel()  //by viewModel()
+    val viewModel: AdminMenuViewModel = viewModel()
     AppTheme {
         Scaffold(topBar = { AppBar() }) {
             AdminMenu(viewModel)

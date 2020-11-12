@@ -112,6 +112,7 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha02"
 
     // Injection
+    implementation "org.koin:koin-android:$koinVersion"
 //    implementation "org.koin:koin-androidx-scope:$koinVersion"
     implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
 //    implementation "org.koin:koin-androidx-fragment:$koinVersion"
