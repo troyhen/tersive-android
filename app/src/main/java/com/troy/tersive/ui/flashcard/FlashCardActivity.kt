@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.Dimension.Companion.fillToConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -225,7 +226,7 @@ private fun LandscapePage(viewModel: FlashCardViewModel, card: Card) {
             .fillMaxSize()
             .background(appBackground)
     ) {
-        val weight = Modifier.weight(1f)
+        val weight = Modifier.weight(1f).fillMaxHeight()
         QuestionCard(weight, viewModel, card)
         if (viewModel.showAnswer.value) {
             AnswerCard(weight, viewModel, card)
@@ -242,7 +243,8 @@ private fun PortraitPage(viewModel: FlashCardViewModel, card: Card) {
             .fillMaxSize()
             .background(appBackground)
     ) {
-        val weight = Modifier.weight(1f)
+        val weight = Modifier.weight(1f).fillMaxWidth()
+
         QuestionCard(weight, viewModel, card)
         if (viewModel.showAnswer.value) {
             AnswerCard(weight, viewModel, card)
@@ -263,7 +265,6 @@ private fun QuestionCard(modifier: Modifier, viewModel: FlashCardViewModel? = nu
     val showAnswer = viewModel?.showAnswer?.value ?: false
     Card(
         modifier = modifier
-            .fillMaxWidth()
             .padding(8.dp, 8.dp, 8.dp, 4.dp)
             .clip(RoundedCornerShape(8.dp)),
         backgroundColor = cardBackground,
@@ -364,7 +365,6 @@ private fun AnswerCard(modifier: Modifier, viewModel: FlashCardViewModel? = null
     val answerStyle = viewModel?.answerStyle(card) ?: MaterialTheme.typography.h1
     Card(
         modifier = modifier
-            .fillMaxWidth()
             .padding(8.dp, 4.dp, 8.dp, 8.dp)
             .clip(RoundedCornerShape(8.dp)),
         backgroundColor = cardBackground,
@@ -439,24 +439,24 @@ private val previewCard = Card(true, 0, Learn(0, "", 0, "t", 0), listOf(Tersive(
 
 @Preview
 @Composable
-private fun questionPreview() {
+private fun QuestionPreview() {
     Column(
         modifier = Modifier
             .height(300.dp)
             .background(appBackground)
     ) {
-        QuestionCard(Modifier.weight(1f))
+        QuestionCard(Modifier.fillMaxSize())
     }
 }
 
 @Preview
 @Composable
-private fun answerPreview() {
+private fun AnswerPreview() {
     Column(
         modifier = Modifier
             .height(300.dp)
             .background(appBackground)
     ) {
-        AnswerCard(Modifier.weight(1f))
+        AnswerCard(Modifier.fillMaxSize())
     }
 }
