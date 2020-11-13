@@ -219,7 +219,7 @@ fun FlashCardPage(cardType: CardType = CardType.ANY) {
 }
 
 @Composable
-fun LandscapePage(viewModel: FlashCardViewModel, card: Card) {
+private fun LandscapePage(viewModel: FlashCardViewModel, card: Card) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -236,7 +236,7 @@ fun LandscapePage(viewModel: FlashCardViewModel, card: Card) {
 }
 
 @Composable
-fun PortraitPage(viewModel: FlashCardViewModel, card: Card) {
+private fun PortraitPage(viewModel: FlashCardViewModel, card: Card) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -353,9 +353,7 @@ private fun QuestionCard(modifier: Modifier, viewModel: FlashCardViewModel? = nu
 }
 
 @Composable
-fun HideAnswer(modifier: Modifier) {
-    Spacer(modifier = modifier)
-}
+private fun HideAnswer(modifier: Modifier) = Spacer(modifier = modifier)
 
 @Composable
 private fun AnswerCard(modifier: Modifier, viewModel: FlashCardViewModel? = null, card: Card = previewCard) {
