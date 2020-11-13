@@ -233,7 +233,6 @@ fun LandscapePage(viewModel: FlashCardViewModel, card: Card) {
             HideAnswer(weight)
         }
     }
-
 }
 
 @Composable
